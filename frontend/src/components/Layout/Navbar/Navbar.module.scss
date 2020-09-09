@@ -1,0 +1,17 @@
+@import "../../../assets/scss/variables";
+@import "../../../assets/scss/mixins";
+
+.Navbar {
+  @include flex-row;
+  justify-content: space-between;
+  padding: $space-2 $space-3;
+  margin-bottom: $space-2;
+
+  .logo {
+    cursor: pointer;
+
+    img {
+      height: 2rem;
+    }
+  }
+}

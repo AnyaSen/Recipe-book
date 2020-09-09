@@ -1,0 +1,9 @@
+@import "../../../assets/scss/variables";
+
+.Footer {
+  padding: $space-1 $space-2;
+
+  a {
+    color: $color-pink;
+  }
+}
