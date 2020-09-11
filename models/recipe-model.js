@@ -5,7 +5,10 @@ const recipeSchema = new mongoose.Schema({
   ingridients: { type: Array, default: [], required: true },
   time: { type: String },
   portionsNumber: { type: Number },
-  steps: { type: Array, default: [], required: true }
+  steps: { type: Array, default: [], required: true },
+  img: {
+    type: Buffer
+  }
 });
 
 const Recipe = mongoose.model("Recipe", recipeSchema);
