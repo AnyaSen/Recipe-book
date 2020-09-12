@@ -1,0 +1,7 @@
+@import "../../assets/scss/mixins";
+
+.RecipesList {
+  @include flex-row;
+
+  padding: $space-2;
+}

@@ -4,6 +4,7 @@
 .Navbar {
   @include flex-row;
   justify-content: space-between;
+  width: 100%;
   padding: $space-2 $space-3;
   margin-bottom: $space-2;
 

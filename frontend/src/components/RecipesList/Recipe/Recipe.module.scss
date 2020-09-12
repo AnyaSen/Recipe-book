@@ -1,0 +1,17 @@
+@import "../../../assets/scss/variables";
+
+.Recipe {
+  margin: $space-2 $space-4;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+
+  img {
+    height: 14rem;
+    cursor: pointer;
+  }
+
+  h2 {
+    cursor: pointer;
+  }
+}

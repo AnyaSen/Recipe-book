@@ -1,0 +1,13 @@
+@import "../../assets/scss/mixins";
+
+.RecipePage {
+  .RecipeHeader {
+    @include flex-row;
+    justify-content: space-around;
+    margin: $space-4;
+  }
+
+  .preparation {
+    margin: $space-4;
+  }
+}
