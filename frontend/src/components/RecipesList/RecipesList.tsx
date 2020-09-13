@@ -1,43 +1,35 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, Dispatch } from "react";
+import axios from "axios";
+import { connect } from "react-redux";
 
 import Styles from "./RecipesList.module.scss";
+
 import Recipe from "./Recipe/Recipe";
 import Layout from "../Layout";
-import cakeImg from "../../assets/img/cake.jpg";
+import { IAppState } from "../../redux/store";
+import { IAction, setRecipes } from "../../redux/actions";
 
-export default function RecipesList(): ReactElement {
-  const recipes = [
-    {
-      name: "Cake",
-      ingridients: [
-        { ingredient: "butter", quantity: "50gr" },
-        { ingredient: "milk", quantity: "100ml" }
-      ],
-      time: "1h",
-      portionsNumber: 8,
-      steps: [
-        "step one explanation",
-        "step two explanation",
-        "step three explanation"
-      ],
-      img: cakeImg
-    },
-    {
-      name: "Cake",
-      ingridients: [
-        { ingredient: "butter", quantity: "50gr" },
-        { ingredient: "milk", quantity: "100ml" }
-      ],
-      time: "1h",
-      portionsNumber: 8,
-      steps: [
-        "step one explanation",
-        "step two explanation",
-        "step three explanation"
-      ],
-      img: cakeImg
-    }
-  ];
+interface Props {
+  getAndSetRecipes(): void;
+  recipes: Array<{
+    name: string;
+    ingridients: Array<{
+      ingredient: string;
+      quantity: string;
+    }>;
+    time: string;
+    portionsNumber: number;
+    steps: Array<string>;
+    img: string;
+  }>;
+}
+
+function RecipesList({ getAndSetRecipes, recipes }: Props): ReactElement {
+  console.log(recipes);
+
+  useEffect(() => {
+    getAndSetRecipes();
+  }, []);
 
   return (
     <Layout buttonText="Create recipe">
@@ -58,3 +50,23 @@ export default function RecipesList(): ReactElement {
     </Layout>
   );
 }
+
+const mapStateToProps = (state: IAppState) => {
+  return { recipes: state.app.recipes };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
+  getAndSetRecipes: () => {
+    axios
+      .get("/recipes")
+      .then(response => {
+        const recipes = response.data;
+        dispatch(setRecipes(recipes));
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RecipesList);
