@@ -7,7 +7,7 @@ import Styles from "./RecipesList.module.scss";
 import Recipe from "./Recipe/Recipe";
 import Layout from "../Layout";
 import { IAppState } from "../../redux/store";
-import { IAction, setRecipes } from "../../redux/actions";
+import { IAction, setRecipes, setLoading, setError } from "../../redux/actions";
 
 interface Props {
   getAndSetRecipes(): void;
@@ -22,14 +22,23 @@ interface Props {
     steps: Array<string>;
     img: string;
   }>;
+
+  isLoading: boolean;
+  isError: boolean;
 }
 
-function RecipesList({ getAndSetRecipes, recipes }: Props): ReactElement {
-  console.log(recipes);
-
+function RecipesList({
+  getAndSetRecipes,
+  recipes,
+  isLoading,
+  isError
+}: Props): ReactElement {
   useEffect(() => {
     getAndSetRecipes();
   }, []);
+
+  if (isLoading) return <h1>Loading...</h1>;
+  if (isError) return <h1>Error</h1>;
 
   return (
     <Layout buttonText="Create recipe">
@@ -52,7 +61,8 @@ function RecipesList({ getAndSetRecipes, recipes }: Props): ReactElement {
 }
 
 const mapStateToProps = (state: IAppState) => {
-  return { recipes: state.app.recipes };
+  const { recipes, isLoading, isError } = state.app;
+  return { recipes, isLoading, isError };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
@@ -62,9 +72,12 @@ const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
       .then(response => {
         const recipes = response.data;
         dispatch(setRecipes(recipes));
+        dispatch(setLoading(false));
       })
       .catch(() => {
         console.log("error");
+        dispatch(setError(true));
+        dispatch(setLoading(false));
       });
   }
 });
