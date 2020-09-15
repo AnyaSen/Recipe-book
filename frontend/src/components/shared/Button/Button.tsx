@@ -4,7 +4,7 @@ import Styles from "./Button.module.scss";
 import { Link } from "react-router-dom";
 
 interface Props {
-  text: string;
+  text: string | undefined;
   withLink?: boolean;
   linkTo?: string;
 }

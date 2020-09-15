@@ -14,7 +14,7 @@ export default function RecipePage({ match }: Props): ReactElement {
   const { id } = match.params;
 
   return (
-    <Layout buttonText="Back to all" withLink linkTo="/">
+    <Layout buttonText="Back to all" withLink linkTo="/" withButton>
       <div className={Styles.RecipePage}>
         <div className={Styles.RecipeHeader}>
           <div>

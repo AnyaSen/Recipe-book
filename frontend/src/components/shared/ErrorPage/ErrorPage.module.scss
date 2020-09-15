@@ -1,0 +1,14 @@
+@import "../../../assets/scss/mixins";
+
+.ErrorPage {
+  @include flex-column;
+
+  img {
+    height: 7rem;
+    margin: $space-0;
+  }
+
+  h2 {
+    margin: $space-1;
+  }
+}

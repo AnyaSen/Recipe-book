@@ -6,23 +6,26 @@ import logoSvg from "../../../assets/img/logo.svg";
 import Button from "../../shared/Button";
 
 interface Props {
-  buttonText: string;
+  buttonText?: string;
   linkTo?: string;
   withLink?: boolean;
+  withButton?: boolean;
 }
 
 export default function Navbar({
   buttonText,
   withLink,
-  linkTo
+  linkTo,
+  withButton
 }: Props): ReactElement {
   return (
     <div className={Styles.Navbar}>
       <NavLink exact to="/" className={Styles.logo}>
         <img src={logoSvg} alt="Recipe Book" />
       </NavLink>
-
-      <Button text={buttonText} withLink={withLink} linkTo={linkTo} />
+      {withButton && (
+        <Button text={buttonText} withLink={withLink} linkTo={linkTo} />
+      )}
     </div>
   );
 }

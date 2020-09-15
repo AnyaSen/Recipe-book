@@ -1,13 +1,16 @@
 import React, { ReactElement, useEffect, Dispatch } from "react";
 import axios from "axios";
+
 import { connect } from "react-redux";
+import { IAppState } from "../../redux/store";
+import { IAction, setRecipes, setLoading, setError } from "../../redux/actions";
 
 import Styles from "./RecipesList.module.scss";
 
 import Recipe from "./Recipe/Recipe";
 import Layout from "../Layout";
-import { IAppState } from "../../redux/store";
-import { IAction, setRecipes, setLoading, setError } from "../../redux/actions";
+import LoadingPage from "../shared/LoadingPage";
+import ErrorPage from "../shared/ErrorPage";
 
 interface Props {
   getAndSetRecipes(): void;
@@ -37,11 +40,11 @@ function RecipesList({
     getAndSetRecipes();
   }, []);
 
-  if (isLoading) return <h1>Loading...</h1>;
-  if (isError) return <h1>Error</h1>;
+  if (isLoading) return <LoadingPage />;
+  if (isError) return <ErrorPage />;
 
   return (
-    <Layout buttonText="Create recipe">
+    <Layout buttonText="Create recipe" withButton>
       <div className={Styles.RecipesList}>
         {recipes.map((recipe, index) => {
           const { img, time, name } = recipe;
