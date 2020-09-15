@@ -48,6 +48,7 @@ function RecipesList({
       <div className={Styles.RecipesList}>
         {recipes.map((recipe, index) => {
           const { img, time, name } = recipe;
+
           return (
             <Recipe
               key={index}

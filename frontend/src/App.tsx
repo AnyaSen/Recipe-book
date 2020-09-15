@@ -11,7 +11,7 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path="/" component={RecipesList} />
-        <Route exact path="/recipe/:id" component={RecipePage} />
+        <Route exact path="/recipe/:name" component={RecipePage} />
         <Redirect to="/" />
       </Switch>
     </div>

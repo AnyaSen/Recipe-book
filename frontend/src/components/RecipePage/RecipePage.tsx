@@ -5,20 +5,20 @@ import { RouteComponentProps } from "react-router";
 import Layout from "../Layout";
 
 interface MatchParams {
-  id: string | undefined;
+  name: string | undefined;
 }
 
 interface Props extends RouteComponentProps<MatchParams> {}
 
 export default function RecipePage({ match }: Props): ReactElement {
-  const { id } = match.params;
+  const { name } = match.params;
 
   return (
     <Layout buttonText="Back to all" withLink linkTo="/" withButton>
       <div className={Styles.RecipePage}>
         <div className={Styles.RecipeHeader}>
           <div>
-            <h1>Name {id}</h1>
+            <h1>Name {name}</h1>
             <img src="" alt="some alt" />
             <p>20min</p>
             <p>8 portions</p>
