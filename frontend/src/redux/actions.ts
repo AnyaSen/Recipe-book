@@ -1,23 +1,12 @@
 import { AppEvents } from "./events";
+import { recipeArrType } from "../types";
 
 export interface IAction {
   type: AppEvents;
   payload: any;
 }
 
-export const setRecipes = (
-  payload: Array<{
-    name: string;
-    ingridients: Array<{
-      ingredient: string;
-      quantity: string;
-    }>;
-    time: string;
-    portionsNumber: number;
-    steps: Array<string>;
-    img: string;
-  }>
-) => {
+export const setRecipes = (payload: Array<recipeArrType>) => {
   return {
     type: AppEvents.SET_RECIPES,
     payload

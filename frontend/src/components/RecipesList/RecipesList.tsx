@@ -4,6 +4,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { IAppState } from "../../redux/store";
 import { IAction, setRecipes, setLoading, setError } from "../../redux/actions";
+import { recipeArrType } from "../../types";
 
 import Styles from "./RecipesList.module.scss";
 
@@ -14,17 +15,7 @@ import ErrorPage from "../shared/ErrorPage";
 
 interface Props {
   getAndSetRecipes(): void;
-  recipes: Array<{
-    name: string;
-    ingridients: Array<{
-      ingredient: string;
-      quantity: string;
-    }>;
-    time: string;
-    portionsNumber: number;
-    steps: Array<string>;
-    img: string;
-  }>;
+  recipes: Array<recipeArrType>;
 
   isLoading: boolean;
   isError: boolean;
@@ -47,16 +38,10 @@ function RecipesList({
     <Layout buttonText="Create recipe" withButton>
       <div className={Styles.RecipesList}>
         {recipes.map((recipe, index) => {
-          const { img, time, name } = recipe;
+          const { img, time, name, _id } = recipe;
 
           return (
-            <Recipe
-              key={index}
-              name={name}
-              time={time}
-              imgSrc={img}
-              id={index}
-            />
+            <Recipe key={_id} name={name} time={time} imgSrc={img} id={_id} />
           );
         })}
       </div>

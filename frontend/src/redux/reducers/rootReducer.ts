@@ -1,18 +1,9 @@
 import { AppEvents } from "../events";
 import { IAction } from "../actions";
+import { recipeArrType } from "../../types";
 
 export interface IState {
-  recipes: Array<{
-    name: string;
-    ingridients: Array<{
-      ingredient: string;
-      quantity: string;
-    }>;
-    time: string;
-    portionsNumber: number;
-    steps: Array<string>;
-    img: string;
-  }>;
+  recipes: Array<recipeArrType>;
   isLoading: boolean;
   isError: boolean;
 }
