@@ -13,6 +13,13 @@ export const setRecipes = (payload: Array<recipeArrType>) => {
   };
 };
 
+export const setCurrentRecipe = (payload: object) => {
+  return {
+    type: AppEvents.SET_CUR_RECIPE,
+    payload
+  };
+};
+
 export const setLoading = (payload: boolean) => {
   return {
     type: AppEvents.SET_LOADING,

@@ -16,7 +16,7 @@ export default function Recipe({
   id
 }: Props): ReactElement {
   return (
-    <Link to={`/recipe/${name.toLowerCase()}`} className={Styles.Recipe}>
+    <Link to={`/recipe/${id}`} className={Styles.Recipe}>
       <img src={imgSrc} alt={name} />
       <h2>{name}</h2>
       <p>{time}</p>

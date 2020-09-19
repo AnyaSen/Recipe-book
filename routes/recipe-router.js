@@ -64,6 +64,20 @@ router.get("/recipes/:id/img", async (req, res) => {
   }
 });
 
+router.get("/recipes/:id", async (req, res) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+
+    if (!recipe) {
+      return res.status(404).send();
+    }
+
+    res.send(recipe);
+  } catch (e) {
+    res.status(500).send();
+  }
+});
+
 router.get("/recipes", async (req, res) => {
   try {
     const allRecipes = await Recipe.find({});

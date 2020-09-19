@@ -6,10 +6,12 @@ export interface IState {
   recipes: Array<recipeArrType>;
   isLoading: boolean;
   isError: boolean;
+  currentRecipe: object;
 }
 
 const initState: IState = {
   recipes: [],
+  currentRecipe: {},
   isLoading: true,
   isError: false
 };
@@ -24,6 +26,9 @@ const rootReducer = (state: IState = initState, action: IAction) => {
 
     case AppEvents.SET_ERROR:
       return { ...state, isError: action.payload };
+
+    case AppEvents.SET_CUR_RECIPE:
+      return { ...state, currentRecipe: action.payload };
 
     default:
       return { ...state };
