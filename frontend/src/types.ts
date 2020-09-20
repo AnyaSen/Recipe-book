@@ -8,5 +8,5 @@ export interface recipeArrType {
   time: string;
   portionsNumber: number;
   steps: Array<string>;
-  img: string;
+  img?: string;
 }
