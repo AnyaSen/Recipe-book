@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import LoadingPage from "../shared/LoadingPage";
 import ErrorPage from "../shared/ErrorPage";
+import { recipeArrType } from "../../types";
 
 interface MatchParams {
   id: string | undefined;
@@ -22,7 +23,7 @@ interface MatchParams {
 interface Props extends RouteComponentProps<MatchParams> {
   isLoading: boolean;
   isError: boolean;
-  currentRecipe: object;
+  currentRecipe: recipeArrType;
   showError(): void;
   showLoading(): void;
   stopLoading(): void;
@@ -57,7 +58,7 @@ function RecipePage({
       });
   }, [id, showError, showLoading, stopLoading]);
 
-  console.log(currentRecipe);
+  const { name, ingridients, time, portionsNumber, steps, img } = currentRecipe;
 
   if (isLoading) return <LoadingPage />;
   if (isError) return <ErrorPage />;
@@ -67,26 +68,32 @@ function RecipePage({
       <div className={Styles.RecipePage}>
         <div className={Styles.RecipeHeader}>
           <div>
-            <h1>name {id}</h1>
-            <img src="" alt="some alt" />
-            <p>20min</p>
-            <p>8 portions</p>
+            <h1>{name} </h1>
+            <img src={img} alt={name} />
+            <p>{time}</p>
+            <p>{portionsNumber} portions</p>
           </div>
           <div>
             <h2>Ingredients</h2>
-            <p>2 eggs</p>
-            <p>250ml milk</p>
-            <p>20gr butter</p>
+            {ingridients.map((ingredient, index) => {
+              return (
+                <p key={index}>
+                  {ingredient.ingredient} - {ingredient.quantity}
+                </p>
+              );
+            })}
           </div>
         </div>
         <div className={Styles.preparation}>
           <h2>Preparation</h2>
-          <h3>Step 1</h3>
-          <p>step 1 description</p>
-          <h3>Step 2</h3>
-          <p>step 2 description</p>
-          <h3>Step 3</h3>
-          <p>step 3 description</p>
+          {steps.map((step, index) => {
+            return (
+              <div key={index}>
+                <h3>Step {index + 1}</h3>
+                <p>{step}</p>{" "}
+              </div>
+            );
+          })}
         </div>
       </div>
     </Layout>
