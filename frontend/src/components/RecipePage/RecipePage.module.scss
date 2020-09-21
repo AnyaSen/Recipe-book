@@ -5,6 +5,12 @@
     @include flex-row;
     justify-content: space-around;
     margin: $space-4;
+    max-width: 60rem;
+
+    img {
+      height: 10rem;
+      margin: $space-1 0;
+    }
   }
 
   .preparation {

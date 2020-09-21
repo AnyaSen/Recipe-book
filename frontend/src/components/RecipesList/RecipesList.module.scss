@@ -3,5 +3,6 @@
 .RecipesList {
   @include flex-row;
 
+  flex-wrap: wrap;
   padding: $space-2;
 }

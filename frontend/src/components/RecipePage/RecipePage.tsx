@@ -1,8 +1,11 @@
 import React, { ReactElement, Dispatch, useEffect } from "react";
+import { RouteComponentProps } from "react-router";
+import { recipeArrType } from "../../types";
+import axios from "axios";
 
 import Styles from "./RecipePage.module.scss";
-import { RouteComponentProps } from "react-router";
-import Layout from "../Layout";
+import noPictureSvg from "../../assets/img/no_picture.svg";
+
 import { connect } from "react-redux";
 import { IAppState } from "../../redux/store";
 import {
@@ -11,10 +14,10 @@ import {
   setError,
   setCurrentRecipe
 } from "../../redux/actions";
-import axios from "axios";
+
+import Layout from "../Layout";
 import LoadingPage from "../shared/LoadingPage";
 import ErrorPage from "../shared/ErrorPage";
-import { recipeArrType } from "../../types";
 
 interface MatchParams {
   id: string | undefined;
@@ -69,7 +72,11 @@ function RecipePage({
         <div className={Styles.RecipeHeader}>
           <div>
             <h1>{name} </h1>
-            <img src={img} alt={name} />
+
+            <img
+              src={img === undefined ? noPictureSvg : `/recipes/${id}/img`}
+              alt={name}
+            />
             <p>{time}</p>
             <p>{portionsNumber} portions</p>
           </div>

@@ -7,6 +7,7 @@ import { IAction, setRecipes, setLoading, setError } from "../../redux/actions";
 import { recipeArrType } from "../../types";
 
 import Styles from "./RecipesList.module.scss";
+import noPictureSvg from "../../assets/img/no_picture.svg";
 
 import Recipe from "./Recipe/Recipe";
 import Layout from "../Layout";
@@ -41,7 +42,13 @@ function RecipesList({
           const { img, time, name, _id } = recipe;
 
           return (
-            <Recipe key={_id} name={name} time={time} imgSrc={img} id={_id} />
+            <Recipe
+              key={_id}
+              name={name}
+              time={time}
+              imgSrc={img === undefined ? noPictureSvg : `/recipes/${_id}/img`}
+              id={_id}
+            />
           );
         })}
       </div>
