@@ -46,7 +46,7 @@ function RecipesList({
               key={_id}
               name={name}
               time={time}
-              imgSrc={img === undefined ? noPictureSvg : `/recipes/${_id}/img`}
+              imgSrc={!img ? undefined : `/recipes/${_id}/img`}
               id={_id}
             />
           );
@@ -70,8 +70,8 @@ const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
         dispatch(setRecipes(recipes));
         dispatch(setLoading(false));
       })
-      .catch(() => {
-        console.log("error");
+      .catch(e => {
+        console.log("error:", e);
         dispatch(setError(true));
         dispatch(setLoading(false));
       });

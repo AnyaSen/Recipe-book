@@ -18,6 +18,7 @@ import {
 import Layout from "../Layout";
 import LoadingPage from "../shared/LoadingPage";
 import ErrorPage from "../shared/ErrorPage";
+import StaticPicture from "../shared/StaticPicture";
 
 interface MatchParams {
   id: string | undefined;
@@ -54,8 +55,8 @@ function RecipePage({
         setRecipe(recipe);
         stopLoading();
       })
-      .catch(() => {
-        console.log("error");
+      .catch(e => {
+        console.log("error:", e);
         showError();
         stopLoading();
       });
@@ -73,34 +74,38 @@ function RecipePage({
           <div>
             <h1>{name} </h1>
 
-            <img
-              src={img === undefined ? noPictureSvg : `/recipes/${id}/img`}
-              alt={name}
-            />
+            {img ? (
+              <img src={`/recipes/${id}/img`} alt={name} />
+            ) : (
+              <StaticPicture />
+            )}
+
             <p>{time}</p>
             <p>{portionsNumber} portions</p>
           </div>
           <div>
             <h2>Ingredients</h2>
-            {ingridients.map((ingredient, index) => {
-              return (
-                <p key={index}>
-                  {ingredient.ingredient} - {ingredient.quantity}
-                </p>
-              );
-            })}
+            {ingridients &&
+              ingridients.map((ingredient, index) => {
+                return (
+                  <p key={index}>
+                    {ingredient.ingredient} - {ingredient.quantity}
+                  </p>
+                );
+              })}
           </div>
         </div>
         <div className={Styles.preparation}>
           <h2>Preparation</h2>
-          {steps.map((step, index) => {
-            return (
-              <div key={index}>
-                <h3>Step {index + 1}</h3>
-                <p>{step}</p>{" "}
-              </div>
-            );
-          })}
+          {steps &&
+            steps.map((step, index) => {
+              return (
+                <div key={index}>
+                  <h3>Step {index + 1}</h3>
+                  <p>{step}</p>{" "}
+                </div>
+              );
+            })}
         </div>
       </div>
     </Layout>

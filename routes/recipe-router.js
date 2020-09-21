@@ -18,6 +18,16 @@ router.post("/recipe", async (req, res) => {
   }
 });
 
+router.get("/recipes", async (req, res) => {
+  try {
+    const allRecipes = await Recipe.find({});
+
+    res.send(allRecipes);
+  } catch (e) {
+    res.status(500).send();
+  }
+});
+
 const upload = multer({
   limits: {
     fileSize: 1000000
@@ -73,16 +83,6 @@ router.get("/recipes/:id", async (req, res) => {
     }
 
     res.send(recipe);
-  } catch (e) {
-    res.status(500).send();
-  }
-});
-
-router.get("/recipes", async (req, res) => {
-  try {
-    const allRecipes = await Recipe.find({});
-
-    res.send(allRecipes);
   } catch (e) {
     res.status(500).send();
   }

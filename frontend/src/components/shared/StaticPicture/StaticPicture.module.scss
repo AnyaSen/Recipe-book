@@ -1,0 +1,16 @@
+@import "../../../assets/scss/mixins";
+@import "../../../assets/scss/variables";
+
+.StaticPicture {
+  @include flex-column;
+  justify-content: center;
+  background-color: $color-grey;
+  height: 14rem;
+  width: 14rem;
+  cursor: pointer;
+  margin-bottom: $space-0;
+
+  p {
+    color: $color-dark-grey;
+  }
+}
