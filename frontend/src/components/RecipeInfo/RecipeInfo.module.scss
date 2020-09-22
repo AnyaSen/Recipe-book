@@ -1,4 +1,5 @@
 @import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
 
 .RecipeInfo {
   margin: $space-4;
@@ -18,6 +19,9 @@
 
     p {
       margin-bottom: $space-2;
+      padding-left: $space-2;
+      margin-left: $space-2;
+      border-left: 1px solid $color-grey;
     }
   }
 }
