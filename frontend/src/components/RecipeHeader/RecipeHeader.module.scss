@@ -2,13 +2,14 @@
 
 .RecipeHeader {
   @include flex-row;
+  flex-wrap: wrap;
   justify-content: space-around;
   margin: $space-0 $space-4;
   margin-bottom: $space-4;
-  max-width: 60rem;
 
   .nameAndPicture {
     margin-right: $space-4;
+    margin-bottom: $space-3;
 
     h1 {
       margin-bottom: $space-2;
@@ -29,14 +30,16 @@
   .ingridients {
     @include flex-column;
     margin: $space-1;
+    max-width: 40rem;
 
     h2 {
-      margin-bottom: $space-0;
+      margin-bottom: $space-2;
     }
 
     .ingridientPairs {
       @include flex-row;
       flex-wrap: wrap;
+      justify-content: center;
     }
   }
 }

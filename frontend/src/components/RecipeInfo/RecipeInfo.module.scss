@@ -1,5 +1,23 @@
 @import "../../assets/scss/mixins";
 
-.preparation {
+.RecipeInfo {
   margin: $space-4;
+
+  h2 {
+    margin-bottom: $space-2;
+    text-align: center;
+  }
+
+  .preparation {
+    padding-left: $space-4;
+
+    h3 {
+      margin: $space-1;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: $space-2;
+    }
+  }
 }
