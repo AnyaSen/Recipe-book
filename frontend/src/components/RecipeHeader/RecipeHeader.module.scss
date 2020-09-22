@@ -3,25 +3,40 @@
 .RecipeHeader {
   @include flex-row;
   justify-content: space-around;
-  margin: $space-4;
+  margin: $space-0 $space-4;
+  margin-bottom: $space-4;
   max-width: 60rem;
 
-  h1 {
-    margin-bottom: $space-2;
-  }
+  .nameAndPicture {
+    margin-right: $space-4;
 
-  img {
-    height: 14rem;
-    width: 17rem;
-    object-fit: cover;
-  }
+    h1 {
+      margin-bottom: $space-2;
+    }
 
-  .labels {
-    @include flex-row;
-    flex-wrap: wrap;
+    img {
+      height: 17rem;
+      width: 22rem;
+      object-fit: cover;
+    }
+
+    .labels {
+      @include flex-row;
+      flex-wrap: wrap;
+    }
   }
 
   .ingridients {
     @include flex-column;
+    margin: $space-1;
+
+    h2 {
+      margin-bottom: $space-0;
+    }
+
+    .ingridientPairs {
+      @include flex-row;
+      flex-wrap: wrap;
+    }
   }
 }

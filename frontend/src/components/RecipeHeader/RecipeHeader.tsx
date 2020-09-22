@@ -9,6 +9,7 @@ import { IAppState } from "../../redux/store";
 
 import StaticPicture from "../shared/StaticPicture";
 import Label from "../shared/Label";
+import IngredientPair from "../shared/IngredientPair";
 
 interface Props {
   currentRecipe: recipeArrType;
@@ -20,7 +21,7 @@ function RecipeHeader({ currentRecipe, id }: Props): ReactElement {
 
   return (
     <div className={Styles.RecipeHeader}>
-      <div>
+      <div className={Styles.nameAndPicture}>
         <h1>{name} </h1>
 
         {img ? (
@@ -34,17 +35,20 @@ function RecipeHeader({ currentRecipe, id }: Props): ReactElement {
           <Label text={`${portionsNumber} portions`} />
         </div>
       </div>
-
       <div className={Styles.ingridients}>
         <h2>Ingredients</h2>
-        {ingridients &&
-          ingridients.map((ingredient, index) => {
-            return (
-              <p key={index}>
-                {ingredient.ingredient} - {ingredient.quantity}
-              </p>
-            );
-          })}
+        <div className={Styles.ingridientPairs}>
+          {ingridients &&
+            ingridients.map((ingredient, index) => {
+              return (
+                <IngredientPair
+                  key={index}
+                  quantity={ingredient.ingredient}
+                  ingredient={ingredient.quantity}
+                />
+              );
+            })}
+        </div>
       </div>
     </div>
   );
