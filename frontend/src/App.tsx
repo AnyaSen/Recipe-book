@@ -3,14 +3,14 @@ import "./App.scss";
 
 import { Switch, Route, Redirect } from "react-router";
 
-import RecipesList from "./components/RecipesList";
-import RecipePage from "./components/RecipePage";
+import RecipePage from "./pages/RecipePage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <div className="App">
       <Switch>
-        <Route exact path="/" component={RecipesList} />
+        <Route exact path="/" component={HomePage} />
         <Route exact path="/recipe/:id" component={RecipePage} />
         <Redirect to="/" />
       </Switch>

@@ -2,9 +2,16 @@ import React, { ReactElement } from "react";
 
 import Styles from "./StaticPicture.module.scss";
 
-export default function StaticPicture(): ReactElement {
+interface Props {
+  horizontal?: boolean;
+}
+export default function StaticPicture({ horizontal }: Props): ReactElement {
   return (
-    <div className={Styles.StaticPicture}>
+    <div
+      className={
+        horizontal ? Styles.StaticPictureHorizontal : Styles.StaticPicture
+      }
+    >
       <p>No picture</p>
     </div>
   );

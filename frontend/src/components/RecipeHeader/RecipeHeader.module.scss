@@ -1,0 +1,27 @@
+@import "../../assets/scss/mixins";
+
+.RecipeHeader {
+  @include flex-row;
+  justify-content: space-around;
+  margin: $space-4;
+  max-width: 60rem;
+
+  h1 {
+    margin-bottom: $space-2;
+  }
+
+  img {
+    height: 14rem;
+    width: 17rem;
+    object-fit: cover;
+  }
+
+  .labels {
+    @include flex-row;
+    flex-wrap: wrap;
+  }
+
+  .ingridients {
+    @include flex-column;
+  }
+}

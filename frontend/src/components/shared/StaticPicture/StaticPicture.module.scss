@@ -14,3 +14,9 @@
     color: $color-dark-grey;
   }
 }
+
+.StaticPictureHorizontal {
+  @extend .StaticPicture;
+
+  width: 17rem;
+}
