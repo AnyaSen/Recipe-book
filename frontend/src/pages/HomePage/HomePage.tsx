@@ -29,7 +29,7 @@ function HomePage({
   if (isError) return <ErrorPage />;
 
   return (
-    <Layout buttonText="Create recipe" withButton>
+    <Layout buttonText="Create recipe" withButton withLink linkTo="/create">
       <RecipesList />
     </Layout>
   );
