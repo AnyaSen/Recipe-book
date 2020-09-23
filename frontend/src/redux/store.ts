@@ -1,8 +1,10 @@
 import { createStore, combineReducers } from "redux";
 import rootReducer from "./reducers/rootReducer";
+import { reducer as formReducer } from "redux-form";
 
 const reducers = combineReducers({
-  app: rootReducer
+  app: rootReducer,
+  form: formReducer
 });
 
 export type IAppState = ReturnType<typeof reducers>;
