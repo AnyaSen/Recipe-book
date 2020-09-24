@@ -7,12 +7,16 @@ interface Props {
   text: string | undefined;
   withLink?: boolean;
   linkTo?: string;
+  disabled?: boolean;
+  type?: "button" | "submit";
 }
 
 export default function Button({
   text,
   withLink,
-  linkTo = " "
+  linkTo = " ",
+  disabled,
+  type
 }: Props): ReactElement {
   if (withLink)
     return (
@@ -20,5 +24,9 @@ export default function Button({
         <button className={Styles.Button}>{text}</button>
       </Link>
     );
-  return <button className={Styles.Button}>{text}</button>;
+  return (
+    <button className={Styles.Button} disabled={disabled} type={type}>
+      {text}
+    </button>
+  );
 }

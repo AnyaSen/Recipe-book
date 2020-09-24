@@ -1,25 +1,65 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import Styles from "./FormPage.module.scss";
 
 import Layout from "../../components/Layout";
-import { Field, reduxForm, InjectedFormProps, SubmitHandler } from "redux-form";
+import { Field, reduxForm, SubmitHandler } from "redux-form";
 import StaticPicture from "../../components/shared/StaticPicture";
+import Button from "../../components/shared/Button";
 
-interface Props extends InjectedFormProps {
-  handleSubmit: SubmitHandler<{}, {}, string>;
+interface Props {
+  handleSubmit: SubmitHandler<FormData, {}, string>;
+  submitting: boolean;
 }
 
 interface FormData {
-  steps?: Array<string>;
+  name: string;
+  ingredient: string;
+  quantity: string;
+  time: string;
+  portionsNumber: number;
+  step: string;
+  img?: string;
+}
+
+interface InputType {
+  input: object;
+  meta: {
+    error: boolean;
+    touched: boolean;
+  };
+  placeholder: string;
 }
 
 const onSubmit = (values: FormData) => {
   alert(JSON.stringify(values));
 };
 
-function FormPage({ handleSubmit }: Props): ReactElement {
-  const [stepsArr, setStepsArr] = useState([""]);
+const required = (value: string | number) => {
+  if (!value || value === "") {
+    return "This field is required";
+  }
+};
 
+const createRenderer = (render: any) => ({
+  input,
+  meta,
+  placeholder
+}: InputType) => (
+  <div>
+    {render(input, placeholder)}
+    {meta.error && meta.touched && <span>{meta.error}</span>}
+  </div>
+);
+
+const renderInput = createRenderer((input: object, placeholder: string) => (
+  <input {...input} placeholder={placeholder} />
+));
+
+const renderTextArea = createRenderer((input: object) => (
+  <textarea {...input} />
+));
+
+function FormPage({ handleSubmit, submitting }: Props): ReactElement {
   return (
     <Layout buttonText="Back to all" withLink linkTo="/" withButton>
       <form onSubmit={handleSubmit}>
@@ -27,8 +67,8 @@ function FormPage({ handleSubmit }: Props): ReactElement {
           <div className={Styles.nameAndPicture}>
             <Field
               name="name"
-              component="input"
-              type="text"
+              component={renderInput}
+              validate={required}
               placeholder="Name"
             />
 
@@ -36,15 +76,15 @@ function FormPage({ handleSubmit }: Props): ReactElement {
             <div className="labels">
               <Field
                 name="time"
-                component="input"
-                type="text"
+                component={renderInput}
+                validate={required}
                 placeholder="Time"
               />
 
               <Field
-                name="portions"
-                component="input"
-                type="text"
+                name="portionsNumber"
+                component={renderInput}
+                validate={required}
                 placeholder="Portions"
               />
             </div>
@@ -54,20 +94,20 @@ function FormPage({ handleSubmit }: Props): ReactElement {
             <div className={Styles.ingridientPairs}>
               <Field
                 name="quantity"
-                component="input"
-                type="text"
+                component={renderInput}
+                validate={required}
                 placeholder="qty"
               />
 
               <Field
                 name="ingredient"
-                component="input"
-                type="text"
+                component={renderInput}
+                validate={required}
                 placeholder="ingredient"
               />
 
-              <button>Add</button>
-              <button>+</button>
+              <button type="button">Add</button>
+              <button type="button">+</button>
             </div>
           </div>
         </div>
@@ -75,23 +115,18 @@ function FormPage({ handleSubmit }: Props): ReactElement {
           <h2>Preparation:</h2>
           <div className={Styles.preparation}>
             <div>
-              {stepsArr.map((step, index) => {
-                return (
-                  <div key={index}>
-                    <h3>Step {index + 1}</h3>
-                    <Field
-                      name={`step ${index + 1}`}
-                      component="textarea"
-                      type="text"
-                    />
-                    <button>Add</button>
-                    <button>+</button>
-                    <p>{step}</p>{" "}
-                  </div>
-                );
-              })}
+              <h3>Step 1</h3>
+              <Field
+                name="step"
+                component={renderTextArea}
+                type="text"
+                validate={required}
+              />
+              <button type="button">Add</button>
+              <button type="button">+</button>
             </div>
           </div>
+          <Button text="Submit" type="submit" disabled={submitting} />
         </div>
       </form>
     </Layout>
