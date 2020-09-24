@@ -11,3 +11,9 @@
   font-size: $font-sm;
   cursor: pointer;
 }
+
+.ButtonDisabled {
+  @extend .Button;
+  background-color: $color-light-blue;
+  cursor: not-allowed;
+}

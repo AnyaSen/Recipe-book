@@ -25,7 +25,11 @@ export default function Button({
       </Link>
     );
   return (
-    <button className={Styles.Button} disabled={disabled} type={type}>
+    <button
+      className={disabled ? Styles.ButtonDisabled : Styles.Button}
+      disabled={disabled}
+      type={type}
+    >
       {text}
     </button>
   );
