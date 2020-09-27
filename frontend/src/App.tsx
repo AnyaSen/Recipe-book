@@ -5,7 +5,7 @@ import { Switch, Route, Redirect } from "react-router";
 
 import RecipePage from "./pages/RecipePage";
 import HomePage from "./pages/HomePage";
-import FormPage from "./pages/FormPage";
+import FormPage from "./pages/FormPage/FormPage";
 
 function App() {
   return (
