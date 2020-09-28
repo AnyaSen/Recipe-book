@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { required } from "../../../services/validation";
 
 import Styles from "./StepsBlock.module.scss";
+import RecipeStep from "../../shared/RecipeStep";
 
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div>
@@ -44,12 +45,7 @@ let StepsBlock = ({ stepValue, clearFields }) => {
 
       <div className={Styles.preparation}>
         {stepsArr.map((step, index) => {
-          return (
-            <div key={index}>
-              <h3>Step {index + 1}</h3>
-              <p>{step}</p>{" "}
-            </div>
-          );
+          return <RecipeStep key={index} text={step} number={index + 1} />;
         })}
 
         <div>

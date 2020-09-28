@@ -6,6 +6,7 @@ import Styles from "./RecipeInfo.module.scss";
 
 import { connect } from "react-redux";
 import { IAppState } from "../../redux/store";
+import RecipeStep from "../shared/RecipeStep";
 
 interface Props {
   currentRecipe: recipeArrType;
@@ -20,12 +21,7 @@ function RecipeInfo({ currentRecipe }: Props): ReactElement {
       <div className={Styles.preparation}>
         {steps &&
           steps.map((step, index) => {
-            return (
-              <div key={index}>
-                <h3>Step {index + 1}</h3>
-                <p>{step}</p>{" "}
-              </div>
-            );
+            return <RecipeStep key={index} text={step} number={index + 1} />;
           })}
       </div>
     </div>
