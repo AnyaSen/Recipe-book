@@ -36,7 +36,7 @@ function RecipeHeader({ currentRecipe, id }: Props): ReactElement {
         </div>
       </div>
       <div className={Styles.ingridients}>
-        <h2>Ingredients:</h2>
+        <h2>INGREDIENTS:</h2>
         <div className={Styles.ingridientPairs}>
           {ingridients &&
             ingridients.map((ingredient, index) => {

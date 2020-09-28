@@ -26,43 +26,11 @@
       flex-wrap: wrap;
     }
   }
-
-  .ingridients {
-    @include flex-column;
-    margin: $space-1;
-    max-width: 40rem;
-
-    h2 {
-      margin-bottom: $space-2;
-    }
-
-    .ingridientPairs {
-      @include flex-row;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-  }
 }
 .RecipeInfo {
   margin: $space-4;
 
   h2 {
     margin-bottom: $space-2;
-  }
-
-  .preparation {
-    padding-left: $space-4;
-
-    h3 {
-      margin: $space-1;
-      font-weight: 600;
-    }
-
-    p {
-      margin-bottom: $space-2;
-      padding-left: $space-2;
-      margin-left: $space-2;
-      border-left: 1px solid $color-grey;
-    }
   }
 }

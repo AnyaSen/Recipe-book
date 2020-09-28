@@ -16,7 +16,7 @@ function RecipeInfo({ currentRecipe }: Props): ReactElement {
 
   return (
     <div className={Styles.RecipeInfo}>
-      <h2>Preparation:</h2>
+      <h2>PREPARATION:</h2>
       <div className={Styles.preparation}>
         {steps &&
           steps.map((step, index) => {

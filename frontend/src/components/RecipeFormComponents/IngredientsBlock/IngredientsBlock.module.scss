@@ -1,0 +1,27 @@
+@import "../../../assets/scss/mixins";
+
+.ingridients {
+  @include flex-column;
+  margin: $space-1;
+  max-width: 40rem;
+
+  h2 {
+    margin-bottom: $space-2;
+  }
+
+  .ingridienPair {
+    @include flex-row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .ingridientInputsContainer {
+    @include flex-row;
+
+    .ingridientInputs {
+      @include flex-row;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}
