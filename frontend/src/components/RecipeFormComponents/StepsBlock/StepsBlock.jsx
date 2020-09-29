@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
 import Styles from "./StepsBlock.module.scss";
 
@@ -33,7 +34,12 @@ let StepsBlock = ({ stepValue, clearFields }) => {
       return;
     }
 
-    setStepsArr([...stepsArr, stepValue]);
+    const newStep = {
+      step: stepValue,
+      id: uuidv4()
+    };
+
+    setStepsArr([...stepsArr, newStep]);
 
     setShowStepFields(false);
 
@@ -42,13 +48,36 @@ let StepsBlock = ({ stepValue, clearFields }) => {
     return stepsArr;
   };
 
+  const deleteStep = id => {
+    const filteredSteps = stepsArr.filter(step => step.id !== id);
+
+    setStepsArr(filteredSteps);
+  };
+
+  useEffect(() => {
+    if (stepsArr.length === 0) {
+      setShowStepFields(true);
+    }
+  }, [stepsArr.length]);
+
   return (
     <div className={Styles.RecipeInfo}>
       <h2>PREPARATION:</h2>
 
       <div className={Styles.preparation}>
-        {stepsArr.map((step, index) => {
-          return <RecipeStep key={index} text={step} number={index + 1} />;
+        {stepsArr.map((stepItem, index) => {
+          const { step, id } = stepItem;
+
+          return (
+            <div className={Styles.RecipeStep}>
+              <RecipeStep key={id} text={step} number={index + 1} key={id} />{" "}
+              <AdditionalButton
+                text="Delete"
+                variant="close"
+                onClick={() => deleteStep(id)}
+              />
+            </div>
+          );
         })}
 
         <div className={Styles.stepInputsContainer}>

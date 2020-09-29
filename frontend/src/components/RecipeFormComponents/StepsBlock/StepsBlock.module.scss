@@ -6,6 +6,14 @@
   .preparation {
     padding-left: $space-4;
 
+    .RecipeStep {
+      @include flex-row;
+
+      button {
+        align-self: flex-start;
+      }
+    }
+
     .stepInputsContainer {
       @include flex-row;
 
