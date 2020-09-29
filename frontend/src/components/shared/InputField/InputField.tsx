@@ -4,7 +4,7 @@ import Styles from "./InputField.module.scss";
 
 interface Props {
   placeholder?: string;
-  input: any;
+  input: object;
   small: boolean;
 }
 

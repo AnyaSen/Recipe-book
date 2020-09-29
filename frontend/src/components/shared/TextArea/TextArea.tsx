@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react";
 
 import Styles from "./TextArea.module.scss";
-import { placeholder } from "@babel/types";
 
 interface Props {
   input: any;
