@@ -43,7 +43,7 @@ let StepsBlock = ({ stepValue, clearFields }) => {
   };
 
   return (
-    <form className={Styles.RecipeInfo} onSubmit={addSteps}>
+    <div className={Styles.RecipeInfo}>
       <h2>PREPARATION:</h2>
 
       <div className={Styles.preparation}>
@@ -64,7 +64,7 @@ let StepsBlock = ({ stepValue, clearFields }) => {
                   placeholder="Describe a step..."
                 />
               </div>
-              <SecondaryButton type="submit" text="Add" />
+              <SecondaryButton type="submit" text="Add" onClick={addSteps} />
             </div>
           )}
 
@@ -77,7 +77,7 @@ let StepsBlock = ({ stepValue, clearFields }) => {
           )}
         </div>
       </div>
-    </form>
+    </div>
   );
 };
 

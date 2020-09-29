@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import { required } from "../../../services/validation";
 
 import Styles from "./IngredientsBlock.module.scss";
 
@@ -54,7 +53,7 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
   };
 
   return (
-    <form className={Styles.ingridients} onSubmit={addIngredients}>
+    <div className={Styles.ingridients}>
       <h2>INGREDIENTS:</h2>
       {ingredientsError && <p>{ingredientsError}</p>}
 
@@ -84,7 +83,11 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
               placeholder="quantity"
             />
 
-            <SecondaryButton type="submit" text="Add" />
+            <SecondaryButton
+              type="submit"
+              text="Add"
+              onClick={addIngredients}
+            />
           </div>
         )}
 
@@ -96,7 +99,7 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
           />
         )}
       </div>
-    </form>
+    </div>
   );
 };
 

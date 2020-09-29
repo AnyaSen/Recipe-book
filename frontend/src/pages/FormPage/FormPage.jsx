@@ -48,7 +48,7 @@ let FormPage = ({ handleSubmit, submitting }) => {
             <StaticPicture horizontal />
             <Field
               name="time"
-              component={renderInput}
+              component={renderInputSmall}
               validate={required}
               placeholder="time"
             />
