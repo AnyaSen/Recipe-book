@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
 import Styles from "./IngredientsBlock.module.scss";
 
@@ -40,7 +41,8 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
 
     const newIngredientPair = {
       ingredient: ingredientValue,
-      quantity: quantityValue
+      quantity: quantityValue,
+      id: uuidv4()
     };
 
     setIngredientsArr([...ingredientsArr, newIngredientPair]);
@@ -52,37 +54,55 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
     return ingredientsArr;
   };
 
+  const deleteIngredient = id => {
+    const filteredIngredients = ingredientsArr.filter(
+      ingredPair => ingredPair.id !== id
+    );
+
+    setIngredientsArr(filteredIngredients);
+  };
+
+  useEffect(() => {
+    if (ingredientsArr.length === 0) {
+      setShowIngredientFields(true);
+    }
+  }, [ingredientsArr.length]);
+
   return (
-    <div className={Styles.ingridients}>
+    <div className={Styles.IngredientsBlock}>
       <h2>INGREDIENTS:</h2>
       {ingredientsError && <p>{ingredientsError}</p>}
 
-      {ingredientsArr.map((ingred, index) => {
-        const { ingredient, quantity } = ingred;
-        return (
-          <IngredientPair
-            key={index}
-            quantity={quantity}
-            ingredient={ingredient}
-          />
-        );
-      })}
+      {ingredientsArr.length > 0 &&
+        ingredientsArr.map((ingred, index) => {
+          const { ingredient, quantity, id } = ingred;
+
+          return (
+            <div className={Styles.ingridientPairContainer} key={id}>
+              <IngredientPair quantity={quantity} ingredient={ingredient} />
+              <AdditionalButton
+                text="Delete"
+                variant="close"
+                onClick={() => deleteIngredient(id)}
+              />
+            </div>
+          );
+        })}
 
       <div className={Styles.ingridientInputsContainer}>
         {showIngredientFields && (
           <div className={Styles.ingridientInputs}>
-            <Field
-              name="ingredient"
-              component={renderInput}
-              placeholder="ingredient"
-            />
-
             <Field
               name="quantity"
               component={renderInput}
               placeholder="quantity"
             />
 
+            <Field
+              name="ingredient"
+              component={renderInput}
+              placeholder="ingredient"
+            />
             <SecondaryButton
               type="submit"
               text="Add"
