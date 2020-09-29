@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 import Styles from "./Navbar.module.scss";
 import logoSvg from "../../../assets/img/logo.svg";
-import Button from "../../shared/Button";
+import Button from "../../shared/Buttons/Button";
 
 interface Props {
   buttonText?: string;

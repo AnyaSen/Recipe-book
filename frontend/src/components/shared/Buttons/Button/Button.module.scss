@@ -1,0 +1,19 @@
+@import "../../../../assets/scss/variables";
+
+.Button {
+  outline: none;
+  font-family: inherit;
+  background-color: $color-blue;
+  border: none;
+  color: $color-white;
+  padding: $space-0;
+  border-radius: 0.4rem;
+  font-size: $font-sm;
+  cursor: pointer;
+}
+
+.ButtonDisabled {
+  @extend .Button;
+  background-color: $color-light-blue;
+  cursor: not-allowed;
+}

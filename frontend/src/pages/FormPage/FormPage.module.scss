@@ -8,23 +8,17 @@
   margin-bottom: $space-4;
 
   .nameAndPicture {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     margin-right: $space-4;
     margin-bottom: $space-3;
 
-    h1 {
-      margin-bottom: $space-2;
-    }
-
-    img {
-      height: 17rem;
-      width: 22rem;
-      object-fit: cover;
-    }
-
-    .labels {
-      @include flex-row;
-      flex-wrap: wrap;
-    }
+    // img {
+    //   height: 17rem;
+    //   width: 22rem;
+    //   object-fit: cover;
+    // }
   }
 }
 .RecipeInfo {

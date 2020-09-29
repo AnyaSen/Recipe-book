@@ -6,9 +6,10 @@ import { required } from "../../services/validation";
 
 import Layout from "../../components/Layout";
 import StaticPicture from "../../components/shared/StaticPicture";
-import Button from "../../components/shared/Button";
+import Button from "../../components/shared/Buttons/Button";
 import IngredientsBlock from "../../components/RecipeFormComponents/IngredientsBlock/IngredientsBlock";
 import StepsBlock from "../../components/RecipeFormComponents/StepsBlock/StepsBlock";
+import InputField from "../../components/shared/InputField";
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -25,7 +26,11 @@ const createRenderer = render => ({ input, meta, placeholder }) => (
 );
 
 const renderInput = createRenderer((input, placeholder) => (
-  <input {...input} placeholder={placeholder} />
+  <InputField input={input} placeholder={placeholder} />
+));
+
+const renderInputSmall = createRenderer((input, placeholder) => (
+  <InputField input={input} placeholder={placeholder} small />
 ));
 
 let FormPage = ({ handleSubmit, submitting }) => {
@@ -40,25 +45,22 @@ let FormPage = ({ handleSubmit, submitting }) => {
               validate={required}
               placeholder="Name"
             />
-
             <StaticPicture horizontal />
-
-            <div className="labels">
-              <Field
-                name="time"
-                component={renderInput}
-                validate={required}
-                placeholder="Time"
-              />
-
-              <Field
-                name="portionsNumber"
-                component={renderInput}
-                validate={required}
-                placeholder="Portions"
-              />
-            </div>
+            <Field
+              name="time"
+              component={renderInput}
+              validate={required}
+              placeholder="time"
+            />
+            <Field
+              name="portionsNumber"
+              component={renderInputSmall}
+              validate={required}
+              placeholder="no"
+            />{" "}
+            <p>portions</p>
           </div>
+
           <IngredientsBlock />
         </div>
 

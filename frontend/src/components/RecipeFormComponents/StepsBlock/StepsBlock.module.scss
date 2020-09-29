@@ -1,5 +1,20 @@
 @import "../../../assets/scss/mixins";
 
-.preparation {
-  padding-left: $space-4;
+.RecipeInfo {
+  padding: $space-0;
+
+  .preparation {
+    padding-left: $space-4;
+
+    .stepInputsContainer {
+      @include flex-row;
+
+      button {
+        align-self: flex-end;
+      }
+      .stepInputs {
+        @include flex-row;
+      }
+    }
+  }
 }

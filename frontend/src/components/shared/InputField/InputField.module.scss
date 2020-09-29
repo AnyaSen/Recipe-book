@@ -1,0 +1,15 @@
+@import "../../../assets/scss/variables";
+
+.InputField {
+  height: 2rem;
+  border: 1px solid $color-dark-grey;
+  font-family: inherit;
+  padding: $space-0;
+  border-radius: 0.2rem;
+  margin: $space-0;
+}
+
+.InputFieldSmall {
+  @extend .InputField;
+  width: 3rem;
+}

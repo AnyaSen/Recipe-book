@@ -1,4 +1,4 @@
-@import "../../../assets/scss/variables";
+@import "../../../../assets/scss/variables";
 
 .Button {
   outline: none;
@@ -6,14 +6,14 @@
   background-color: $color-blue;
   border: none;
   color: $color-white;
-  padding: $space-0;
+  padding: 0.3rem;
   border-radius: 0.4rem;
-  font-size: $font-sm;
+  font-size: $font-xs;
   cursor: pointer;
+  margin: $space-0;
 }
 
-.ButtonDisabled {
+.ButtonPink {
   @extend .Button;
-  background-color: $color-light-blue;
-  cursor: not-allowed;
+  background-color: $color-pink;
 }

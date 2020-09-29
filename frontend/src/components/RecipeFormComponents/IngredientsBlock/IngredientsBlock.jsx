@@ -6,6 +6,9 @@ import { required } from "../../../services/validation";
 import Styles from "./IngredientsBlock.module.scss";
 
 import IngredientPair from "../../shared/IngredientPair";
+import SecondaryButton from "../../shared/Buttons/SecondaryButton";
+import AdditionalButton from "../../shared/Buttons/AdditionalButton";
+import InputField from "../../shared/InputField";
 
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div>
@@ -15,7 +18,7 @@ const createRenderer = render => ({ input, meta, placeholder }) => (
 );
 
 const renderInput = createRenderer((input, placeholder) => (
-  <input {...input} placeholder={placeholder} />
+  <InputField input={input} placeholder={placeholder} />
 ));
 
 let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
@@ -51,7 +54,7 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
   };
 
   return (
-    <div className={Styles.ingridients}>
+    <form className={Styles.ingridients} onSubmit={addIngredients}>
       <h2>INGREDIENTS:</h2>
       {ingredientsError && <p>{ingredientsError}</p>}
 
@@ -60,8 +63,8 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
         return (
           <IngredientPair
             key={index}
-            quantity={ingredient}
-            ingredient={quantity}
+            quantity={quantity}
+            ingredient={ingredient}
           />
         );
       })}
@@ -72,32 +75,28 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
             <Field
               name="ingredient"
               component={renderInput}
-              validate={required}
               placeholder="ingredient"
             />
 
             <Field
               name="quantity"
               component={renderInput}
-              validate={required}
-              placeholder="qty"
+              placeholder="quantity"
             />
-            <button type="button" onClick={addIngredients}>
-              Add
-            </button>
+
+            <SecondaryButton type="submit" text="Add" />
           </div>
         )}
 
         {ingredientsArr.length > 0 && (
-          <button
+          <AdditionalButton
+            variant={showIngredientFields && "close"}
             type="button"
             onClick={() => setShowIngredientFields(!showIngredientFields)}
-          >
-            {showIngredientFields ? "x" : "+"}
-          </button>
+          />
         )}
       </div>
-    </div>
+    </form>
   );
 };
 

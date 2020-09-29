@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import { required } from "../../../services/validation";
 
 import Styles from "./StepsBlock.module.scss";
+
 import RecipeStep from "../../shared/RecipeStep";
+import SecondaryButton from "../../shared/Buttons/SecondaryButton";
+import AdditionalButton from "../../shared/Buttons/AdditionalButton";
+import TextArea from "../../shared/TextArea";
 
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div>
@@ -13,7 +16,9 @@ const createRenderer = render => ({ input, meta, placeholder }) => (
   </div>
 );
 
-const renderTextArea = createRenderer(input => <textarea {...input} />);
+const renderTextArea = createRenderer((input, placeholder) => (
+  <TextArea input={input} placeholder={placeholder} />
+));
 
 let StepsBlock = ({ stepValue, clearFields }) => {
   const [stepsArr, setStepsArr] = useState([]);
@@ -38,43 +43,41 @@ let StepsBlock = ({ stepValue, clearFields }) => {
   };
 
   return (
-    <div className={Styles.RecipeInfo}>
+    <form className={Styles.RecipeInfo} onSubmit={addSteps}>
       <h2>PREPARATION:</h2>
-
-      {stepsError && <p>{stepsError}</p>}
 
       <div className={Styles.preparation}>
         {stepsArr.map((step, index) => {
           return <RecipeStep key={index} text={step} number={index + 1} />;
         })}
 
-        <div>
+        <div className={Styles.stepInputsContainer}>
           {showStepFields && (
-            <div className={Styles.ingridientInputs}>
-              <Field
-                name="step"
-                component={renderTextArea}
-                type="text"
-                validate={required}
-              />
+            <div className={Styles.stepInputs}>
+              <div>
+                {stepsError && <p>{stepsError}</p>}
 
-              <button type="button" onClick={addSteps}>
-                Add
-              </button>
+                <Field
+                  name="step"
+                  component={renderTextArea}
+                  type="text"
+                  placeholder="Describe a step..."
+                />
+              </div>
+              <SecondaryButton type="submit" text="Add" />
             </div>
           )}
 
           {stepsArr.length > 0 && (
-            <button
+            <AdditionalButton
+              variant={showStepFields && "close"}
               type="button"
               onClick={() => setShowStepFields(!showStepFields)}
-            >
-              {showStepFields ? "x" : "+"}
-            </button>
+            />
           )}
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 

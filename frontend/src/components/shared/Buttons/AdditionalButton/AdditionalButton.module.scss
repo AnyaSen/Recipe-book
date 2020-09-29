@@ -1,0 +1,22 @@
+@import "../../../../assets/scss/variables";
+
+.ButtonPlus {
+  outline: none;
+  font-family: inherit;
+  background-color: $color-white;
+  border: 1px solid $color-blue;
+  color: $color-blue;
+  padding: 0.15rem 0.55rem;
+  padding-bottom: 0.2rem;
+  font-weight: 700;
+  border-radius: 0.4rem;
+  font-size: $font-sm;
+  cursor: pointer;
+  margin: $space-0;
+}
+
+.ButtonClose {
+  @extend .ButtonPlus;
+  border-color: $color-pink;
+  color: $color-pink;
+}

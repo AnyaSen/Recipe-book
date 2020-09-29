@@ -39,12 +39,13 @@ function RecipeHeader({ currentRecipe, id }: Props): ReactElement {
         <h2>INGREDIENTS:</h2>
         <div className={Styles.ingridientPairs}>
           {ingridients &&
-            ingridients.map((ingredient, index) => {
+            ingridients.map((ingred, index) => {
+              const { ingredient, quantity } = ingred;
               return (
                 <IngredientPair
                   key={index}
-                  quantity={ingredient.ingredient}
-                  ingredient={ingredient.quantity}
+                  quantity={ingredient}
+                  ingredient={quantity}
                 />
               );
             })}
