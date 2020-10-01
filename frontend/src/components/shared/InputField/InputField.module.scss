@@ -1,6 +1,7 @@
 @import "../../../assets/scss/variables";
 
 .InputField {
+  outline: none;
   height: 2rem;
   border: 1px solid $color-dark-grey;
   font-family: inherit;

@@ -10,6 +10,7 @@ import Button from "../../components/shared/Buttons/Button";
 import IngredientsBlock from "../../components/RecipeFormComponents/IngredientsBlock/IngredientsBlock";
 import StepsBlock from "../../components/RecipeFormComponents/StepsBlock/StepsBlock";
 import InputField from "../../components/shared/InputField";
+import InputError from "../../components/shared/InputError";
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -21,7 +22,7 @@ const onSubmit = async values => {
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div>
     {render(input, placeholder)}
-    {meta.error && meta.submitFailed && <span>{meta.error}</span>}
+    {meta.error && meta.submitFailed && <InputError>{meta.error}</InputError>}
   </div>
 );
 

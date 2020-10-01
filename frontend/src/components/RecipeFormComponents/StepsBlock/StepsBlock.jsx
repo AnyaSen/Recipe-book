@@ -9,6 +9,7 @@ import RecipeStep from "../../shared/RecipeStep";
 import SecondaryButton from "../../shared/Buttons/SecondaryButton";
 import AdditionalButton from "../../shared/Buttons/AdditionalButton";
 import TextArea from "../../shared/TextArea";
+import InputError from "../../shared/InputError";
 
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div>
@@ -84,7 +85,7 @@ let StepsBlock = ({ stepValue, clearFields }) => {
           {showStepFields && (
             <div className={Styles.stepInputs}>
               <div>
-                {stepsError && <p>{stepsError}</p>}
+                {stepsError && <InputError text={stepsError} />}
 
                 <Field
                   name="step"

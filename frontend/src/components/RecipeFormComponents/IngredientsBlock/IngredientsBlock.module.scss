@@ -1,6 +1,6 @@
 @import "../../../assets/scss/mixins";
 
-.ingridients {
+.IngredientsBlock {
   @include flex-column;
   margin: $space-1;
   max-width: 40rem;
@@ -9,7 +9,7 @@
     margin-bottom: $space-2;
   }
 
-  .ingridienPair {
+  .ingridientPairContainer {
     @include flex-row;
     flex-wrap: wrap;
     justify-content: center;

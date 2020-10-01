@@ -9,6 +9,7 @@ import IngredientPair from "../../shared/IngredientPair";
 import SecondaryButton from "../../shared/Buttons/SecondaryButton";
 import AdditionalButton from "../../shared/Buttons/AdditionalButton";
 import InputField from "../../shared/InputField";
+import InputError from "../../shared/InputError";
 
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div>
@@ -71,7 +72,7 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
   return (
     <div className={Styles.IngredientsBlock}>
       <h2>INGREDIENTS:</h2>
-      {ingredientsError && <p>{ingredientsError}</p>}
+      {ingredientsError && <InputError text={ingredientsError} />}
 
       {ingredientsArr.length > 0 &&
         ingredientsArr.map((ingred, index) => {
