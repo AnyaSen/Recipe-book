@@ -3,11 +3,12 @@
 .ButtonPlus {
   outline: none;
   font-family: inherit;
-  background-color: $color-white;
+  background-color: inherit;
   border: 1px solid $color-blue;
   color: $color-blue;
   padding: 0.15rem 0.55rem;
-  padding-bottom: 0.2rem;
+  padding-left: 0.6rem;
+  padding-bottom: 0.25rem;
   font-weight: 700;
   border-radius: 0.4rem;
   font-size: $font-sm;

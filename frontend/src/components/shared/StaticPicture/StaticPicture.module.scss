@@ -21,3 +21,9 @@
   height: 17rem;
   width: 22rem;
 }
+
+.AddPicture {
+  @extend .StaticPictureHorizontal;
+  background-color: #faf9f9;
+  margin: $space-0;
+}

@@ -7,13 +7,31 @@
   margin: $space-0 $space-4;
   margin-bottom: $space-4;
 
-  .nameAndPicture {
+  .generalIfo {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     margin-right: $space-4;
     margin-bottom: $space-3;
 
+    .timeAndPortions {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      input {
+        margin: $space-1;
+      }
+
+      .portions {
+        display: flex;
+        flex-direction: row;
+
+        p {
+          align-self: center;
+        }
+      }
+    }
     // img {
     //   height: 17rem;
     //   width: 22rem;
@@ -23,8 +41,17 @@
 }
 .RecipeInfo {
   margin: $space-4;
+  margin-bottom: $space-0;
+  display: flex;
+  flex-direction: column;
 
   h2 {
     margin-bottom: $space-2;
+  }
+
+  button {
+    margin-top: $space-0;
+    margin-right: $space-3;
+    align-self: flex-end;
   }
 }

@@ -71,7 +71,7 @@ let StepsBlock = ({ stepValue, clearFields }) => {
 
           return (
             <div className={Styles.RecipeStep}>
-              <RecipeStep key={id} text={step} number={index + 1} key={id} />{" "}
+              <RecipeStep key={id} text={step} number={index + 1} />{" "}
               <AdditionalButton
                 text="Delete"
                 variant="close"
@@ -94,7 +94,12 @@ let StepsBlock = ({ stepValue, clearFields }) => {
                   placeholder="Describe a step..."
                 />
               </div>
-              <SecondaryButton type="submit" text="Add" onClick={addSteps} />
+              <SecondaryButton
+                type="button"
+                text="Add"
+                onClick={addSteps}
+                pink
+              />
             </div>
           )}
 

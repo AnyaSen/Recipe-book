@@ -11,6 +11,7 @@ import IngredientsBlock from "../../components/RecipeFormComponents/IngredientsB
 import StepsBlock from "../../components/RecipeFormComponents/StepsBlock/StepsBlock";
 import InputField from "../../components/shared/InputField";
 import InputError from "../../components/shared/InputError";
+import AdditionalButton from "../../components/shared/Buttons/AdditionalButton";
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -39,27 +40,39 @@ let FormPage = ({ handleSubmit, submitting }) => {
     <Layout buttonText="Back to all" withLink linkTo="/" withButton>
       <form onSubmit={handleSubmit}>
         <div className={Styles.FormHeader}>
-          <div className={Styles.nameAndPicture}>
+          <div className={Styles.generalIfo}>
             <Field
               name="name"
               component={renderInput}
               validate={required}
               placeholder="Name"
             />
-            <StaticPicture horizontal />
-            <Field
-              name="time"
-              component={renderInputSmall}
-              validate={required}
-              placeholder="time"
-            />
-            <Field
-              name="portionsNumber"
-              component={renderInputSmall}
-              validate={required}
-              placeholder="no"
-            />{" "}
-            <p>portions</p>
+            <StaticPicture addPicture>
+              {" "}
+              <AdditionalButton
+                type="button"
+                onClick={() => console.log("clicked")}
+              />
+            </StaticPicture>
+
+            <div className={Styles.timeAndPortions}>
+              <Field
+                name="time"
+                component={renderInputSmall}
+                validate={required}
+                placeholder="time"
+              />
+
+              <div className={Styles.portions}>
+                <Field
+                  name="portionsNumber"
+                  component={renderInputSmall}
+                  validate={required}
+                  placeholder="no"
+                />{" "}
+                <p>portions</p>
+              </div>
+            </div>
           </div>
 
           <IngredientsBlock />
@@ -68,7 +81,7 @@ let FormPage = ({ handleSubmit, submitting }) => {
         <div className={Styles.RecipeInfo}>
           <StepsBlock />
 
-          <Button text="Submit" type="submit" disabled={submitting} />
+          <Button text="Submit" type="submit" disabled={submitting} pink />
         </div>
       </form>
     </Layout>

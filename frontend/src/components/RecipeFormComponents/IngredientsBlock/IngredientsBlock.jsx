@@ -105,9 +105,10 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
               placeholder="ingredient"
             />
             <SecondaryButton
-              type="submit"
+              type="button"
               text="Add"
               onClick={addIngredients}
+              pink
             />
           </div>
         )}
