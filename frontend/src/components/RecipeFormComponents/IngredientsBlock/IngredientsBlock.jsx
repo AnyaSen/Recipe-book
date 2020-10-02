@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
+import { required } from "../../../services/validation";
 
 import Styles from "./IngredientsBlock.module.scss";
 
@@ -10,25 +12,36 @@ import SecondaryButton from "../../shared/Buttons/SecondaryButton";
 import AdditionalButton from "../../shared/Buttons/AdditionalButton";
 import InputField from "../../shared/InputField";
 import InputError from "../../shared/InputError";
+import {
+  setIngredientsArr,
+  setIngredientsError,
+  showIngredientFields
+} from "../../../redux/actions";
 
-const createRenderer = render => ({ input, meta, placeholder }) => (
-  <div>
-    {render(input, placeholder)}
-    {meta.error && meta.submitFailed && <span>{meta.error}</span>}
-  </div>
+const createRenderer = render => ({ input, placeholder }) => (
+  <div>{render(input, placeholder)}</div>
 );
 
 const renderInput = createRenderer((input, placeholder) => (
   <InputField input={input} placeholder={placeholder} />
 ));
 
-let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
-  const [ingredientsArr, setIngredientsArr] = useState([]);
-  const [ingredientsError, setIngredientsError] = useState("");
-  const [showIngredientFields, setShowIngredientFields] = useState(true);
-
+let IngredientsBlock = ({
+  ingredientValue,
+  quantityValue,
+  clearFields,
+  ingredientsArr,
+  ingredientsError,
+  showIngredientFields,
+  setIngredients,
+  showError,
+  hideError,
+  hideFields,
+  showFields,
+  toggleShowFields
+}) => {
   const addIngredients = () => {
-    setIngredientsError("");
+    hideError();
 
     if (
       !ingredientValue ||
@@ -36,7 +49,7 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
       !quantityValue ||
       quantityValue === ""
     ) {
-      setIngredientsError("Fill the ingredient and its quantity");
+      showError();
       return;
     }
 
@@ -46,9 +59,9 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
       id: uuidv4()
     };
 
-    setIngredientsArr([...ingredientsArr, newIngredientPair]);
+    setIngredients([...ingredientsArr, newIngredientPair]);
 
-    setShowIngredientFields(false);
+    hideFields();
 
     clearFields("create-recipe-form", false, false, "ingredient", "quantity");
 
@@ -60,12 +73,12 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
       ingredPair => ingredPair.id !== id
     );
 
-    setIngredientsArr(filteredIngredients);
+    setIngredients(filteredIngredients);
   };
 
   useEffect(() => {
     if (ingredientsArr.length === 0) {
-      setShowIngredientFields(true);
+      showFields();
     }
   }, [ingredientsArr.length]);
 
@@ -94,12 +107,14 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
         {showIngredientFields && (
           <div className={Styles.ingridientInputs}>
             <Field
+              // validate={required}
               name="quantity"
               component={renderInput}
               placeholder="quantity"
             />
 
             <Field
+              // validate={required}
               name="ingredient"
               component={renderInput}
               placeholder="ingredient"
@@ -117,7 +132,7 @@ let IngredientsBlock = ({ ingredientValue, quantityValue, clearFields }) => {
           <AdditionalButton
             variant={showIngredientFields && "close"}
             type="button"
-            onClick={() => setShowIngredientFields(!showIngredientFields)}
+            onClick={() => toggleShowFields(!showIngredientFields)}
           />
         )}
       </div>
@@ -142,4 +157,39 @@ IngredientsBlock = connect(state => {
   };
 })(IngredientsBlock);
 
-export default IngredientsBlock;
+const mapStateToProps = state => {
+  const {
+    ingredientsArr,
+    ingredientsError,
+    showIngredientFields
+  } = state.formValues;
+  return { ingredientsArr, ingredientsError, showIngredientFields };
+};
+
+const mapDispatchToProps = dispatch => ({
+  setIngredients: ingrArr => {
+    dispatch(setIngredientsArr(ingrArr));
+  },
+
+  showError: () => {
+    dispatch(setIngredientsError(true));
+  },
+
+  hideError: () => {
+    dispatch(setIngredientsError(false));
+  },
+
+  hideFields: () => {
+    dispatch(showIngredientFields(false));
+  },
+
+  showFields: () => {
+    dispatch(showIngredientFields(true));
+  },
+
+  toggleShowFields: payload => {
+    dispatch(showIngredientFields(payload));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(IngredientsBlock);

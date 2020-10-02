@@ -21,7 +21,9 @@ function RecipeInfo({ currentRecipe }: Props): ReactElement {
       <div className={Styles.preparation}>
         {steps &&
           steps.map((step, index) => {
-            return <RecipeStep key={index} text={step} number={index + 1} />;
+            return (
+              <RecipeStep key={index} text={step.step} number={index + 1} />
+            );
           })}
       </div>
     </div>

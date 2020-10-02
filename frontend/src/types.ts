@@ -1,12 +1,20 @@
+export interface ingredientsType {
+  ingredient: string;
+  quantity: string;
+  id: number;
+}
+
+export interface stepsType {
+  step: string;
+  id: number;
+}
+
 export interface recipeArrType {
   name: string;
   _id: number;
-  ingridients: Array<{
-    ingredient: string;
-    quantity: string;
-  }>;
+  ingridients: Array<ingredientsType>;
   time: string;
   portionsNumber: number;
-  steps: Array<string>;
+  steps: Array<stepsType>;
   img?: string;
 }
