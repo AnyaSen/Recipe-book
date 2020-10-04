@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
+
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 
 import Styles from "./StepsBlock.module.scss";
 
@@ -10,6 +11,11 @@ import SecondaryButton from "../../shared/Buttons/SecondaryButton";
 import AdditionalButton from "../../shared/Buttons/AdditionalButton";
 import TextArea from "../../shared/TextArea";
 import InputError from "../../shared/InputError";
+import {
+  setStepsArr,
+  setStepsError,
+  showStepFields
+} from "../../../redux/actions";
 
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div>
@@ -22,16 +28,24 @@ const renderTextArea = createRenderer((input, placeholder) => (
   <TextArea input={input} placeholder={placeholder} />
 ));
 
-let StepsBlock = ({ stepValue, clearFields }) => {
-  const [stepsArr, setStepsArr] = useState([]);
-  const [stepsError, setStepsError] = useState("");
-  const [showStepFields, setShowStepFields] = useState(true);
-
+let StepsBlock = ({
+  stepValue,
+  clearFields,
+  stepsArr,
+  stepsError,
+  showStepFields,
+  setSteps,
+  showError,
+  hideError,
+  hideFields,
+  showFields,
+  toggleShowFields
+}) => {
   const addSteps = () => {
-    setStepsError("");
+    hideError();
 
     if (!stepValue || stepValue === "") {
-      setStepsError("Fill the textarea with the description of a step");
+      showError();
       return;
     }
 
@@ -40,9 +54,9 @@ let StepsBlock = ({ stepValue, clearFields }) => {
       id: uuidv4()
     };
 
-    setStepsArr([...stepsArr, newStep]);
+    setSteps([...stepsArr, newStep]);
 
-    setShowStepFields(false);
+    hideFields();
 
     clearFields("create-recipe-form", false, false, "step");
 
@@ -52,12 +66,12 @@ let StepsBlock = ({ stepValue, clearFields }) => {
   const deleteStep = id => {
     const filteredSteps = stepsArr.filter(step => step.id !== id);
 
-    setStepsArr(filteredSteps);
+    setSteps(filteredSteps);
   };
 
   useEffect(() => {
     if (stepsArr.length === 0) {
-      setShowStepFields(true);
+      showFields();
     }
   }, [stepsArr.length]);
 
@@ -70,8 +84,8 @@ let StepsBlock = ({ stepValue, clearFields }) => {
           const { step, id } = stepItem;
 
           return (
-            <div className={Styles.RecipeStep}>
-              <RecipeStep key={id} text={step} number={index + 1} />{" "}
+            <div className={Styles.RecipeStep} key={id}>
+              <RecipeStep text={step} number={index + 1} />{" "}
               <AdditionalButton
                 text="Delete"
                 variant="close"
@@ -85,7 +99,9 @@ let StepsBlock = ({ stepValue, clearFields }) => {
           {showStepFields && (
             <div className={Styles.stepInputs}>
               <div>
-                {stepsError && <InputError text={stepsError} />}
+                {stepsError && (
+                  <InputError text="Please, enter the description of the step" />
+                )}
 
                 <Field
                   name="step"
@@ -107,7 +123,7 @@ let StepsBlock = ({ stepValue, clearFields }) => {
             <AdditionalButton
               variant={showStepFields && "close"}
               type="button"
-              onClick={() => setShowStepFields(!showStepFields)}
+              onClick={() => toggleShowFields(!showStepFields)}
             />
           )}
         </div>
@@ -129,4 +145,35 @@ StepsBlock = connect(state => {
   };
 })(StepsBlock);
 
-export default StepsBlock;
+const mapStateToProps = state => {
+  const { stepsArr, stepsError, showStepFields } = state.formValues;
+  return { stepsArr, stepsError, showStepFields };
+};
+
+const mapDispatchToProps = dispatch => ({
+  setSteps: stepsArr => {
+    dispatch(setStepsArr(stepsArr));
+  },
+
+  showError: () => {
+    dispatch(setStepsError(true));
+  },
+
+  hideError: () => {
+    dispatch(setStepsError(false));
+  },
+
+  hideFields: () => {
+    dispatch(showStepFields(false));
+  },
+
+  showFields: () => {
+    dispatch(showStepFields(true));
+  },
+
+  toggleShowFields: payload => {
+    dispatch(showStepFields(payload));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(StepsBlock);
