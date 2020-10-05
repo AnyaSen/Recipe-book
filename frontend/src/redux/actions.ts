@@ -15,7 +15,9 @@ const {
   SHOW_INGR_FIELDS,
   SET_STEPS_ARR,
   SET_STEPS_ERR,
-  SHOW_STEPS_FIELDS
+  SHOW_STEPS_FIELDS,
+  SET_SEND_LOADING,
+  SET_SEND_ERR
 } = AppEvents;
 
 export const setRecipes = (payload: Array<recipeArrType>) => {
@@ -84,6 +86,20 @@ export const setStepsError = (payload: boolean) => {
 export const showStepFields = (payload: boolean) => {
   return {
     type: SHOW_STEPS_FIELDS,
+    payload
+  };
+};
+
+export const setSendingLoading = (payload: boolean) => {
+  return {
+    type: SET_SEND_LOADING,
+    payload
+  };
+};
+
+export const setSendingError = (payload: boolean) => {
+  return {
+    type: SET_SEND_ERR,
     payload
   };
 };

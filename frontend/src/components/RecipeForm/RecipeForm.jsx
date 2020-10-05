@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+
 import Styles from "./RecipeForm.module.scss";
 
 import { Field, reduxForm } from "redux-form";
@@ -11,6 +13,8 @@ import IngredientsBlock from "../RecipeFormComponents/IngredientsBlock/Ingredien
 import StepsBlock from "../RecipeFormComponents/StepsBlock/StepsBlock";
 import InputField from "../shared/InputField";
 import AdditionalButton from "../shared/Buttons/AdditionalButton";
+import LoadingPage from "../shared/LoadingPage";
+import ErrorPage from "../shared/ErrorPage";
 
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div className={meta.error && meta.submitFailed ? Styles.error : ""}>
@@ -29,7 +33,15 @@ const renderInputSmall = createRenderer((input, placeholder) => (
   <InputField input={input} placeholder={placeholder} small />
 ));
 
-let RecipeForm = ({ handleSubmit, submitting }) => {
+let RecipeForm = ({
+  handleSubmit,
+  submitting,
+  isSendingLoading,
+  isSendingError
+}) => {
+  if (isSendingLoading) return <LoadingPage />;
+  if (isSendingError) return <ErrorPage />;
+
   return (
     <Layout buttonText="Back to all" withLink linkTo="/" withButton>
       <form onSubmit={handleSubmit}>
@@ -79,6 +91,13 @@ let RecipeForm = ({ handleSubmit, submitting }) => {
   );
 };
 
-export default RecipeForm = reduxForm({
+const mapStateToProps = state => {
+  const { isSendingLoading, isSendingError } = state.formValues;
+  return { isSendingLoading, isSendingError };
+};
+
+RecipeForm = reduxForm({
   form: "create-recipe-form"
 })(RecipeForm);
+
+export default connect(mapStateToProps)(RecipeForm);

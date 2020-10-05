@@ -10,6 +10,9 @@ export interface IState {
   stepsArr: Array<stepsType>;
   stepsError: boolean;
   showStepFields: boolean;
+
+  isSendingLoading: boolean;
+  isSendingError: boolean;
 }
 
 const initState: IState = {
@@ -19,7 +22,10 @@ const initState: IState = {
 
   stepsArr: [],
   stepsError: false,
-  showStepFields: true
+  showStepFields: true,
+
+  isSendingLoading: false,
+  isSendingError: false
 };
 
 const formValuesReducer = (state: IState = initState, action: IAction) => {
@@ -41,6 +47,12 @@ const formValuesReducer = (state: IState = initState, action: IAction) => {
 
     case AppEvents.SHOW_STEPS_FIELDS:
       return { ...state, showStepFields: action.payload };
+
+    case AppEvents.SET_SEND_LOADING:
+      return { ...state, isSendingLoading: action.payload };
+
+    case AppEvents.SET_SEND_ERR:
+      return { ...state, isSendingError: action.payload };
 
     default:
       return { ...state };
