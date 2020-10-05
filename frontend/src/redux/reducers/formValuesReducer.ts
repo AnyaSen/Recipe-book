@@ -4,7 +4,7 @@ import { ingredientsType, stepsType } from "../../types";
 
 export interface IState {
   ingredientsArr: Array<ingredientsType>;
-  ingredientsError: boolean;
+  ingredientsError: string;
   showIngredientFields: boolean;
 
   stepsArr: Array<stepsType>;
@@ -14,7 +14,7 @@ export interface IState {
 
 const initState: IState = {
   ingredientsArr: [],
-  ingredientsError: false,
+  ingredientsError: "",
   showIngredientFields: true,
 
   stepsArr: [],

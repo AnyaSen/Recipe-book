@@ -22,15 +22,6 @@
       input {
         margin: $space-1;
       }
-
-      .portions {
-        display: flex;
-        flex-direction: row;
-
-        p {
-          align-self: center;
-        }
-      }
     }
     // img {
     //   height: 17rem;
@@ -58,6 +49,10 @@
 
 .error {
   input {
-    border: 1px solid $color-pink;
+    border: 2px solid $color-pink;
+  }
+
+  p {
+    color: $color-pink;
   }
 }

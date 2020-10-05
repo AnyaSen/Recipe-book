@@ -35,7 +35,7 @@ let StepsBlock = ({
   stepsError,
   showStepFields,
   setSteps,
-  showError,
+  setError,
   hideError,
   hideFields,
   showFields,
@@ -45,7 +45,7 @@ let StepsBlock = ({
     hideError();
 
     if (!stepValue || stepValue === "") {
-      showError();
+      setError("Enter the description of the step. Then press 'Add'");
       return;
     }
 
@@ -99,9 +99,7 @@ let StepsBlock = ({
           {showStepFields && (
             <div className={Styles.stepInputs}>
               <div>
-                {stepsError && (
-                  <InputError text="Please, enter the description of the step" />
-                )}
+                {stepsError && <InputError text={stepsError} />}
 
                 <Field
                   name="step"
@@ -155,12 +153,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setStepsArr(stepsArr));
   },
 
-  showError: () => {
-    dispatch(setStepsError(true));
+  setError: errorMessage => {
+    dispatch(setStepsError(errorMessage));
   },
 
   hideError: () => {
-    dispatch(setStepsError(false));
+    dispatch(setStepsError(""));
   },
 
   hideFields: () => {

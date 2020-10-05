@@ -2,7 +2,7 @@ import React from "react";
 import Styles from "./RecipeForm.module.scss";
 
 import { Field, reduxForm } from "redux-form";
-import { required } from "../../services/validation";
+import { required, requiredNumber } from "../../services/validation";
 
 import Layout from "../Layout";
 import StaticPicture from "../shared/StaticPicture";
@@ -15,6 +15,9 @@ import AdditionalButton from "../shared/Buttons/AdditionalButton";
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div className={meta.error && meta.submitFailed ? Styles.error : ""}>
     {render(input, placeholder)}
+    {meta.error === "number" && meta.submitFailed && (
+      <p>Please, enter a number</p>
+    )}
   </div>
 );
 
@@ -54,15 +57,12 @@ let RecipeForm = ({ handleSubmit, submitting }) => {
                 placeholder="time"
               />
 
-              <div className={Styles.portions}>
-                <Field
-                  name="portionsNumber"
-                  component={renderInputSmall}
-                  validate={required}
-                  placeholder="no"
-                />{" "}
-                <p>portions</p>
-              </div>
+              <Field
+                name="portionsNumber"
+                component={renderInput}
+                validate={requiredNumber}
+                placeholder="no of portions"
+              />
             </div>
           </div>
 

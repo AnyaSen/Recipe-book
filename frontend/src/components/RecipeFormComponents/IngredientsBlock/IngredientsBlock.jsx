@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
-import { required } from "../../../services/validation";
 
 import Styles from "./IngredientsBlock.module.scss";
 
@@ -34,7 +33,7 @@ let IngredientsBlock = ({
   ingredientsError,
   showIngredientFields,
   setIngredients,
-  showError,
+  setError,
   hideError,
   hideFields,
   showFields,
@@ -49,7 +48,7 @@ let IngredientsBlock = ({
       !quantityValue ||
       quantityValue === ""
     ) {
-      showError();
+      setError("Enter ingredient and quantity. Then press 'Add'");
       return;
     }
 
@@ -107,14 +106,12 @@ let IngredientsBlock = ({
         {showIngredientFields && (
           <div className={Styles.ingridientInputs}>
             <Field
-              // validate={required}
               name="quantity"
               component={renderInput}
               placeholder="quantity"
             />
 
             <Field
-              // validate={required}
               name="ingredient"
               component={renderInput}
               placeholder="ingredient"
@@ -171,12 +168,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setIngredientsArr(ingrArr));
   },
 
-  showError: () => {
-    dispatch(setIngredientsError(true));
+  setError: errorMessage => {
+    dispatch(setIngredientsError(errorMessage));
   },
 
   hideError: () => {
-    dispatch(setIngredientsError(false));
+    dispatch(setIngredientsError(""));
   },
 
   hideFields: () => {
