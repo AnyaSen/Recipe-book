@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import Styles from "./RecipeForm.module.scss";
@@ -15,6 +15,7 @@ import InputField from "../shared/InputField";
 import AdditionalButton from "../shared/Buttons/AdditionalButton";
 import LoadingPage from "../shared/LoadingPage";
 import ErrorPage from "../shared/ErrorPage";
+import ConfirmationCard from "../RecipeFormComponents/ConfirmationCard";
 
 const createRenderer = render => ({ input, meta, placeholder }) => (
   <div className={meta.error && meta.submitFailed ? Styles.error : ""}>
@@ -39,6 +40,8 @@ let RecipeForm = ({
   isSendingLoading,
   isSendingError
 }) => {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   if (isSendingLoading) return <LoadingPage />;
   if (isSendingError) return <ErrorPage />;
 
@@ -84,7 +87,23 @@ let RecipeForm = ({
         <div className={Styles.RecipeInfo}>
           <StepsBlock />
 
-          <Button text="Submit" type="submit" disabled={submitting} pink />
+          {showConfirmation ? (
+            <ConfirmationCard>
+              <Button text="Submit" type="submit" disabled={submitting} />
+
+              <Button
+                text="Cancel"
+                onClick={() => setShowConfirmation(false)}
+              />
+            </ConfirmationCard>
+          ) : (
+            <Button
+              text="Continue"
+              type="button"
+              pink
+              onClick={() => setShowConfirmation(true)}
+            />
+          )}
         </div>
       </form>
     </Layout>

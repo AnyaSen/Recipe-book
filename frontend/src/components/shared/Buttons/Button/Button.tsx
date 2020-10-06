@@ -9,6 +9,7 @@ interface Props {
   linkTo?: string;
   disabled?: boolean;
   type?: "button" | "submit";
+  onClick?: () => void;
 }
 
 export default function Button({
@@ -16,7 +17,8 @@ export default function Button({
   withLink,
   linkTo = " ",
   disabled,
-  type
+  type,
+  onClick
 }: Props): ReactElement {
   if (withLink)
     return (
@@ -29,6 +31,7 @@ export default function Button({
       className={disabled ? Styles.ButtonDisabled : Styles.Button}
       disabled={disabled}
       type={type}
+      onClick={onClick}
     >
       {text}
     </button>

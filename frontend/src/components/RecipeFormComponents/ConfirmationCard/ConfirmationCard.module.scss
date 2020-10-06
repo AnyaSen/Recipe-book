@@ -1,0 +1,12 @@
+@import "../../../assets/scss/variables";
+@import "../../../assets/scss/mixins";
+
+.ConfirmationCard {
+  justify-content: center;
+  background-color: $color-grey;
+  width: 25rem;
+  cursor: pointer;
+  padding: $space-1;
+  margin: $space-0;
+  align-self: flex-end;
+}
