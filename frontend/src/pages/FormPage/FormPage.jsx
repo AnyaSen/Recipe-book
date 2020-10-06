@@ -2,26 +2,29 @@ import React from "react";
 import axios from "axios";
 
 import { connect } from "react-redux";
+import { reduxForm, reset } from "redux-form";
 
 import RecipeForm from "../../components/RecipeForm/RecipeForm";
 import {
   setStepsError,
   setIngredientsError,
   setSendingLoading,
-  setSendingError
+  setSendingError,
+  setIngredientsArr,
+  setStepsArr
 } from "../../redux/actions";
 import { useHistory } from "react-router";
 
-function FormPage({
+let FormPage = ({
   stepsArr,
   ingredientsArr,
   showStepsError,
   showIngredientsError,
   sendRecipe
-}) {
+}) => {
   const history = useHistory();
 
-  const onSubmit = values => {
+  const onSubmit = (values, dispatch) => {
     if (!ingredientsArr || ingredientsArr.length === 0) {
       showIngredientsError();
       return;
@@ -43,11 +46,14 @@ function FormPage({
     };
 
     sendRecipe(newRecipeObject);
+    dispatch(reset("create-recipe-form"));
+    dispatch(setIngredientsArr([]));
+    dispatch(setStepsArr([]));
     history.push("/");
   };
 
   return <RecipeForm onSubmit={onSubmit} />;
-}
+};
 
 const mapStateToProps = state => {
   const { isSendingLoading, isSendingError } = state.app;
@@ -80,6 +86,7 @@ const mapDispatchToProps = dispatch => ({
 
       .then(response => {
         dispatch(setSendingLoading(false));
+        dispatch(reset("create-recipe-form"));
 
         return response;
       })
@@ -91,5 +98,9 @@ const mapDispatchToProps = dispatch => ({
       });
   }
 });
+
+FormPage = reduxForm({
+  form: "create-recipe-form"
+})(FormPage);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormPage);
