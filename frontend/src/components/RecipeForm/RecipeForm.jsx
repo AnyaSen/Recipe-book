@@ -34,6 +34,10 @@ const renderInputSmall = createRenderer((input, placeholder) => (
   <InputField input={input} placeholder={placeholder} small />
 ));
 
+const renderFileInput = createRenderer(input => (
+  <input input={input} type="file" />
+));
+
 let RecipeForm = ({
   handleSubmit,
   submitting,
@@ -47,7 +51,14 @@ let RecipeForm = ({
 
   return (
     <Layout buttonText="Back to all" withLink linkTo="/" withButton>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={handleSubmit}
+        onKeyPress={event => {
+          if (event.which === 13) {
+            event.preventDefault();
+          }
+        }}
+      >
         <div className={Styles.FormHeader}>
           <div className={Styles.generalIfo}>
             <Field
@@ -58,10 +69,11 @@ let RecipeForm = ({
             />
             <StaticPicture addPicture>
               {" "}
-              <AdditionalButton
+              {/* <AdditionalButton
                 type="button"
                 onClick={() => console.log("clicked")}
-              />
+              /> */}
+              <Field name="file" component={renderFileInput} />
             </StaticPicture>
 
             <div className={Styles.timeAndPortions}>
