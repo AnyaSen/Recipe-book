@@ -14,6 +14,18 @@
     margin-right: $space-4;
     margin-bottom: $space-3;
 
+    .dropzone {
+      @include flex-column;
+
+      p {
+        color: $color-pink;
+      }
+
+      h3 span {
+        color: $color-pink;
+      }
+    }
+
     .timeAndPortions {
       display: flex;
       flex-direction: row;
@@ -23,11 +35,6 @@
         margin: $space-1;
       }
     }
-    // img {
-    //   height: 17rem;
-    //   width: 22rem;
-    //   object-fit: cover;
-    // }
   }
 }
 .RecipeInfo {

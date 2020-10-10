@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import Dropzone from "react-dropzone";
 
 import Styles from "./RecipeForm.module.scss";
 
@@ -34,9 +35,55 @@ const renderInputSmall = createRenderer((input, placeholder) => (
   <InputField input={input} placeholder={placeholder} small />
 ));
 
-const renderFileInput = createRenderer(input => (
-  <input input={input} type="file" />
-));
+const renderDropzoneField = InputField => {
+  const { input, name } = InputField;
+
+  const files = input.value;
+  console.log(files[0]);
+
+  const maxSize = 1048576;
+
+  return (
+    <div>
+      <Dropzone
+        name={name}
+        onDrop={(filesToUpload, e) => input.onChange(filesToUpload)}
+        accept="image/jpeg, image/jpg, image/png"
+        minSize={0}
+        maxSize={maxSize}
+      >
+        {({
+          getRootProps,
+          getInputProps,
+          isDragActive,
+          isDragReject,
+          acceptedFiles,
+          fileRejections
+        }) => {
+          const isFileTooLarge = fileRejections.length > 0;
+
+          const isFileAccepted = acceptedFiles.length > 0;
+
+          return (
+            <div {...getRootProps()} className={Styles.dropzone}>
+              <input {...getInputProps()} />
+              <AdditionalButton type="button" />
+
+              {isDragActive && !isDragReject && <h3>Drop a file</h3>}
+              {isDragReject && (
+                <h3>
+                  The file must be <span>jpeg, jpg or png</span>
+                </h3>
+              )}
+              {isFileAccepted && <h3>{acceptedFiles[0].name}</h3>}
+              {isFileTooLarge && <p>The file is too large</p>}
+            </div>
+          );
+        }}
+      </Dropzone>
+    </div>
+  );
+};
 
 let RecipeForm = ({
   handleSubmit,
@@ -68,12 +115,7 @@ let RecipeForm = ({
               placeholder="Name"
             />
             <StaticPicture addPicture>
-              {" "}
-              {/* <AdditionalButton
-                type="button"
-                onClick={() => console.log("clicked")}
-              /> */}
-              <Field name="file" component={renderFileInput} />
+              <Field name="file" component={renderDropzoneField} />
             </StaticPicture>
 
             <div className={Styles.timeAndPortions}>
