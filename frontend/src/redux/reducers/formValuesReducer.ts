@@ -37,7 +37,13 @@ const formValuesReducer = (state: IState = initState, action: IAction) => {
       return { ...state, ingredientsError: action.payload };
 
     case AppEvents.SHOW_INGR_FIELDS:
-      return { ...state, showIngredientFields: action.payload };
+      return { ...state, showIngredientFields: true };
+
+    case AppEvents.CLOSE_INGR_FIELDS:
+      return { ...state, showIngredientFields: false };
+
+    case AppEvents.TOGGLE_INGR_FIELDS:
+      return { ...state, showIngredientFields: !state.showIngredientFields };
 
     case AppEvents.SET_STEPS_ARR:
       return { ...state, stepsArr: action.payload };
@@ -46,13 +52,22 @@ const formValuesReducer = (state: IState = initState, action: IAction) => {
       return { ...state, stepsError: action.payload };
 
     case AppEvents.SHOW_STEPS_FIELDS:
-      return { ...state, showStepFields: action.payload };
+      return { ...state, showStepFields: true };
+
+    case AppEvents.CLOSE_STEPS_FIELDS:
+      return { ...state, showStepFields: false };
+
+    case AppEvents.TOGGLE_STEPS_FIELDS:
+      return { ...state, showStepFields: !state.showStepFields };
 
     case AppEvents.SET_SEND_LOADING:
-      return { ...state, isSendingLoading: action.payload };
+      return { ...state, isSendingLoading: true };
+
+    case AppEvents.STOP_SEND_LOADING:
+      return { ...state, isSendingLoading: false };
 
     case AppEvents.SET_SEND_ERR:
-      return { ...state, isSendingError: action.payload };
+      return { ...state, isSendingError: true };
 
     default:
       return { ...state };

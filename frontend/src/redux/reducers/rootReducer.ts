@@ -22,10 +22,13 @@ const rootReducer = (state: IState = initState, action: IAction) => {
       return { ...state, recipes: action.payload };
 
     case AppEvents.SET_LOADING:
-      return { ...state, isLoading: action.payload };
+      return { ...state, isLoading: true };
+
+    case AppEvents.STOP_LOADING:
+      return { ...state, isLoading: false };
 
     case AppEvents.SET_ERROR:
-      return { ...state, isError: action.payload };
+      return { ...state, isError: true };
 
     case AppEvents.SET_CUR_RECIPE:
       return { ...state, currentRecipe: action.payload };

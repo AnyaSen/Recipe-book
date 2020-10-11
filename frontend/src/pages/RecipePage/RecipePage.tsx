@@ -10,6 +10,7 @@ import {
   IAction,
   setLoading,
   setError,
+  stopLoading,
   setCurrentRecipe
 } from "../../redux/actions";
 
@@ -79,15 +80,15 @@ const mapStateToProps = (state: IAppState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
   showError: () => {
-    dispatch(setError(true));
+    dispatch(setError());
   },
 
   showLoading: () => {
-    dispatch(setLoading(true));
+    dispatch(setLoading());
   },
 
   stopLoading: () => {
-    dispatch(setLoading(false));
+    dispatch(stopLoading());
   },
 
   setRecipe: (recipe: object) => {

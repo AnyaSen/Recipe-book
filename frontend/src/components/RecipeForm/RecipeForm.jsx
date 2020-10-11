@@ -41,7 +41,7 @@ const renderDropzoneField = InputField => {
   const files = input.value;
   console.log(files[0]);
 
-  const maxSize = 1048576;
+  const maxSize = 1000000;
 
   return (
     <div>

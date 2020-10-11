@@ -3,7 +3,12 @@ import axios from "axios";
 
 import { connect } from "react-redux";
 import { IAppState } from "../../redux/store";
-import { IAction, setRecipes, setLoading, setError } from "../../redux/actions";
+import {
+  IAction,
+  setRecipes,
+  stopLoading,
+  setError
+} from "../../redux/actions";
 
 import Layout from "../../components/Layout";
 import RecipesList from "../../components/RecipesList";
@@ -46,12 +51,12 @@ const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
       .then(response => {
         const recipes = response.data;
         dispatch(setRecipes(recipes));
-        dispatch(setLoading(false));
+        dispatch(stopLoading());
       })
       .catch(e => {
         console.log("error:", e);
-        dispatch(setError(true));
-        dispatch(setLoading(false));
+        dispatch(setError());
+        dispatch(stopLoading());
       });
   }
 });

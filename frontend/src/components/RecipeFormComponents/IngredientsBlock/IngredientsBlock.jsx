@@ -13,8 +13,10 @@ import InputField from "../../shared/InputField";
 import InputError from "../../shared/InputError";
 import {
   setIngredientsArr,
-  setIngredientsError,
-  showIngredientFields
+  setIngredientsErrorMessage,
+  showIngredientFields,
+  closeIngredientFields,
+  toggleIngredientFields
 } from "../../../redux/actions";
 
 const createRenderer = render => ({ input, placeholder }) => (
@@ -129,7 +131,7 @@ let IngredientsBlock = ({
           <AdditionalButton
             variant={showIngredientFields && "close"}
             type="button"
-            onClick={() => toggleShowFields(!showIngredientFields)}
+            onClick={() => toggleShowFields()}
           />
         )}
       </div>
@@ -169,23 +171,23 @@ const mapDispatchToProps = dispatch => ({
   },
 
   setError: errorMessage => {
-    dispatch(setIngredientsError(errorMessage));
+    dispatch(setIngredientsErrorMessage(errorMessage));
   },
 
   hideError: () => {
-    dispatch(setIngredientsError(""));
+    dispatch(setIngredientsErrorMessage(""));
   },
 
   hideFields: () => {
-    dispatch(showIngredientFields(false));
+    dispatch(closeIngredientFields());
   },
 
   showFields: () => {
-    dispatch(showIngredientFields(true));
+    dispatch(showIngredientFields());
   },
 
-  toggleShowFields: payload => {
-    dispatch(showIngredientFields(payload));
+  toggleShowFields: () => {
+    dispatch(toggleIngredientFields());
   }
 });
 

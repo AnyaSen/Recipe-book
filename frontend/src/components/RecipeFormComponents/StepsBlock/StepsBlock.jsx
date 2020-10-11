@@ -13,8 +13,10 @@ import TextArea from "../../shared/TextArea";
 import InputError from "../../shared/InputError";
 import {
   setStepsArr,
-  setStepsError,
-  showStepFields
+  setStepsErrorMessage,
+  showStepFields,
+  closeStepFields,
+  toggleStepFields
 } from "../../../redux/actions";
 
 const createRenderer = render => ({ input, meta, placeholder }) => (
@@ -121,7 +123,7 @@ let StepsBlock = ({
             <AdditionalButton
               variant={showStepFields && "close"}
               type="button"
-              onClick={() => toggleShowFields(!showStepFields)}
+              onClick={() => toggleShowFields()}
             />
           )}
         </div>
@@ -154,23 +156,23 @@ const mapDispatchToProps = dispatch => ({
   },
 
   setError: errorMessage => {
-    dispatch(setStepsError(errorMessage));
+    dispatch(setStepsErrorMessage(errorMessage));
   },
 
   hideError: () => {
-    dispatch(setStepsError(""));
+    dispatch(setStepsErrorMessage(""));
   },
 
   hideFields: () => {
-    dispatch(showStepFields(false));
+    dispatch(closeStepFields());
   },
 
   showFields: () => {
-    dispatch(showStepFields(true));
+    dispatch(showStepFields());
   },
 
-  toggleShowFields: payload => {
-    dispatch(showStepFields(payload));
+  toggleShowFields: () => {
+    dispatch(toggleStepFields());
   }
 });
 
