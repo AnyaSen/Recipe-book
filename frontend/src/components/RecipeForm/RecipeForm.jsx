@@ -145,10 +145,7 @@ let RecipeForm = ({
             <ConfirmationCard>
               <Button text="Submit" type="submit" disabled={submitting} />
 
-              <Button
-                text="Cancel"
-                onClick={() => setShowConfirmation(false)}
-              />
+              <Button text="Close" onClick={() => setShowConfirmation(false)} />
             </ConfirmationCard>
           ) : (
             <Button

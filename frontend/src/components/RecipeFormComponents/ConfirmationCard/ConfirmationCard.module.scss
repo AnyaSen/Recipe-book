@@ -2,11 +2,20 @@
 @import "../../../assets/scss/mixins";
 
 .ConfirmationCard {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
   justify-content: center;
   background-color: $color-grey;
+  border-radius: 0.4rem;
   width: 25rem;
   cursor: pointer;
-  padding: $space-1;
-  margin: $space-0;
+  padding: $space-2;
+  margin: $space-3;
   align-self: flex-end;
+
+  p {
+    margin-bottom: $space-2;
+  }
 }
