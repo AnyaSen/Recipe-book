@@ -34,7 +34,7 @@ let FormPage = ({
       showStepsError();
       return;
     }
-    const { name, time, portionsNumber } = values;
+    const { name, time, portionsNumber, file } = values;
 
     const newRecipeObject = {
       name,
@@ -46,7 +46,7 @@ let FormPage = ({
       steps: stepsArr
     };
 
-    sendRecipe(newRecipeObject);
+    sendRecipe(newRecipeObject, file);
 
     dispatch(reset("create-recipe-form"));
     dispatch(setIngredientsArr([]));
@@ -58,9 +58,15 @@ let FormPage = ({
 };
 
 const mapStateToProps = state => {
-  const { recipes, isSendingLoading, isSendingError } = state.app;
-  const { ingredientsArr, stepsArr } = state.formValues;
-  return { isSendingLoading, isSendingError, ingredientsArr, stepsArr };
+  const { isSendingLoading, isSendingError } = state.app;
+  const { ingredientsArr, stepsArr, currentRecipeID } = state.formValues;
+  return {
+    isSendingLoading,
+    isSendingError,
+    ingredientsArr,
+    stepsArr,
+    currentRecipeID
+  };
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -82,23 +88,29 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setIngredientsErrorMessage(""));
   },
 
-  sendRecipe: newRecipeObject => {
+  sendRecipe: async (newRecipeObject, recipePicture) => {
     dispatch(setSendingLoading());
 
     axios
       .post("/recipe", newRecipeObject)
+      .then(response => {
+        console.log(response.data._id);
 
+        return axios.post(
+          `/recipes/${response.data._id}/upload`,
+          recipePicture
+        );
+      })
       .then(response => {
         dispatch(stopSendingLoading());
         dispatch(reset("create-recipe-form"));
-
+        console.log(response);
         return response;
       })
-      .catch(e => {
+      .catch(error => {
         dispatch(setSendingError());
         dispatch(stopSendingLoading());
-
-        console.log("error:", e);
+        console.log("error:", error);
       });
   }
 });
