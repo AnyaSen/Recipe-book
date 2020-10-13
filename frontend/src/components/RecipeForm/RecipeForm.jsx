@@ -38,9 +38,6 @@ const renderInputSmall = createRenderer((input, placeholder) => (
 const renderDropzoneField = InputField => {
   const { input, name } = InputField;
 
-  const files = input.value;
-  console.log(files[0]);
-
   const maxSize = 1000000;
 
   return (

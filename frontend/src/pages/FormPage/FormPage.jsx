@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 
 import { connect } from "react-redux";
@@ -26,7 +26,6 @@ let FormPage = ({
   const history = useHistory();
 
   const onSubmit = (values, dispatch) => {
-    console.log(values);
     if (!ingredientsArr || ingredientsArr.length === 0) {
       showIngredientsError();
       return;
@@ -34,6 +33,7 @@ let FormPage = ({
       showStepsError();
       return;
     }
+
     const { name, time, portionsNumber, file } = values;
 
     const newRecipeObject = {
@@ -46,7 +46,13 @@ let FormPage = ({
       steps: stepsArr
     };
 
-    sendRecipe(newRecipeObject, file);
+    const fd = new FormData();
+
+    const picture = file[0];
+
+    fd.append("upload", picture, picture.name);
+
+    sendRecipe(newRecipeObject, fd);
 
     dispatch(reset("create-recipe-form"));
     dispatch(setIngredientsArr([]));
@@ -88,23 +94,26 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setIngredientsErrorMessage(""));
   },
 
-  sendRecipe: async (newRecipeObject, recipePicture) => {
+  sendRecipe: (newRecipeObject, recipePicture) => {
     dispatch(setSendingLoading());
+
+    const config = {
+      headers: { "content-type": "multipart/form-data" }
+    };
 
     axios
       .post("/recipe", newRecipeObject)
       .then(response => {
-        console.log(response.data._id);
-
         return axios.post(
           `/recipes/${response.data._id}/upload`,
-          recipePicture
+          recipePicture,
+          config
         );
       })
+
       .then(response => {
         dispatch(stopSendingLoading());
         dispatch(reset("create-recipe-form"));
-        console.log(response);
         return response;
       })
       .catch(error => {
