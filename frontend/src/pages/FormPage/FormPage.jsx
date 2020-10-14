@@ -12,8 +12,7 @@ import {
   setSendingError,
   setIngredientsArr,
   setStepsArr,
-  stopSendingLoading,
-  setUpload
+  stopSendingLoading
 } from "../../redux/actions";
 import { useHistory } from "react-router";
 
@@ -23,8 +22,7 @@ let FormPage = ({
   showStepsError,
   showIngredientsError,
   sendRecipe,
-  sendRecipeWithImage,
-  noUpload
+  sendRecipeWithImage
 }) => {
   const history = useHistory();
 
@@ -72,19 +70,13 @@ let FormPage = ({
 
 const mapStateToProps = state => {
   const { isSendingLoading, isSendingError } = state.app;
-  const {
-    ingredientsArr,
-    stepsArr,
-    currentRecipeID,
-    noUpload
-  } = state.formValues;
+  const { ingredientsArr, stepsArr, currentRecipeID } = state.formValues;
   return {
     isSendingLoading,
     isSendingError,
     ingredientsArr,
     stepsArr,
-    currentRecipeID,
-    noUpload
+    currentRecipeID
   };
 };
 
@@ -105,10 +97,6 @@ const mapDispatchToProps = dispatch => ({
 
   hideIngredientsError: () => {
     dispatch(setIngredientsErrorMessage(""));
-  },
-
-  setUpload: () => {
-    dispatch(setUpload());
   },
 
   sendRecipe: newRecipeObject => {
