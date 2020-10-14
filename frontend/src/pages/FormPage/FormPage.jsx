@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
 
 import { connect } from "react-redux";
@@ -12,7 +12,8 @@ import {
   setSendingError,
   setIngredientsArr,
   setStepsArr,
-  stopSendingLoading
+  stopSendingLoading,
+  setUpload
 } from "../../redux/actions";
 import { useHistory } from "react-router";
 
@@ -21,20 +22,20 @@ let FormPage = ({
   ingredientsArr,
   showStepsError,
   showIngredientsError,
-  sendRecipe
+  sendRecipe,
+  sendRecipeWithImage,
+  noUpload
 }) => {
   const history = useHistory();
 
   const onSubmit = (values, dispatch) => {
+    const { name, time, portionsNumber, file } = values;
+
     if (!ingredientsArr || ingredientsArr.length === 0) {
       showIngredientsError();
-      return;
     } else if (!stepsArr || stepsArr.length === 0) {
       showStepsError();
-      return;
     }
-
-    const { name, time, portionsNumber, file } = values;
 
     const newRecipeObject = {
       name,
@@ -46,13 +47,19 @@ let FormPage = ({
       steps: stepsArr
     };
 
-    const fd = new FormData();
+    {
+      if (!file) {
+        sendRecipe(newRecipeObject);
+      } else {
+        const picture = file[0];
 
-    const picture = file[0];
+        const fd = new FormData();
 
-    fd.append("upload", picture, picture.name);
+        fd.append("upload", picture, picture.name);
 
-    sendRecipe(newRecipeObject, fd);
+        sendRecipeWithImage(newRecipeObject, fd);
+      }
+    }
 
     dispatch(reset("create-recipe-form"));
     dispatch(setIngredientsArr([]));
@@ -65,13 +72,19 @@ let FormPage = ({
 
 const mapStateToProps = state => {
   const { isSendingLoading, isSendingError } = state.app;
-  const { ingredientsArr, stepsArr, currentRecipeID } = state.formValues;
+  const {
+    ingredientsArr,
+    stepsArr,
+    currentRecipeID,
+    noUpload
+  } = state.formValues;
   return {
     isSendingLoading,
     isSendingError,
     ingredientsArr,
     stepsArr,
-    currentRecipeID
+    currentRecipeID,
+    noUpload
   };
 };
 
@@ -94,7 +107,29 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setIngredientsErrorMessage(""));
   },
 
-  sendRecipe: (newRecipeObject, recipePicture) => {
+  setUpload: () => {
+    dispatch(setUpload());
+  },
+
+  sendRecipe: newRecipeObject => {
+    dispatch(setSendingLoading());
+
+    axios
+      .post("/recipe", newRecipeObject)
+      .then(response => {
+        dispatch(stopSendingLoading());
+        dispatch(reset("create-recipe-form"));
+        return response;
+      })
+
+      .catch(error => {
+        dispatch(setSendingError());
+        dispatch(stopSendingLoading());
+        console.log("error:", error);
+      });
+  },
+
+  sendRecipeWithImage: (newRecipeObject, recipePicture) => {
     dispatch(setSendingLoading());
 
     const config = {
