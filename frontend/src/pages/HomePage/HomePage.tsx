@@ -1,14 +1,9 @@
-import React, { ReactElement, useEffect, Dispatch } from "react";
-import axios from "axios";
+import React, { ReactElement, useEffect } from "react";
+import { ThunkDispatch } from "redux-thunk";
 
 import { connect } from "react-redux";
 import { IAppState } from "../../redux/store";
-import {
-  IAction,
-  setRecipes,
-  stopLoading,
-  setError
-} from "../../redux/actions";
+import { fetchRecipes } from "../../redux/actions";
 
 import Layout from "../../components/Layout";
 import RecipesList from "../../components/RecipesList";
@@ -44,20 +39,9 @@ const mapStateToProps = (state: IAppState) => {
   const { isLoading, isError } = state.app;
   return { isLoading, isError };
 };
-const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
   getAndSetRecipes: () => {
-    axios
-      .get("/recipes")
-      .then(response => {
-        const recipes = response.data;
-        dispatch(setRecipes(recipes));
-        dispatch(stopLoading());
-      })
-      .catch(e => {
-        console.log("error:", e);
-        dispatch(setError());
-        dispatch(stopLoading());
-      });
+    dispatch(fetchRecipes());
   }
 });
 

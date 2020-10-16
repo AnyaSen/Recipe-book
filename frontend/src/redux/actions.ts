@@ -1,3 +1,5 @@
+import axios from "axios";
+import { Dispatch } from "redux";
 import { AppEvents } from "./events";
 import { recipeArrType, ingredientsType, stepsType } from "../types";
 
@@ -23,7 +25,10 @@ const {
   TOGGLE_STEPS_FIELDS,
   SET_SEND_LOADING,
   STOP_SEND_LOADING,
-  SET_SEND_ERR
+  SET_SEND_ERR,
+  FETCH_RECIPES_LOADING,
+  FETCH_RECIPES_SUCCESS,
+  FETCH_RECIPES_ERROR
 } = AppEvents;
 
 export const setRecipes = (payload: Array<recipeArrType>) => {
@@ -137,5 +142,42 @@ export const stopSendingLoading = () => {
 export const setSendingError = () => {
   return {
     type: SET_SEND_ERR
+  };
+};
+
+export const fetchRecipesLoading = () => {
+  return {
+    type: FETCH_RECIPES_LOADING
+  };
+};
+
+export const fetchRecipesSuccess = (payload: Array<recipeArrType>) => {
+  return {
+    type: FETCH_RECIPES_SUCCESS,
+    payload
+  };
+};
+
+export const fetchRecipesError = (payload: any) => {
+  return {
+    type: FETCH_RECIPES_ERROR,
+    payload
+  };
+};
+
+export const fetchRecipes = () => {
+  return (dispatch: Dispatch<IAction>) => {
+    dispatch(fetchRecipesLoading());
+
+    axios
+      .get("/recipes")
+      .then(response => {
+        const recipes = response.data;
+        dispatch(fetchRecipesSuccess(recipes));
+      })
+      .catch(e => {
+        console.log("error:", e);
+        dispatch(fetchRecipesError(e));
+      });
   };
 };

@@ -7,13 +7,17 @@ export interface IState {
   isLoading: boolean;
   isError: boolean;
   currentRecipe: object;
+  loading: boolean;
+  error: null;
 }
 
 const initState: IState = {
   recipes: [],
   currentRecipe: {},
   isLoading: true,
-  isError: false
+  isError: false,
+  loading: false,
+  error: null
 };
 
 const rootReducer = (state: IState = initState, action: IAction) => {
@@ -32,6 +36,27 @@ const rootReducer = (state: IState = initState, action: IAction) => {
 
     case AppEvents.SET_CUR_RECIPE:
       return { ...state, currentRecipe: action.payload };
+
+    case AppEvents.FETCH_RECIPES_LOADING:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case AppEvents.FETCH_RECIPES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        recipes: action.payload
+      };
+
+    case AppEvents.FETCH_RECIPES_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
+        isError: true
+      };
 
     default:
       return { ...state };

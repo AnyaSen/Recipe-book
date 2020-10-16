@@ -1,4 +1,6 @@
-import { createStore, combineReducers } from "redux";
+import { applyMiddleware, createStore, combineReducers } from "redux";
+import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./reducers/rootReducer";
 import formValuesReducer from "./reducers/formValuesReducer";
 import { reducer as formReducer } from "redux-form";
@@ -13,8 +15,5 @@ export type IAppState = ReturnType<typeof reducers>;
 
 export const store = createStore(
   reducers,
-  (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__({
-      serialize: true
-    })
+  composeWithDevTools(applyMiddleware(thunk))
 );
