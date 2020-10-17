@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 
 import { connect } from "react-redux";
 import { reduxForm, reset } from "redux-form";
@@ -8,17 +7,11 @@ import RecipeForm from "../../components/RecipeForm/RecipeForm";
 import {
   setStepsErrorMessage,
   setIngredientsErrorMessage,
-  setIngredientsArr,
-  setStepsArr,
   postRecipe
 } from "../../redux/actions";
 import { useHistory } from "react-router";
-import LoadingPage from "../../components/shared/LoadingPage";
-import ErrorPage from "../../components/shared/ErrorPage";
 
 let FormPage = ({
-  isSendingLoading,
-  isSendingError,
   postRecipe,
   postRecipeWithImg,
 
@@ -34,8 +27,10 @@ let FormPage = ({
 
     if (!ingredientsArr || ingredientsArr.length === 0) {
       showIngredientsError();
+      return;
     } else if (!stepsArr || stepsArr.length === 0) {
       showStepsError();
+      return;
     }
 
     const newRecipeObject = {
@@ -48,41 +43,31 @@ let FormPage = ({
       steps: stepsArr
     };
 
-    {
-      if (!file) {
-        postRecipe(newRecipeObject);
-      } else {
-        const picture = file[0];
+    if (!file) {
+      postRecipe(newRecipeObject);
+    } else {
+      const picture = file[0];
 
-        const fd = new FormData();
+      const fd = new FormData();
 
-        fd.append("upload", picture, picture.name);
+      fd.append("upload", picture, picture.name);
 
-        postRecipeWithImg(newRecipeObject, fd);
-      }
+      postRecipeWithImg(newRecipeObject, fd);
     }
 
     dispatch(reset("create-recipe-form"));
-    dispatch(setIngredientsArr([]));
-    dispatch(setStepsArr([]));
+
     history.push("/");
   };
-
-  if (isSendingLoading) return <LoadingPage />;
-  if (isSendingError) return <ErrorPage />;
 
   return <RecipeForm onSubmit={onSubmit} />;
 };
 
 const mapStateToProps = state => {
-  const { isSendingLoading, isSendingError } = state.app;
-  const { ingredientsArr, stepsArr, currentRecipeID } = state.formValues;
+  const { ingredientsArr, stepsArr } = state.formValues;
   return {
-    isSendingLoading,
-    isSendingError,
     ingredientsArr,
-    stepsArr,
-    currentRecipeID
+    stepsArr
   };
 };
 

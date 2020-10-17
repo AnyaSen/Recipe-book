@@ -10,9 +10,6 @@ export interface IState {
   isRecipeLoading: boolean;
   isRecipeError: boolean;
   currentRecipe: object;
-
-  isSendingLoading: boolean;
-  isSendingError: boolean;
 }
 
 const initState: IState = {
@@ -22,10 +19,7 @@ const initState: IState = {
 
   currentRecipe: {},
   isRecipeLoading: false,
-  isRecipeError: false,
-
-  isSendingLoading: false,
-  isSendingError: false
+  isRecipeError: false
 };
 
 const rootReducer = (state: IState = initState, action: IAction) => {
@@ -68,25 +62,6 @@ const rootReducer = (state: IState = initState, action: IAction) => {
         ...state,
         isRecipeLoading: false,
         isRecipeError: true
-      };
-
-    case AppEvents.POST_RECIPE_LOADING:
-      return {
-        ...state,
-        isSendingLoading: true
-      };
-
-    case AppEvents.POST_RECIPE_SUCCESS:
-      return {
-        ...state,
-        isSendingLoading: false
-      };
-
-    case AppEvents.POST_RECIPE_ERROR:
-      return {
-        ...state,
-        isSendingLoading: false,
-        isSendingError: true
       };
 
     default:

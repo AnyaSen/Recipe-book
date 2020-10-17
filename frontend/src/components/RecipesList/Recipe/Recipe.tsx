@@ -7,7 +7,7 @@ import StaticPicture from "../../shared/StaticPicture";
 interface Props {
   name: string;
   id: number;
-  imgSrc?: string | undefined;
+  imgSrc?: string;
   time?: string;
 }
 export default function Recipe({

@@ -4,5 +4,14 @@
   @include flex-row;
 
   flex-wrap: wrap;
+  justify-content: center;
   padding: $space-2;
+}
+
+.noRecipes {
+  @include flex-column;
+
+  button {
+    margin: $space-0;
+  }
 }

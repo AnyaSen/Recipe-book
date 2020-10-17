@@ -14,19 +14,23 @@ interface Props {
   getAndSetRecipes(): void;
   isLoading: boolean;
   isError: boolean;
+  isSendingLoading: boolean;
+  isSendingError: boolean;
 }
 
 function HomePage({
   isLoading,
   isError,
-  getAndSetRecipes
+  getAndSetRecipes,
+  isSendingLoading,
+  isSendingError
 }: Props): ReactElement {
   useEffect(() => {
     getAndSetRecipes();
   }, []);
 
-  if (isLoading) return <LoadingPage />;
-  if (isError) return <ErrorPage />;
+  if (isLoading || isSendingLoading) return <LoadingPage />;
+  if (isError || isSendingError) return <ErrorPage />;
 
   return (
     <Layout buttonText="Create recipe" withButton withLink linkTo="/create">
@@ -37,7 +41,8 @@ function HomePage({
 
 const mapStateToProps = (state: IAppState) => {
   const { isLoading, isError } = state.app;
-  return { isLoading, isError };
+  const { isSendingLoading, isSendingError } = state.formValues;
+  return { isLoading, isError, isSendingLoading, isSendingError };
 };
 const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
   getAndSetRecipes: () => {
