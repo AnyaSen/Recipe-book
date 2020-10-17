@@ -3,40 +3,29 @@ import { IAction } from "../actions";
 import { recipeArrType } from "../../types";
 
 export interface IState {
-  recipes: Array<recipeArrType>;
   isLoading: boolean;
-  isError: boolean;
-  currentRecipe: object;
+  recipes: Array<recipeArrType>;
   loading: boolean;
+  isError: boolean;
   error: null;
+  isRecipeLoading: boolean;
+  isRecipeError: boolean;
+  currentRecipe: object;
 }
 
 const initState: IState = {
   recipes: [],
-  currentRecipe: {},
-  isLoading: true,
-  isError: false,
   loading: false,
-  error: null
+  isError: false,
+  error: null,
+  currentRecipe: {},
+  isRecipeLoading: false,
+  isRecipeError: false,
+  isLoading: true
 };
 
 const rootReducer = (state: IState = initState, action: IAction) => {
   switch (action.type) {
-    case AppEvents.SET_RECIPES:
-      return { ...state, recipes: action.payload };
-
-    case AppEvents.SET_LOADING:
-      return { ...state, isLoading: true };
-
-    case AppEvents.STOP_LOADING:
-      return { ...state, isLoading: false };
-
-    case AppEvents.SET_ERROR:
-      return { ...state, isError: true };
-
-    case AppEvents.SET_CUR_RECIPE:
-      return { ...state, currentRecipe: action.payload };
-
     case AppEvents.FETCH_RECIPES_LOADING:
       return {
         ...state,
@@ -56,6 +45,26 @@ const rootReducer = (state: IState = initState, action: IAction) => {
         isLoading: false,
         error: action.payload,
         isError: true
+      };
+
+    case AppEvents.FETCH_RECIPE_LOADING:
+      return {
+        ...state,
+        isRecipeLoading: true
+      };
+
+    case AppEvents.FETCH_RECIPE_SUCCESS:
+      return {
+        ...state,
+        isRecipeLoading: false,
+        currentRecipe: action.payload
+      };
+
+    case AppEvents.FETCH_RECIPE_ERROR:
+      return {
+        ...state,
+        isRecipeLoading: false,
+        isRecipeError: true
       };
 
     default:

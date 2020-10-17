@@ -8,10 +8,6 @@ export interface IAction {
   payload?: any;
 }
 const {
-  SET_RECIPES,
-  SET_CUR_RECIPE,
-  SET_LOADING,
-  STOP_LOADING,
   SET_ERROR,
   SET_INGR_ARR,
   SET_INGR_ERR,
@@ -28,34 +24,11 @@ const {
   SET_SEND_ERR,
   FETCH_RECIPES_LOADING,
   FETCH_RECIPES_SUCCESS,
-  FETCH_RECIPES_ERROR
+  FETCH_RECIPES_ERROR,
+  FETCH_RECIPE_LOADING,
+  FETCH_RECIPE_SUCCESS,
+  FETCH_RECIPE_ERROR
 } = AppEvents;
-
-export const setRecipes = (payload: Array<recipeArrType>) => {
-  return {
-    type: SET_RECIPES,
-    payload
-  };
-};
-
-export const setCurrentRecipe = (payload: object) => {
-  return {
-    type: SET_CUR_RECIPE,
-    payload
-  };
-};
-
-export const setLoading = () => {
-  return {
-    type: SET_LOADING
-  };
-};
-
-export const stopLoading = () => {
-  return {
-    type: STOP_LOADING
-  };
-};
 
 export const setError = () => {
   return {
@@ -165,6 +138,26 @@ export const fetchRecipesError = (payload: any) => {
   };
 };
 
+export const fetchRecipeLoading = () => {
+  return {
+    type: FETCH_RECIPE_LOADING
+  };
+};
+
+export const fetchRecipeSuccess = (payload: recipeArrType) => {
+  return {
+    type: FETCH_RECIPE_SUCCESS,
+    payload
+  };
+};
+
+export const fetchRecipeError = (payload: any) => {
+  return {
+    type: FETCH_RECIPE_ERROR,
+    payload
+  };
+};
+
 export const fetchRecipes = () => {
   return (dispatch: Dispatch<IAction>) => {
     dispatch(fetchRecipesLoading());
@@ -178,6 +171,23 @@ export const fetchRecipes = () => {
       .catch(e => {
         console.log("error:", e);
         dispatch(fetchRecipesError(e));
+      });
+  };
+};
+
+export const fetchRecipe = (url: string) => {
+  return (dispatch: Dispatch<IAction>) => {
+    dispatch(fetchRecipeLoading());
+
+    axios
+      .get(url)
+      .then(response => {
+        const recipe = response.data;
+        dispatch(fetchRecipeSuccess(recipe));
+      })
+      .catch(e => {
+        console.log("error:", e);
+        dispatch(fetchRecipeError(e));
       });
   };
 };

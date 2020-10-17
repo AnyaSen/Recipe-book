@@ -1,67 +1,43 @@
-import React, { ReactElement, Dispatch, useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { RouteComponentProps } from "react-router";
-import axios from "axios";
 
 import Styles from "./RecipePage.module.scss";
 
 import { connect } from "react-redux";
 import { IAppState } from "../../redux/store";
-import {
-  IAction,
-  setLoading,
-  setError,
-  stopLoading,
-  setCurrentRecipe
-} from "../../redux/actions";
+import { fetchRecipe } from "../../redux/actions";
 
 import Layout from "../../components/Layout";
 import LoadingPage from "../../components/shared/LoadingPage";
 import ErrorPage from "../../components/shared/ErrorPage";
 import RecipeHeader from "../../components/RecipeHeader";
 import RecipeInfo from "../../components/RecipeInfo";
+import { ThunkDispatch } from "redux-thunk";
 
 interface MatchParams {
   id: string | undefined;
 }
 
 interface Props extends RouteComponentProps<MatchParams> {
-  isLoading: boolean;
-  isError: boolean;
-  showError(): void;
-  showLoading(): void;
-  stopLoading(): void;
-  setRecipe: (recipe: object) => void;
+  isRecipeLoading: boolean;
+  isRecipeError: boolean;
+  getAndSetRecipe: (url: string) => void;
 }
 
 function RecipePage({
   match,
-  isLoading,
-  isError,
-  showError,
-  showLoading,
-  stopLoading,
-  setRecipe
+  isRecipeLoading,
+  isRecipeError,
+  getAndSetRecipe
 }: Props): ReactElement {
   const { id } = match.params;
 
   useEffect(() => {
-    axios
-      .get(`/recipes/${id}`)
-      .then(response => {
-        showLoading();
-        const recipe = response.data;
-        setRecipe(recipe);
-        stopLoading();
-      })
-      .catch(e => {
-        console.log("error:", e);
-        showError();
-        stopLoading();
-      });
-  }, [id, showError, showLoading, stopLoading]);
+    getAndSetRecipe(`/recipes/${id}`);
+  }, []);
 
-  if (isLoading) return <LoadingPage />;
-  if (isError) return <ErrorPage />;
+  if (isRecipeLoading) return <LoadingPage />;
+  if (isRecipeError) return <ErrorPage />;
 
   return (
     <Layout buttonText="Back to all" withLink linkTo="/" withButton>
@@ -74,25 +50,13 @@ function RecipePage({
   );
 }
 const mapStateToProps = (state: IAppState) => {
-  const { recipes, isLoading, isError } = state.app;
-  return { recipes, isLoading, isError };
+  const { recipes, isRecipeLoading, isRecipeError } = state.app;
+  return { recipes, isRecipeLoading, isRecipeError };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
-  showError: () => {
-    dispatch(setError());
-  },
-
-  showLoading: () => {
-    dispatch(setLoading());
-  },
-
-  stopLoading: () => {
-    dispatch(stopLoading());
-  },
-
-  setRecipe: (recipe: object) => {
-    dispatch(setCurrentRecipe(recipe));
+const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
+  getAndSetRecipe: (url: string) => {
+    dispatch(fetchRecipe(url));
   }
 });
 
