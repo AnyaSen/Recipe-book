@@ -8,6 +8,16 @@ export interface IAction {
   payload?: any;
 }
 const {
+  FETCH_RECIPES_LOADING,
+  FETCH_RECIPES_SUCCESS,
+  FETCH_RECIPES_ERROR,
+  FETCH_RECIPE_LOADING,
+  FETCH_RECIPE_SUCCESS,
+  FETCH_RECIPE_ERROR,
+  POST_RECIPE_LOADING,
+  POST_RECIPE_SUCCESS,
+  POST_RECIPE_ERROR,
+
   SET_ERROR,
   SET_INGR_ARR,
   SET_INGR_ERR,
@@ -18,16 +28,7 @@ const {
   SET_STEPS_ERR,
   SHOW_STEPS_FIELDS,
   CLOSE_STEPS_FIELDS,
-  TOGGLE_STEPS_FIELDS,
-  SET_SEND_LOADING,
-  STOP_SEND_LOADING,
-  SET_SEND_ERR,
-  FETCH_RECIPES_LOADING,
-  FETCH_RECIPES_SUCCESS,
-  FETCH_RECIPES_ERROR,
-  FETCH_RECIPE_LOADING,
-  FETCH_RECIPE_SUCCESS,
-  FETCH_RECIPE_ERROR
+  TOGGLE_STEPS_FIELDS
 } = AppEvents;
 
 export const setError = () => {
@@ -100,24 +101,6 @@ export const toggleStepFields = () => {
   };
 };
 
-export const setSendingLoading = () => {
-  return {
-    type: SET_SEND_LOADING
-  };
-};
-
-export const stopSendingLoading = () => {
-  return {
-    type: STOP_SEND_LOADING
-  };
-};
-
-export const setSendingError = () => {
-  return {
-    type: SET_SEND_ERR
-  };
-};
-
 export const fetchRecipesLoading = () => {
   return {
     type: FETCH_RECIPES_LOADING
@@ -131,10 +114,26 @@ export const fetchRecipesSuccess = (payload: Array<recipeArrType>) => {
   };
 };
 
-export const fetchRecipesError = (payload: any) => {
+export const fetchRecipesError = () => {
   return {
-    type: FETCH_RECIPES_ERROR,
-    payload
+    type: FETCH_RECIPES_ERROR
+  };
+};
+
+export const fetchRecipes = () => {
+  return (dispatch: Dispatch<IAction>) => {
+    dispatch(fetchRecipesLoading());
+
+    axios
+      .get("/recipes")
+      .then(response => {
+        const recipes = response.data;
+        dispatch(fetchRecipesSuccess(recipes));
+      })
+      .catch(e => {
+        console.log("error:", e);
+        dispatch(fetchRecipesError());
+      });
   };
 };
 
@@ -151,27 +150,9 @@ export const fetchRecipeSuccess = (payload: recipeArrType) => {
   };
 };
 
-export const fetchRecipeError = (payload: any) => {
+export const fetchRecipeError = () => {
   return {
-    type: FETCH_RECIPE_ERROR,
-    payload
-  };
-};
-
-export const fetchRecipes = () => {
-  return (dispatch: Dispatch<IAction>) => {
-    dispatch(fetchRecipesLoading());
-
-    axios
-      .get("/recipes")
-      .then(response => {
-        const recipes = response.data;
-        dispatch(fetchRecipesSuccess(recipes));
-      })
-      .catch(e => {
-        console.log("error:", e);
-        dispatch(fetchRecipesError(e));
-      });
+    type: FETCH_RECIPE_ERROR
   };
 };
 
@@ -187,7 +168,67 @@ export const fetchRecipe = (url: string) => {
       })
       .catch(e => {
         console.log("error:", e);
-        dispatch(fetchRecipeError(e));
+        dispatch(fetchRecipeError());
       });
+  };
+};
+
+export const postRecipeLoading = () => {
+  return {
+    type: POST_RECIPE_LOADING
+  };
+};
+
+export const postRecipeSuccess = () => {
+  return {
+    type: POST_RECIPE_SUCCESS
+  };
+};
+
+export const postRecipeError = () => {
+  return {
+    type: POST_RECIPE_ERROR
+  };
+};
+
+export const postRecipe = (recipe: recipeArrType, recipePicture?: File) => {
+  return (dispatch: Dispatch<IAction>) => {
+    dispatch(postRecipeLoading());
+
+    if (!recipePicture) {
+      axios
+        .post("/recipe", recipe)
+        .then(response => {
+          dispatch(postRecipeSuccess());
+          return response;
+        })
+
+        .catch(e => {
+          console.log("error:", e);
+          dispatch(postRecipeError());
+        });
+    } else {
+      const config = {
+        headers: { "content-type": "multipart/form-data" }
+      };
+
+      axios
+        .post("/recipe", recipe)
+        .then(response => {
+          return axios.post(
+            `/recipes/${response.data._id}/upload`,
+            recipePicture,
+            config
+          );
+        })
+        .then(response => {
+          dispatch(postRecipeSuccess());
+          return response;
+        })
+        .catch(e => {
+          console.log("error:", e);
+          dispatch(postRecipeError());
+        });
+    }
   };
 };

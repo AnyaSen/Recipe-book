@@ -8,21 +8,24 @@ import RecipeForm from "../../components/RecipeForm/RecipeForm";
 import {
   setStepsErrorMessage,
   setIngredientsErrorMessage,
-  setSendingLoading,
-  setSendingError,
   setIngredientsArr,
   setStepsArr,
-  stopSendingLoading
+  postRecipe
 } from "../../redux/actions";
 import { useHistory } from "react-router";
+import LoadingPage from "../../components/shared/LoadingPage";
+import ErrorPage from "../../components/shared/ErrorPage";
 
 let FormPage = ({
+  isSendingLoading,
+  isSendingError,
+  postRecipe,
+  postRecipeWithImg,
+
   stepsArr,
   ingredientsArr,
   showStepsError,
-  showIngredientsError,
-  sendRecipe,
-  sendRecipeWithImage
+  showIngredientsError
 }) => {
   const history = useHistory();
 
@@ -47,7 +50,7 @@ let FormPage = ({
 
     {
       if (!file) {
-        sendRecipe(newRecipeObject);
+        postRecipe(newRecipeObject);
       } else {
         const picture = file[0];
 
@@ -55,7 +58,7 @@ let FormPage = ({
 
         fd.append("upload", picture, picture.name);
 
-        sendRecipeWithImage(newRecipeObject, fd);
+        postRecipeWithImg(newRecipeObject, fd);
       }
     }
 
@@ -64,6 +67,9 @@ let FormPage = ({
     dispatch(setStepsArr([]));
     history.push("/");
   };
+
+  if (isSendingLoading) return <LoadingPage />;
+  if (isSendingError) return <ErrorPage />;
 
   return <RecipeForm onSubmit={onSubmit} />;
 };
@@ -99,51 +105,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setIngredientsErrorMessage(""));
   },
 
-  sendRecipe: newRecipeObject => {
-    dispatch(setSendingLoading());
-
-    axios
-      .post("/recipe", newRecipeObject)
-      .then(response => {
-        dispatch(stopSendingLoading());
-        dispatch(reset("create-recipe-form"));
-        return response;
-      })
-
-      .catch(error => {
-        dispatch(setSendingError());
-        dispatch(stopSendingLoading());
-        console.log("error:", error);
-      });
+  postRecipe: recipe => {
+    dispatch(postRecipe(recipe));
   },
 
-  sendRecipeWithImage: (newRecipeObject, recipePicture) => {
-    dispatch(setSendingLoading());
-
-    const config = {
-      headers: { "content-type": "multipart/form-data" }
-    };
-
-    axios
-      .post("/recipe", newRecipeObject)
-      .then(response => {
-        return axios.post(
-          `/recipes/${response.data._id}/upload`,
-          recipePicture,
-          config
-        );
-      })
-
-      .then(response => {
-        dispatch(stopSendingLoading());
-        dispatch(reset("create-recipe-form"));
-        return response;
-      })
-      .catch(error => {
-        dispatch(setSendingError());
-        dispatch(stopSendingLoading());
-        console.log("error:", error);
-      });
+  postRecipeWithImg: (recipe, img) => {
+    dispatch(postRecipe(recipe, img));
   }
 });
 

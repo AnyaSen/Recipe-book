@@ -3,25 +3,29 @@ import { IAction } from "../actions";
 import { recipeArrType } from "../../types";
 
 export interface IState {
-  isLoading: boolean;
   recipes: Array<recipeArrType>;
-  loading: boolean;
+  isLoading: boolean;
   isError: boolean;
-  error: null;
+
   isRecipeLoading: boolean;
   isRecipeError: boolean;
   currentRecipe: object;
+
+  isSendingLoading: boolean;
+  isSendingError: boolean;
 }
 
 const initState: IState = {
   recipes: [],
-  loading: false,
+  isLoading: true,
   isError: false,
-  error: null,
+
   currentRecipe: {},
   isRecipeLoading: false,
   isRecipeError: false,
-  isLoading: true
+
+  isSendingLoading: false,
+  isSendingError: false
 };
 
 const rootReducer = (state: IState = initState, action: IAction) => {
@@ -43,7 +47,6 @@ const rootReducer = (state: IState = initState, action: IAction) => {
       return {
         ...state,
         isLoading: false,
-        error: action.payload,
         isError: true
       };
 
@@ -65,6 +68,25 @@ const rootReducer = (state: IState = initState, action: IAction) => {
         ...state,
         isRecipeLoading: false,
         isRecipeError: true
+      };
+
+    case AppEvents.POST_RECIPE_LOADING:
+      return {
+        ...state,
+        isSendingLoading: true
+      };
+
+    case AppEvents.POST_RECIPE_SUCCESS:
+      return {
+        ...state,
+        isSendingLoading: false
+      };
+
+    case AppEvents.POST_RECIPE_ERROR:
+      return {
+        ...state,
+        isSendingLoading: false,
+        isSendingError: true
       };
 
     default:
