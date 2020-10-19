@@ -4,8 +4,8 @@ import Styles from "./InputField.module.scss";
 
 interface Props {
   placeholder?: string;
-  input: object;
-  small: boolean;
+  input: React.Component | React.FC;
+  small?: boolean;
 }
 
 export default function InputField({

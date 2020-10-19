@@ -5,7 +5,7 @@ import Styles from "./AdditionalButton.module.scss";
 interface Props {
   variant?: string;
   type?: "button" | "submit";
-  onClick(): void;
+  onClick?: () => void;
 }
 
 export default function AdditionalButton({

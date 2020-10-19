@@ -1,7 +1,7 @@
 export interface ingredientsType {
   ingredient: string;
   quantity: string;
-  id: number;
+  id: string;
 }
 
 export interface stepsType {

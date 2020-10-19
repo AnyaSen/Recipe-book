@@ -4,7 +4,7 @@ import Styles from "./SecondaryButton.module.scss";
 
 interface Props {
   text: string | undefined;
-  pink?: string;
+  pink?: boolean;
   type?: "button" | "submit";
   onClick(): void;
 }

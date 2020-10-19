@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+
 import Dropzone from "react-dropzone";
 
 import Styles from "./RecipeForm.module.scss";
 
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, InjectedFormProps } from "redux-form";
+import { IAppState } from "../../redux/store";
+import { connect } from "react-redux";
+import { compose } from "redux";
+
 import { required, requiredNumber } from "../../services/validation";
+import {
+  createRendererType,
+  RecipeFormValuesType,
+  MapStatePropsType
+} from "./types";
 
 import Layout from "../Layout";
 import StaticPicture from "../shared/StaticPicture";
@@ -18,7 +27,11 @@ import LoadingPage from "../shared/LoadingPage";
 import ErrorPage from "../shared/ErrorPage";
 import ConfirmationCard from "../RecipeFormComponents/ConfirmationCard";
 
-const createRenderer = render => ({ input, meta, placeholder }) => (
+const createRenderer: createRendererType = render => ({
+  input,
+  meta,
+  placeholder
+}) => (
   <div className={meta.error && meta.submitFailed ? Styles.error : ""}>
     {render(input, placeholder)}
     {meta.error === "number" && meta.submitFailed && (
@@ -27,24 +40,24 @@ const createRenderer = render => ({ input, meta, placeholder }) => (
   </div>
 );
 
-const renderInput = createRenderer((input, placeholder) => (
-  <InputField input={input} placeholder={placeholder} />
-));
+const renderInput = createRenderer(
+  (input: React.Component | React.FC, placeholder: string) => (
+    <InputField input={input} placeholder={placeholder} />
+  )
+);
 
-const renderInputSmall = createRenderer((input, placeholder) => (
-  <InputField input={input} placeholder={placeholder} small />
-));
+const renderInputSmall = createRenderer(
+  (input: React.Component | React.FC, placeholder: string) => (
+    <InputField input={input} placeholder={placeholder} small />
+  )
+);
 
-const renderDropzoneField = InputField => {
-  const { input, name } = InputField;
-
+const renderDropzoneField = () => {
   const maxSize = 1000000;
 
   return (
     <div>
       <Dropzone
-        name={name}
-        onDrop={(filesToUpload, e) => input.onChange(filesToUpload)}
         accept="image/jpeg, image/jpg, image/png"
         minSize={0}
         maxSize={maxSize}
@@ -82,7 +95,13 @@ const renderDropzoneField = InputField => {
   );
 };
 
-let RecipeForm = ({
+interface ownProps {
+  component: React.FC;
+}
+
+let RecipeForm: React.FC<InjectedFormProps<RecipeFormValuesType> &
+  MapStatePropsType &
+  ownProps> = ({
   handleSubmit,
   submitting,
   isSendingLoading,
@@ -132,11 +151,11 @@ let RecipeForm = ({
             </div>
           </div>
 
-          <IngredientsBlock />
+          {/* <IngredientsBlock /> */}
         </div>
 
         <div className={Styles.RecipeInfo}>
-          <StepsBlock />
+          {/* <StepsBlock /> */}
 
           {showConfirmation ? (
             <ConfirmationCard>
@@ -148,7 +167,6 @@ let RecipeForm = ({
             <Button
               text="Continue"
               type="button"
-              pink
               onClick={() => setShowConfirmation(true)}
             />
           )}
@@ -158,13 +176,14 @@ let RecipeForm = ({
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: IAppState): MapStatePropsType => {
   const { isSendingLoading, isSendingError } = state.formValues;
   return { isSendingLoading, isSendingError };
 };
 
-RecipeForm = reduxForm({
-  form: "create-recipe-form"
-})(RecipeForm);
-
-export default connect(mapStateToProps)(RecipeForm);
+export default compose(
+  reduxForm({
+    form: "create-recipe-form"
+  }),
+  connect(mapStateToProps)
+)(RecipeForm);

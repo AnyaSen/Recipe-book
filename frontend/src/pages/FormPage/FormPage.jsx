@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { reduxForm, reset } from "redux-form";
 
-import RecipeForm from "../../components/RecipeForm/RecipeForm";
+import RecipeForm from "../../components/RecipeForm";
 import {
   setStepsErrorMessage,
   setIngredientsErrorMessage,
