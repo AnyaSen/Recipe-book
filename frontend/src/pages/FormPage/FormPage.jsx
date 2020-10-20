@@ -23,8 +23,6 @@ let FormPage = ({
   const history = useHistory();
 
   const onSubmit = (values, dispatch) => {
-    const { name, time, portionsNumber, file } = values;
-
     if (!ingredientsArr || ingredientsArr.length === 0) {
       showIngredientsError();
       return;
@@ -32,6 +30,7 @@ let FormPage = ({
       showStepsError();
       return;
     }
+    const { name, time, portionsNumber, file } = values;
 
     const newRecipeObject = {
       name,

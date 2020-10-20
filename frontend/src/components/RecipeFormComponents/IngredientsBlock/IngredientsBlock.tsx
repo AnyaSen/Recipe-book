@@ -1,8 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Dispatch } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Field, reduxForm, formValueSelector } from "redux-form";
+import {
+  Field,
+  reduxForm,
+  formValueSelector,
+  InjectedFormProps
+} from "redux-form";
 import { connect } from "react-redux";
+import { compose } from "redux";
+
+import {
+  setIngredientsArr,
+  setIngredientsErrorMessage,
+  showIngredientFields,
+  closeIngredientFields,
+  toggleIngredientFields,
+  IAction
+} from "../../../redux/actions";
+import { IAppState } from "../../../redux/store";
+import { createRendererType, RecipeFormValuesType } from "../../../types";
+import { ingredientsType } from "../../../types";
+import { MapStatePropsType, ownPropsType } from "./types";
 
 import Styles from "./IngredientsBlock.module.scss";
 
@@ -11,23 +30,21 @@ import SecondaryButton from "../../shared/Buttons/SecondaryButton";
 import AdditionalButton from "../../shared/Buttons/AdditionalButton";
 import InputField from "../../shared/InputField";
 import InputError from "../../shared/InputError";
-import {
-  setIngredientsArr,
-  setIngredientsErrorMessage,
-  showIngredientFields,
-  closeIngredientFields,
-  toggleIngredientFields
-} from "../../../redux/actions";
 
-const createRenderer = render => ({ input, placeholder }) => (
-  <div>{render(input, placeholder)}</div>
+const createRenderer: createRendererType = render => ({
+  input,
+  placeholder
+}) => <div>{render(input, placeholder)}</div>;
+
+const renderInput = createRenderer(
+  (input: React.Component | React.FC, placeholder: string) => (
+    <InputField input={input} placeholder={placeholder} />
+  )
 );
 
-const renderInput = createRenderer((input, placeholder) => (
-  <InputField input={input} placeholder={placeholder} />
-));
-
-let IngredientsBlock = ({
+let IngredientsBlock: React.FC<InjectedFormProps<RecipeFormValuesType> &
+  MapStatePropsType &
+  ownPropsType> = ({
   ingredientValue,
   quantityValue,
   clearFields,
@@ -69,7 +86,7 @@ let IngredientsBlock = ({
     return ingredientsArr;
   };
 
-  const deleteIngredient = id => {
+  const deleteIngredient = (id: string) => {
     const filteredIngredients = ingredientsArr.filter(
       ingredPair => ingredPair.id !== id
     );
@@ -89,14 +106,13 @@ let IngredientsBlock = ({
       {ingredientsError && <InputError text={ingredientsError} />}
 
       {ingredientsArr.length > 0 &&
-        ingredientsArr.map((ingred, index) => {
+        ingredientsArr.map(ingred => {
           const { ingredient, quantity, id } = ingred;
 
           return (
             <div className={Styles.ingridientPairContainer} key={id}>
               <IngredientPair quantity={quantity} ingredient={ingredient} />
               <AdditionalButton
-                text="Delete"
                 variant="close"
                 onClick={() => deleteIngredient(id)}
               />
@@ -129,7 +145,7 @@ let IngredientsBlock = ({
 
         {ingredientsArr.length > 0 && (
           <AdditionalButton
-            variant={showIngredientFields && "close"}
+            variant={showIngredientFields ? "close" : ""}
             type="button"
             onClick={() => toggleShowFields()}
           />
@@ -138,10 +154,6 @@ let IngredientsBlock = ({
     </div>
   );
 };
-
-IngredientsBlock = reduxForm({
-  form: "create-recipe-form"
-})(IngredientsBlock);
 
 const selector = formValueSelector("create-recipe-form");
 IngredientsBlock = connect(state => {
@@ -156,7 +168,7 @@ IngredientsBlock = connect(state => {
   };
 })(IngredientsBlock);
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: IAppState): MapStatePropsType => {
   const {
     ingredientsArr,
     ingredientsError,
@@ -165,12 +177,12 @@ const mapStateToProps = state => {
   return { ingredientsArr, ingredientsError, showIngredientFields };
 };
 
-const mapDispatchToProps = dispatch => ({
-  setIngredients: ingrArr => {
+const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
+  setIngredients: (ingrArr: Array<ingredientsType>) => {
     dispatch(setIngredientsArr(ingrArr));
   },
 
-  setError: errorMessage => {
+  setError: (errorMessage: string) => {
     dispatch(setIngredientsErrorMessage(errorMessage));
   },
 
@@ -191,4 +203,23 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(IngredientsBlock);
+export default compose(
+  reduxForm({
+    form: "create-recipe-form"
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
+)(IngredientsBlock);
+
+// const connected = compose(
+//   reduxForm({
+//     form: "create-recipe-form"
+//   }),
+//   connect(mapStateToProps, mapDispatchToProps)
+// )(IngredientsBlock);
+
+// export { connected as IngredientsBlock }
+
+// IngredientsBlock = reduxForm({
+//   form: "create-recipe-form"
+// })(IngredientsBlock);
+// export default connect(mapStateToProps, mapDispatchToProps)(IngredientsBlock);

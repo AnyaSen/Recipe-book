@@ -8,18 +8,14 @@ import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import { IAppState } from "../../redux/store";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { createRendererType, RecipeFormValuesType } from "../../types";
 
 import { required, requiredNumber } from "../../services/validation";
-import {
-  createRendererType,
-  RecipeFormValuesType,
-  MapStatePropsType
-} from "./types";
 
 import Layout from "../Layout";
 import StaticPicture from "../shared/StaticPicture";
 import Button from "../shared/Buttons/Button";
-import IngredientsBlock from "../RecipeFormComponents/IngredientsBlock/IngredientsBlock";
+import IngredientsBlock from "../RecipeFormComponents/IngredientsBlock";
 import StepsBlock from "../RecipeFormComponents/StepsBlock/StepsBlock";
 import InputField from "../shared/InputField";
 import AdditionalButton from "../shared/Buttons/AdditionalButton";
@@ -52,12 +48,13 @@ const renderInputSmall = createRenderer(
   )
 );
 
-const renderDropzoneField = () => {
+const renderDropzoneField = (field: any) => {
   const maxSize = 1000000;
 
   return (
     <div>
       <Dropzone
+        onDrop={(filesToUpload, e) => field.input.onChange(filesToUpload)}
         accept="image/jpeg, image/jpg, image/png"
         minSize={0}
         maxSize={maxSize}
@@ -95,13 +92,13 @@ const renderDropzoneField = () => {
   );
 };
 
-interface ownProps {
-  component: React.FC;
+export interface MapStatePropsType {
+  isSendingLoading: boolean;
+  isSendingError: boolean;
 }
 
 let RecipeForm: React.FC<InjectedFormProps<RecipeFormValuesType> &
-  MapStatePropsType &
-  ownProps> = ({
+  MapStatePropsType> = ({
   handleSubmit,
   submitting,
   isSendingLoading,
@@ -150,12 +147,16 @@ let RecipeForm: React.FC<InjectedFormProps<RecipeFormValuesType> &
               />
             </div>
           </div>
+          {/* 
+  // @ts-ignore */}
 
-          {/* <IngredientsBlock /> */}
+          <IngredientsBlock />
         </div>
 
         <div className={Styles.RecipeInfo}>
-          {/* <StepsBlock /> */}
+          {/* 
+  // @ts-ignore */}
+          <StepsBlock />
 
           {showConfirmation ? (
             <ConfirmationCard>

@@ -8,7 +8,7 @@ export interface IState {
   showIngredientFields: boolean;
 
   stepsArr: Array<stepsType>;
-  stepsError: boolean;
+  stepsError: string;
   showStepFields: boolean;
 
   isSendingLoading: boolean;
@@ -21,7 +21,7 @@ const initState: IState = {
   showIngredientFields: true,
 
   stepsArr: [],
-  stepsError: false,
+  stepsError: "",
   showStepFields: true,
 
   isSendingLoading: false,

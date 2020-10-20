@@ -6,7 +6,7 @@ export interface ingredientsType {
 
 export interface stepsType {
   step: string;
-  id: number;
+  id: string;
 }
 
 export interface recipeArrType {
@@ -17,4 +17,21 @@ export interface recipeArrType {
   portionsNumber: number;
   steps: Array<stepsType>;
   img?: string;
+}
+
+type createRendererParamsType = {
+  meta: {
+    error: string;
+    submitFailed: boolean;
+  };
+  input: string | React.Component | React.FC;
+  placeholder: string;
+};
+
+export type createRendererType = (
+  render: any
+) => (params: createRendererParamsType) => React.ReactNode;
+
+export interface RecipeFormValuesType {
+  values: recipeArrType;
 }

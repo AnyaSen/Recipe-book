@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Field, reduxForm, formValueSelector } from "redux-form";
 import { connect } from "react-redux";
+import { compose } from "redux";
 
 import Styles from "./StepsBlock.module.scss";
 
@@ -11,26 +12,32 @@ import SecondaryButton from "../../shared/Buttons/SecondaryButton";
 import AdditionalButton from "../../shared/Buttons/AdditionalButton";
 import TextArea from "../../shared/TextArea";
 import InputError from "../../shared/InputError";
+
 import {
   setStepsArr,
   setStepsErrorMessage,
   showStepFields,
   closeStepFields,
-  toggleStepFields
+  toggleStepFields,
+  IAction
 } from "../../../redux/actions";
+import { createRendererType, stepsType } from "../../../types";
+import { ownPropsType, MapStatePropsType } from "./types";
+import { Dispatch } from "redux";
+import { IAppState } from "../../../redux/store";
 
-const createRenderer = render => ({ input, meta, placeholder }) => (
-  <div>
-    {render(input, placeholder)}
-    {meta.error && meta.submitFailed && <span>{meta.error}</span>}
-  </div>
+const createRenderer: createRendererType = render => ({
+  input,
+  placeholder
+}) => <div>{render(input, placeholder)}</div>;
+
+const renderTextArea = createRenderer(
+  (input: React.Component | React.FC, placeholder: string) => (
+    <TextArea input={input} placeholder={placeholder} />
+  )
 );
 
-const renderTextArea = createRenderer((input, placeholder) => (
-  <TextArea input={input} placeholder={placeholder} />
-));
-
-let StepsBlock = ({
+let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
   stepValue,
   clearFields,
   stepsArr,
@@ -65,7 +72,7 @@ let StepsBlock = ({
     return stepsArr;
   };
 
-  const deleteStep = id => {
+  const deleteStep = (id: string) => {
     const filteredSteps = stepsArr.filter(step => step.id !== id);
 
     setSteps(filteredSteps);
@@ -89,7 +96,6 @@ let StepsBlock = ({
             <div className={Styles.RecipeStep} key={id}>
               <RecipeStep text={step} number={index + 1} />{" "}
               <AdditionalButton
-                text="Delete"
                 variant="close"
                 onClick={() => deleteStep(id)}
               />
@@ -132,10 +138,6 @@ let StepsBlock = ({
   );
 };
 
-StepsBlock = reduxForm({
-  form: "create-recipe-form"
-})(StepsBlock);
-
 const selector = formValueSelector("create-recipe-form");
 StepsBlock = connect(state => {
   const stepValue = selector(state, "step");
@@ -145,17 +147,17 @@ StepsBlock = connect(state => {
   };
 })(StepsBlock);
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: IAppState): MapStatePropsType => {
   const { stepsArr, stepsError, showStepFields } = state.formValues;
   return { stepsArr, stepsError, showStepFields };
 };
 
-const mapDispatchToProps = dispatch => ({
-  setSteps: stepsArr => {
+const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
+  setSteps: (stepsArr: Array<stepsType>) => {
     dispatch(setStepsArr(stepsArr));
   },
 
-  setError: errorMessage => {
+  setError: (errorMessage: string) => {
     dispatch(setStepsErrorMessage(errorMessage));
   },
 
@@ -176,4 +178,9 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StepsBlock);
+export default compose(
+  reduxForm({
+    form: "create-recipe-form"
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
+)(StepsBlock);
