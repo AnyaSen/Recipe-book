@@ -19,7 +19,7 @@ import {
   IAction
 } from "../../../redux/actions";
 import { IAppState } from "../../../redux/store";
-import { createRendererType, RecipeFormValuesType } from "../../../types";
+import { createRendererType } from "../../../types";
 import { ingredientsType } from "../../../types";
 import { MapStatePropsType, ownPropsType } from "./types";
 
@@ -42,7 +42,7 @@ const renderInput = createRenderer(
   )
 );
 
-let IngredientsBlock: React.FC<InjectedFormProps<RecipeFormValuesType> &
+let IngredientsBlock: React.FC<InjectedFormProps &
   MapStatePropsType &
   ownPropsType> = ({
   ingredientValue,
@@ -86,7 +86,7 @@ let IngredientsBlock: React.FC<InjectedFormProps<RecipeFormValuesType> &
     return ingredientsArr;
   };
 
-  const deleteIngredient = (id: string) => {
+  const deleteIngredient = (id: string | undefined) => {
     const filteredIngredients = ingredientsArr.filter(
       ingredPair => ingredPair.id !== id
     );

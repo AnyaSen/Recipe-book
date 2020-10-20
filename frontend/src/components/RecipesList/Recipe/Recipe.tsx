@@ -6,7 +6,7 @@ import StaticPicture from "../../shared/StaticPicture";
 
 interface Props {
   name: string;
-  id: number;
+  id: string | undefined;
   imgSrc?: string;
   time?: string;
 }

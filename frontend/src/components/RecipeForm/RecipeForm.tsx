@@ -8,7 +8,7 @@ import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import { IAppState } from "../../redux/store";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { createRendererType, RecipeFormValuesType } from "../../types";
+import { createRendererType } from "../../types";
 
 import { required, requiredNumber } from "../../services/validation";
 
@@ -97,8 +97,7 @@ export interface MapStatePropsType {
   isSendingError: boolean;
 }
 
-let RecipeForm: React.FC<InjectedFormProps<RecipeFormValuesType> &
-  MapStatePropsType> = ({
+let RecipeForm: React.FC<InjectedFormProps & MapStatePropsType> = ({
   handleSubmit,
   submitting,
   isSendingLoading,

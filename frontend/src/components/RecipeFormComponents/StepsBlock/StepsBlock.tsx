@@ -72,7 +72,7 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
     return stepsArr;
   };
 
-  const deleteStep = (id: string) => {
+  const deleteStep = (id: string | undefined) => {
     const filteredSteps = stepsArr.filter(step => step.id !== id);
 
     setSteps(filteredSteps);
