@@ -3,11 +3,9 @@
 
 .StaticPicture {
   @include flex-column;
+  @include picture;
   justify-content: center;
   background-color: $color-grey;
-  height: 14rem;
-  width: 14rem;
-  cursor: pointer;
   margin-bottom: $space-0;
 
   p {
@@ -18,6 +16,7 @@
 .StaticPictureHorizontal {
   @extend .StaticPicture;
 
+  cursor: default;
   height: 17rem;
   width: 22rem;
 }

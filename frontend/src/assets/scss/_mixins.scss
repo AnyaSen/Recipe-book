@@ -1,4 +1,5 @@
 @import "./variables";
+@import "./breakpoints";
 
 @mixin flex-column {
   display: flex;
@@ -9,4 +10,25 @@
 @mixin flex-row {
   display: flex;
   align-items: center;
+}
+
+@mixin picture {
+  height: 15rem;
+  width: 18rem;
+  cursor: pointer;
+
+  @include md {
+    height: 20rem;
+    width: 30rem;
+  }
+
+  @include sm {
+    height: 18rem;
+    width: 22rem;
+  }
+
+  @include xs {
+    height: 10rem;
+    width: 15rem;
+  }
 }

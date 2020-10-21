@@ -1,4 +1,5 @@
 @import "../../../assets/scss/variables";
+@import "../../../assets/scss/mixins";
 
 .Recipe {
   margin: $space-2 $space-4;
@@ -7,8 +8,8 @@
   color: inherit;
 
   img {
-    height: 14rem;
-    width: 14rem;
+    @include picture;
+
     object-fit: cover;
     cursor: pointer;
   }
