@@ -8,7 +8,7 @@
   color: inherit;
 
   img {
-    @include picture;
+    @include picture-home-page;
 
     object-fit: cover;
     cursor: pointer;

@@ -1,23 +1,29 @@
 @import "../../assets/scss/mixins";
 
 .RecipeHeader {
-  @include flex-row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: $space-0 $space-4;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  // margin: $space-0 $space-3;
   margin-bottom: $space-4;
+  margin-top: $space-0;
+
+  @include md {
+    @include flex-column;
+    margin: $space-3 0;
+  }
 
   .nameAndPicture {
-    margin-right: $space-4;
-    margin-bottom: $space-3;
+    justify-self: center;
+    // margin-right: $space-4;
+    // margin-bottom: $space-3;
+    margin: $space-3;
 
     h1 {
       margin-bottom: $space-2;
     }
 
     img {
-      height: 17rem;
-      width: 22rem;
+      @include picture-recipe-page;
       object-fit: cover;
     }
 
@@ -25,9 +31,16 @@
       @include flex-row;
       flex-wrap: wrap;
     }
+
+    @include md {
+      margin: $space-1;
+      margin-bottom: $space-3;
+    }
   }
 
   .ingridients {
+    justify-self: center;
+    align-self: center;
     @include flex-column;
     margin: $space-1;
     max-width: 40rem;
@@ -37,9 +50,16 @@
     }
 
     .ingridientPairs {
-      @include flex-row;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+
+      @include lg {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @include md {
+      margin-bottom: $space-3;
     }
   }
 }
