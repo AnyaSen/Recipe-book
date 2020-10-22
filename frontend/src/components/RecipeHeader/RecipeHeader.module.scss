@@ -3,7 +3,6 @@
 .RecipeHeader {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  // margin: $space-0 $space-3;
   margin-bottom: $space-4;
   margin-top: $space-0;
 
@@ -14,8 +13,6 @@
 
   .nameAndPicture {
     justify-self: center;
-    // margin-right: $space-4;
-    // margin-bottom: $space-3;
     margin: $space-3;
 
     h1 {

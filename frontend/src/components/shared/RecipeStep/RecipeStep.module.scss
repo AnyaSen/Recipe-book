@@ -1,4 +1,5 @@
 @import "../../../assets/scss/variables";
+@import "../../../assets/scss/breakpoints";
 
 .RecipeStep {
   padding-left: $space-4;
@@ -12,5 +13,18 @@
     padding-left: $space-2;
     margin-left: $space-2;
     border-left: 1px solid $color-grey;
+
+    @include sm {
+      padding-left: $space-1;
+      margin-left: $space-1;
+    }
+  }
+
+  @include md {
+    padding-left: $space-2;
+  }
+
+  @include sm {
+    padding-left: 0;
   }
 }
