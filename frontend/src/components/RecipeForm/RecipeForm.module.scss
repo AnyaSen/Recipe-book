@@ -1,18 +1,23 @@
 @import "../../assets/scss/mixins";
 
 .FormHeader {
-  @include flex-row;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   margin: $space-0 $space-4;
   margin-bottom: $space-4;
+
+  @include lg {
+    @include flex-column;
+  }
 
   .generalIfo {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    margin-right: $space-4;
-    margin-bottom: $space-3;
+    justify-self: center;
+
+    @include lg {
+      margin-bottom: $space-4;
+    }
 
     .dropzone {
       @include flex-column;

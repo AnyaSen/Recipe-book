@@ -103,7 +103,6 @@ let IngredientsBlock: React.FC<InjectedFormProps &
   return (
     <div className={Styles.IngredientsBlock}>
       <h2>INGREDIENTS:</h2>
-      {ingredientsError && <InputError text={ingredientsError} />}
 
       {ingredientsArr.length > 0 &&
         ingredientsArr.map(ingred => {
@@ -119,37 +118,42 @@ let IngredientsBlock: React.FC<InjectedFormProps &
             </div>
           );
         })}
+      <div>
+        {ingredientsError && <InputError text={ingredientsError} />}
+        <div className={Styles.ingridientInputsContainer}>
+          {showIngredientFields && (
+            <div className={Styles.ingridientInputs}>
+              <Field
+                name="quantity"
+                component={renderInput}
+                placeholder="quantity"
+              />
 
-      <div className={Styles.ingridientInputsContainer}>
-        {showIngredientFields && (
-          <div className={Styles.ingridientInputs}>
-            <Field
-              name="quantity"
-              component={renderInput}
-              placeholder="quantity"
-            />
+              <Field
+                name="ingredient"
+                component={renderInput}
+                placeholder="ingredient"
+              />
+              <SecondaryButton
+                type="button"
+                text="Add"
+                onClick={addIngredients}
+                pink
+              />
+            </div>
+          )}
 
-            <Field
-              name="ingredient"
-              component={renderInput}
-              placeholder="ingredient"
-            />
-            <SecondaryButton
+          {ingredientsArr.length > 0 && (
+            <AdditionalButton
+              variant={showIngredientFields ? "close" : ""}
               type="button"
-              text="Add"
-              onClick={addIngredients}
-              pink
+              onClick={() => {
+                toggleShowFields();
+                hideError();
+              }}
             />
-          </div>
-        )}
-
-        {ingredientsArr.length > 0 && (
-          <AdditionalButton
-            variant={showIngredientFields ? "close" : ""}
-            type="button"
-            onClick={() => toggleShowFields()}
-          />
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
@@ -209,17 +213,3 @@ export default compose(
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(IngredientsBlock);
-
-// const connected = compose(
-//   reduxForm({
-//     form: "create-recipe-form"
-//   }),
-//   connect(mapStateToProps, mapDispatchToProps)
-// )(IngredientsBlock);
-
-// export { connected as IngredientsBlock }
-
-// IngredientsBlock = reduxForm({
-//   form: "create-recipe-form"
-// })(IngredientsBlock);
-// export default connect(mapStateToProps, mapDispatchToProps)(IngredientsBlock);

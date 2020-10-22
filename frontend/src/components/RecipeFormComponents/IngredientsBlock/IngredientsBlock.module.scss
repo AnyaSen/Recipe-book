@@ -2,8 +2,9 @@
 
 .IngredientsBlock {
   @include flex-column;
-  margin: $space-1;
-  max-width: 40rem;
+  justify-self: center;
+  align-self: center;
+  margin: $space-2;
 
   h2 {
     margin-bottom: $space-2;
@@ -14,14 +15,18 @@
     flex-wrap: wrap;
     justify-content: center;
   }
+}
 
-  .ingridientInputsContainer {
+.ingridientInputsContainer {
+  @include flex-row;
+  margin-top: $space-0;
+
+  .ingridientInputs {
     @include flex-row;
+    justify-content: center;
 
-    .ingridientInputs {
-      @include flex-row;
-      flex-wrap: wrap;
-      justify-content: center;
+    @include sm {
+      @include flex-column;
     }
   }
 }
