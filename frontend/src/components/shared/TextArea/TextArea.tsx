@@ -11,8 +11,6 @@ export default function TextArea({ input, placeholder }: Props): ReactElement {
   return (
     <textarea
       placeholder={placeholder}
-      rows="5"
-      cols="100"
       className={Styles.TextArea}
       {...input}
     />

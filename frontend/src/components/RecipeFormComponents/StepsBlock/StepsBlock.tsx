@@ -129,7 +129,10 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
             <AdditionalButton
               variant={showStepFields && "close"}
               type="button"
-              onClick={() => toggleShowFields()}
+              onClick={() => {
+                toggleShowFields();
+                hideError();
+              }}
             />
           )}
         </div>

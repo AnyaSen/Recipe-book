@@ -2,9 +2,33 @@
 
 .RecipeInfo {
   padding: $space-0;
+  margin-bottom: $space-3;
+
+  @include md {
+    h2 {
+      text-align: center;
+      margin-bottom: $space-2;
+    }
+  }
+
+  @include sm {
+    padding: 0;
+  }
 
   .preparation {
     padding-left: $space-4;
+
+    @include lg {
+      padding-left: $space-3;
+    }
+
+    @include md {
+      padding-left: $space-0;
+    }
+
+    @include sm {
+      padding-left: 0;
+    }
 
     .RecipeStep {
       @include flex-row;
@@ -17,11 +41,26 @@
     .stepInputsContainer {
       @include flex-row;
 
+      @include md {
+        justify-content: center;
+      }
+      @include xs {
+        @include flex-column;
+      }
+
       button {
         align-self: flex-end;
+
+        @include xs {
+          align-self: center;
+        }
       }
       .stepInputs {
         @include flex-row;
+
+        @include xs {
+          @include flex-column;
+        }
       }
     }
   }
