@@ -11,7 +11,7 @@ import {
 } from "../../redux/actions";
 import { useHistory } from "react-router";
 import { IAppState } from "../../redux/store";
-import { recipeArrType, ingredientsType, stepsType } from "../../types";
+import { recipeFormDataType, ingredientsType, stepsType } from "../../types";
 import { ThunkDispatch } from "redux-thunk";
 import { compose, Dispatch } from "redux";
 
@@ -21,11 +21,14 @@ interface MapStatePropsType {
 
   showStepsError: () => void;
   showIngredientsError: () => void;
-  postRecipe: (recipe: recipeArrType) => void;
-  postRecipeWithImg: (recipe: recipeArrType, img: any) => void;
+  postRecipe: (recipe: recipeFormDataType) => void;
+  postRecipeWithImg: (recipe: recipeFormDataType, img: any) => void;
 }
 
-let FormPage: React.FC<InjectedFormProps<recipeArrType, recipeArrType> &
+let FormPage: React.FC<InjectedFormProps<
+  recipeFormDataType,
+  recipeFormDataType
+> &
   MapStatePropsType> = ({
   postRecipe,
   postRecipeWithImg,
@@ -37,7 +40,7 @@ let FormPage: React.FC<InjectedFormProps<recipeArrType, recipeArrType> &
 }) => {
   const history = useHistory();
 
-  const onSubmit = (values: recipeArrType, dispatch: Dispatch) => {
+  const onSubmit = (values: recipeFormDataType, dispatch: Dispatch) => {
     if (!ingredientsArr || ingredientsArr.length === 0) {
       showIngredientsError();
       return;
@@ -45,7 +48,7 @@ let FormPage: React.FC<InjectedFormProps<recipeArrType, recipeArrType> &
       showStepsError();
       return;
     }
-    const { name, time, portionsNumber, img } = values;
+    const { name, time, portionsNumber, file } = values;
 
     const newRecipeObject = {
       name,
@@ -57,10 +60,10 @@ let FormPage: React.FC<InjectedFormProps<recipeArrType, recipeArrType> &
       steps: stepsArr
     };
 
-    if (!img) {
+    if (!file) {
       postRecipe(newRecipeObject);
     } else {
-      const picture = img[0];
+      const picture = file[0];
 
       const fd = new FormData();
 
@@ -102,11 +105,11 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     );
   },
 
-  postRecipe: (recipe: recipeArrType) => {
+  postRecipe: (recipe: recipeFormDataType) => {
     dispatch(postRecipe(recipe));
   },
 
-  postRecipeWithImg: (recipe: recipeArrType, img: any) => {
+  postRecipeWithImg: (recipe: recipeFormDataType, img: any) => {
     dispatch(postRecipe(recipe, img));
   }
 });

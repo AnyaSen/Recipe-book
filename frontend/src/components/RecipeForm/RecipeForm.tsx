@@ -1,6 +1,4 @@
-import React, { useState, MutableRefObject } from "react";
-
-import Dropzone from "react-dropzone";
+import React, { useState } from "react";
 
 import Styles from "./RecipeForm.module.scss";
 
@@ -8,7 +6,6 @@ import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import { IAppState } from "../../redux/store";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { createRendererType } from "../../types";
 
 import { required, requiredNumber } from "../../services/validation";
 import { scrollTop } from "../../services/scrollToTop";
@@ -18,80 +15,11 @@ import StaticPicture from "../shared/StaticPicture";
 import Button from "../shared/Buttons/Button";
 import IngredientsBlock from "../RecipeFormComponents/IngredientsBlock";
 import StepsBlock from "../RecipeFormComponents/StepsBlock/StepsBlock";
-import InputField from "../shared/InputField";
-import AdditionalButton from "../shared/Buttons/AdditionalButton";
 import LoadingPage from "../shared/LoadingPage";
 import ErrorPage from "../shared/ErrorPage";
 import ConfirmationCard from "../RecipeFormComponents/ConfirmationCard";
-
-const createRenderer: createRendererType = render => ({
-  input,
-  meta,
-  placeholder
-}) => (
-  <div className={meta.error && meta.submitFailed ? Styles.error : ""}>
-    {render(input, placeholder)}
-    {meta.error === "number" && meta.submitFailed && (
-      <p>Please, enter a number</p>
-    )}
-  </div>
-);
-
-const renderInput = createRenderer(
-  (input: React.Component | React.FC, placeholder: string) => (
-    <InputField input={input} placeholder={placeholder} />
-  )
-);
-
-const renderInputSmall = createRenderer(
-  (input: React.Component | React.FC, placeholder: string) => (
-    <InputField input={input} placeholder={placeholder} small />
-  )
-);
-
-const renderDropzoneField = (field: any) => {
-  const maxSize = 1000000;
-
-  return (
-    <div>
-      <Dropzone
-        onDrop={(filesToUpload, e) => field.input.onChange(filesToUpload)}
-        accept="image/jpeg, image/jpg, image/png"
-        minSize={0}
-        maxSize={maxSize}
-      >
-        {({
-          getRootProps,
-          getInputProps,
-          isDragActive,
-          isDragReject,
-          acceptedFiles,
-          fileRejections
-        }) => {
-          const isFileTooLarge = fileRejections.length > 0;
-
-          const isFileAccepted = acceptedFiles.length > 0;
-
-          return (
-            <div {...getRootProps()} className={Styles.dropzone}>
-              <input {...getInputProps()} />
-              <AdditionalButton type="button" />
-
-              {isDragActive && !isDragReject && <h3>Drop a file</h3>}
-              {isDragReject && (
-                <h3>
-                  The file must be <span>jpeg, jpg or png</span>
-                </h3>
-              )}
-              {isFileAccepted && <h3>{acceptedFiles[0].name}</h3>}
-              {isFileTooLarge && <p>The file is too large</p>}
-            </div>
-          );
-        }}
-      </Dropzone>
-    </div>
-  );
-};
+import { renderDropzoneField } from "./renders/dropzone/renderDropzone";
+import { renderInput, renderInputSmall } from "./renders/input/renderInput";
 
 export interface MapStatePropsType {
   isSendingLoading: boolean;

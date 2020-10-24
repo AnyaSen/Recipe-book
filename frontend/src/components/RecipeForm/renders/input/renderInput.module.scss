@@ -1,0 +1,11 @@
+@import "../../../../assets/scss/mixins";
+
+.error {
+  input {
+    border: 2px solid $color-pink;
+  }
+
+  p {
+    color: $color-pink;
+  }
+}

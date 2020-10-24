@@ -1,0 +1,13 @@
+@import "../../../../assets/scss/mixins";
+
+.dropzone {
+  @include flex-column;
+
+  p {
+    color: $color-pink;
+  }
+
+  h3 span {
+    color: $color-pink;
+  }
+}

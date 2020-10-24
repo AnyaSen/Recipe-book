@@ -23,18 +23,6 @@
       margin-bottom: $space-4;
     }
 
-    .dropzone {
-      @include flex-column;
-
-      p {
-        color: $color-pink;
-      }
-
-      h3 span {
-        color: $color-pink;
-      }
-    }
-
     .timeAndPortions {
       display: flex;
       flex-direction: row;
@@ -62,15 +50,5 @@
 
   button {
     align-self: flex-end;
-  }
-}
-
-.error {
-  input {
-    border: 2px solid $color-pink;
-  }
-
-  p {
-    color: $color-pink;
   }
 }
