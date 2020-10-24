@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, MutableRefObject } from "react";
 
 import Dropzone from "react-dropzone";
 
@@ -11,6 +11,7 @@ import { compose } from "redux";
 import { createRendererType } from "../../types";
 
 import { required, requiredNumber } from "../../services/validation";
+import { scrollTop } from "../../services/scrollToTop";
 
 import Layout from "../Layout";
 import StaticPicture from "../shared/StaticPicture";
@@ -105,6 +106,14 @@ let RecipeForm: React.FC<InjectedFormProps & MapStatePropsType> = ({
 }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
+  const confCardRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    if (showConfirmation && confCardRef.current) {
+      confCardRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [showConfirmation]);
+
   if (isSendingLoading) return <LoadingPage />;
   if (isSendingError) return <ErrorPage />;
 
@@ -158,8 +167,13 @@ let RecipeForm: React.FC<InjectedFormProps & MapStatePropsType> = ({
           <StepsBlock />
 
           {showConfirmation ? (
-            <ConfirmationCard>
-              <Button text="Submit" type="submit" disabled={submitting} />
+            <ConfirmationCard confRef={confCardRef}>
+              <Button
+                text="Submit"
+                type="submit"
+                disabled={submitting}
+                onClick={scrollTop}
+              />
 
               <Button text="Close" onClick={() => setShowConfirmation(false)} />
             </ConfirmationCard>
