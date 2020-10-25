@@ -53,6 +53,10 @@
       @include lg {
         grid-template-columns: 1fr 1fr;
       }
+
+      @include xs {
+        grid-template-columns: 1fr;
+      }
     }
 
     @include md {
