@@ -6,11 +6,13 @@ interface Props {
   horizontal?: boolean;
   addPicture?: boolean;
   children?: ReactNode;
+  text: string;
 }
 export default function StaticPicture({
   horizontal,
   addPicture,
-  children
+  children,
+  text
 }: Props): ReactElement {
   if (addPicture) {
     return <div className={Styles.AddPicture}>{children}</div>;
@@ -22,7 +24,7 @@ export default function StaticPicture({
         horizontal ? Styles.StaticPictureHorizontal : Styles.StaticPicture
       }
     >
-      <p>No picture</p>
+      <p>{text}</p>
     </div>
   );
 }

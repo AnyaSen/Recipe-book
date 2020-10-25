@@ -1,8 +1,10 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
+import { Link } from "react-router-dom";
 
 import Styles from "./Recipe.module.scss";
-import { Link } from "react-router-dom";
-import StaticPicture from "../../shared/StaticPicture";
+
+import loadingImgSvg from "../../../assets/img/loadingImg.svg";
+import noPictureSvg from "../../../assets/img/noPicture.svg";
 
 interface Props {
   name: string;
@@ -16,9 +18,31 @@ export default function Recipe({
   imgSrc,
   id
 }: Props): ReactElement {
+  const [imgStatus, setImgStatus] = useState("loading");
+
+  const handleOnLoad = () => {
+    setImgStatus("loaded");
+  };
+
+  const handleOnError = () => {
+    setImgStatus("failed loading");
+  };
+
   return (
     <Link to={`/recipe/${id}`} className={Styles.Recipe}>
-      {imgSrc ? <img src={imgSrc} alt={name} /> : <StaticPicture />}
+      <img
+        src={
+          imgSrc && imgStatus === "loading"
+            ? loadingImgSvg
+            : imgSrc && imgStatus === "loaded"
+            ? imgSrc
+            : noPictureSvg
+        }
+        alt={name}
+        onLoad={handleOnLoad}
+        onError={handleOnError}
+      />
+
       <h2>{name}</h2>
       <p>{time}</p>
     </Link>

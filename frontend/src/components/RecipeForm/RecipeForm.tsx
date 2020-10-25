@@ -63,7 +63,7 @@ let RecipeForm: React.FC<InjectedFormProps & MapStatePropsType> = ({
               validate={required}
               placeholder="Name"
             />
-            <StaticPicture addPicture>
+            <StaticPicture addPicture text="No picture">
               <Field name="file" component={renderDropzoneField} />
             </StaticPicture>
 

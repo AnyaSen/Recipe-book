@@ -27,7 +27,7 @@ function RecipeHeader({ currentRecipe, id }: Props): ReactElement {
         {img ? (
           <img src={`/recipes/${id}/img`} alt={name} />
         ) : (
-          <StaticPicture horizontal />
+          <StaticPicture horizontal text="No picture" />
         )}
 
         <div className="labels">

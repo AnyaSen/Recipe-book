@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
 
 import { connect } from "react-redux";
 import { IAppState } from "../../redux/store";
@@ -14,11 +14,6 @@ interface Props {
 }
 
 function RecipesList({ recipes }: Props): ReactElement {
-  useEffect(() => {
-    const lastRecipe = recipes[recipes.length - 1];
-    console.log(lastRecipe.img);
-  }, []);
-
   if (recipes.length === 0)
     return (
       <div className={Styles.noRecipes}>
