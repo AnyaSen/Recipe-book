@@ -1,6 +1,13 @@
 import React, { useEffect, Dispatch } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import Styles from "./IngredientsBlock.module.scss";
+
+import IngredientPair from "../../shared/IngredientPair";
+import SecondaryButton from "../../shared/Buttons/SecondaryButton";
+import AdditionalButton from "../../shared/Buttons/AdditionalButton";
+import InputError from "../../shared/InputError";
+
 import {
   Field,
   reduxForm,
@@ -9,7 +16,6 @@ import {
 } from "redux-form";
 import { connect } from "react-redux";
 import { compose } from "redux";
-
 import {
   setIngredientsArr,
   setIngredientsErrorMessage,
@@ -19,38 +25,20 @@ import {
   IAction
 } from "../../../redux/actions";
 import { IAppState } from "../../../redux/store";
-import { createRendererType } from "../../../types";
 import { ingredientsType } from "../../../types";
 import { MapStatePropsType, ownPropsType } from "./types";
-
-import Styles from "./IngredientsBlock.module.scss";
-
-import IngredientPair from "../../shared/IngredientPair";
-import SecondaryButton from "../../shared/Buttons/SecondaryButton";
-import AdditionalButton from "../../shared/Buttons/AdditionalButton";
-import InputField from "../../shared/InputField";
-import InputError from "../../shared/InputError";
-
-const createRenderer: createRendererType = render => ({
-  input,
-  placeholder
-}) => <div>{render(input, placeholder)}</div>;
-
-const renderInput = createRenderer(
-  (input: React.Component | React.FC, placeholder: string) => (
-    <InputField input={input} placeholder={placeholder} />
-  )
-);
+import { renderInput } from "../renderBlockInput/renderBlockInput";
 
 let IngredientsBlock: React.FC<InjectedFormProps &
   MapStatePropsType &
   ownPropsType> = ({
-  ingredientValue,
-  quantityValue,
-  clearFields,
   ingredientsArr,
   ingredientsError,
   showIngredientFields,
+
+  ingredientValue,
+  quantityValue,
+  clearFields,
   setIngredients,
   setError,
   hideError,
@@ -94,17 +82,24 @@ let IngredientsBlock: React.FC<InjectedFormProps &
     setIngredients(filteredIngredients);
   };
 
+  const handleToggleClick = () => {
+    toggleShowFields();
+    hideError();
+  };
+
+  const ingArrLength = ingredientsArr.length;
+
   useEffect(() => {
-    if (ingredientsArr.length === 0) {
+    if (ingArrLength === 0) {
       showFields();
     }
-  }, [ingredientsArr.length]);
+  }, [ingArrLength]);
 
   return (
     <div className={Styles.IngredientsBlock}>
       <h2>INGREDIENTS:</h2>
 
-      {ingredientsArr.length > 0 &&
+      {ingArrLength > 0 &&
         ingredientsArr.map(ingred => {
           const { ingredient, quantity, id } = ingred;
 
@@ -143,14 +138,11 @@ let IngredientsBlock: React.FC<InjectedFormProps &
             </div>
           )}
 
-          {ingredientsArr.length > 0 && (
+          {ingArrLength > 0 && (
             <AdditionalButton
               variant={showIngredientFields ? "close" : ""}
               type="button"
-              onClick={() => {
-                toggleShowFields();
-                hideError();
-              }}
+              onClick={handleToggleClick}
             />
           )}
         </div>

@@ -34,7 +34,7 @@ function RecipePage({
 
   useEffect(() => {
     getAndSetRecipe(`/recipes/${id}`);
-  }, []);
+  }, [id]);
 
   if (isRecipeLoading) return <LoadingPage />;
   if (isRecipeError) return <ErrorPage />;

@@ -14,11 +14,12 @@ export interface ownPropsType {
     persistentSubmitErrors: boolean,
     fieldOne: String
   ) => void;
+  setSteps: (stepsArr: Array<stepsType>) => void;
   setError: (errorMessage: string) => void;
   hideError: () => void;
   hideFields: () => void;
   showFields: () => void;
   toggleShowFields: () => void;
-  setSteps: (stepsArr: Array<stepsType>) => void;
-  showStepFields: () => void;
+
+  // showStepFields: () => void;
 }

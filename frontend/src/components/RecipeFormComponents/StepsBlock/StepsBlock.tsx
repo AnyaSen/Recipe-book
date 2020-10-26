@@ -10,7 +10,6 @@ import Styles from "./StepsBlock.module.scss";
 import RecipeStep from "../../shared/RecipeStep";
 import SecondaryButton from "../../shared/Buttons/SecondaryButton";
 import AdditionalButton from "../../shared/Buttons/AdditionalButton";
-import TextArea from "../../shared/TextArea";
 import InputError from "../../shared/InputError";
 
 import {
@@ -21,28 +20,19 @@ import {
   toggleStepFields,
   IAction
 } from "../../../redux/actions";
-import { createRendererType, stepsType } from "../../../types";
+import { stepsType } from "../../../types";
 import { ownPropsType, MapStatePropsType } from "./types";
 import { Dispatch } from "redux";
 import { IAppState } from "../../../redux/store";
-
-const createRenderer: createRendererType = render => ({
-  input,
-  placeholder
-}) => <div>{render(input, placeholder)}</div>;
-
-const renderTextArea = createRenderer(
-  (input: React.Component | React.FC, placeholder: string) => (
-    <TextArea input={input} placeholder={placeholder} />
-  )
-);
+import { renderTextArea } from "../renderBlockInput/renderBlockInput";
 
 let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
-  stepValue,
-  clearFields,
   stepsArr,
   stepsError,
   showStepFields,
+
+  stepValue,
+  clearFields,
   setSteps,
   setError,
   hideError,
@@ -78,11 +68,18 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
     setSteps(filteredSteps);
   };
 
+  const handleToggleClick = () => {
+    toggleShowFields();
+    hideError();
+  };
+
+  const stepsArrLength = stepsArr.length;
+
   useEffect(() => {
-    if (stepsArr.length === 0) {
+    if (stepsArrLength === 0) {
       showFields();
     }
-  }, [stepsArr.length]);
+  }, [stepsArrLength]);
 
   return (
     <div className={Styles.RecipeInfo}>
@@ -125,14 +122,11 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
             </div>
           )}
 
-          {stepsArr.length > 0 && (
+          {stepsArrLength > 0 && (
             <AdditionalButton
-              variant={showStepFields && "close"}
+              variant={showStepFields ? "close" : ""}
               type="button"
-              onClick={() => {
-                toggleShowFields();
-                hideError();
-              }}
+              onClick={handleToggleClick}
             />
           )}
         </div>
