@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore, combineReducers } from "redux";
 import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
 import rootReducer from "./reducers/rootReducer";
 import formValuesReducer from "./reducers/formValuesReducer";
 import { reducer as formReducer } from "redux-form";
