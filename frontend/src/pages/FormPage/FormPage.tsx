@@ -60,21 +60,28 @@ let FormPage: React.FC<InjectedFormProps<
       steps: stepsArr
     };
 
-    if (!file) {
-      postRecipe(newRecipeObject);
-    } else {
-      const picture = file[0];
+    const sendRecipe = async () => {
+      try {
+        if (!file) {
+          await postRecipe(newRecipeObject);
+          dispatch(reset("create-recipe-form"));
+          history.push("/");
+        } else {
+          const picture = file[0];
 
-      const fd = new FormData();
+          const fd = new FormData();
 
-      fd.append("upload", picture, picture.name);
+          fd.append("upload", picture, picture.name);
 
-      postRecipeWithImg(newRecipeObject, fd);
-    }
-
-    dispatch(reset("create-recipe-form"));
-
-    history.push("/");
+          await postRecipeWithImg(newRecipeObject, fd);
+          dispatch(reset("create-recipe-form"));
+          history.push("/");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    sendRecipe();
   };
 
   return (
