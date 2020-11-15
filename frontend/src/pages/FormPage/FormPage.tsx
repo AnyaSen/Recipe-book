@@ -65,7 +65,7 @@ let FormPage: React.FC<InjectedFormProps<
         if (!file) {
           await postRecipe(newRecipeObject);
           dispatch(reset("create-recipe-form"));
-          history.push("/");
+          history.push("/success");
         } else {
           const picture = file[0];
 
@@ -75,7 +75,7 @@ let FormPage: React.FC<InjectedFormProps<
 
           await postRecipeWithImg(newRecipeObject, fd);
           dispatch(reset("create-recipe-form"));
-          history.push("/");
+          history.push("/success");
         }
       } catch (e) {
         console.log(e);
@@ -120,22 +120,6 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
     dispatch(postRecipe(recipe, img));
   }
 });
-
-// FormPage = reduxForm({
-//   form: "create-recipe-form"
-// })(FormPage);
-
-// export default connect(mapStateToProps, mapDispatchToProps)(FormPage);
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(reduxForm({ form: "create-recipe-form" })(FormPage));
-
-// FormPage = connect(mapStateToProps, mapDispatchToProps)(FormPage);
-// export default FormPage = reduxForm({
-//   form: "create-recipe-form"
-// })(FormPage);
 
 export default compose(
   reduxForm({

@@ -1,0 +1,25 @@
+@import "../../assets/scss/mixins";
+
+.SuccessMessage {
+  @include flex-column;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+
+  h2 {
+    margin: $space-0;
+  }
+
+  button {
+    margin: $space-0;
+    margin-top: $space-2;
+  }
+
+  img {
+    height: 5rem;
+    margin: $space-0;
+  }
+}
