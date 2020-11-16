@@ -11,6 +11,10 @@
 - Sass
 - Heroku
 
+### What I learned:
+
+I learned how Redux works and how to deal with file uploads. I also practiced TypeScript, Node.js and React skills.
+
 ### App functionality overview:
 
 The app allows to create recipes and review them
@@ -23,19 +27,15 @@ How to use the app:
 - fill in the form and click "Submit" to add your recipe to the common list
 - to go back the the recipe list, bress "Go back" in the upper right corner
 
-<!-- ### Demo link
+### Demo link
 
-[Click to go to live demo]().
+[Click to go to live demo](https://rbappdemo.herokuapp.com/).
 
 ### Video demo: (click the image below to play)
 
-<a href="" target='_blank'>
-    <img src="" alt="Demo Video"/>
-</a> -->
-
-#### What I learned:
-
-I learned how Redux works and how to deal with file uploads. I also practiced TypeScript, Node.js and React skills.
+<a href="https://www.youtube.com/watch?v=7SjH8KzQvMw" target='_blank'>
+    <img src="./video_demo.png" alt="Demo Video"/>
+</a>
 
 ## How to get the app locally
 
