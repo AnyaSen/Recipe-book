@@ -1,6 +1,6 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement } from 'react';
 
-import Styles from "./Footer.module.scss";
+import Styles from './Footer.module.scss';
 
 export default function Footer(): ReactElement {
   return (
@@ -10,8 +10,9 @@ export default function Footer(): ReactElement {
         href="https://www.linkedin.com/in/anna-senchikhina/"
         target="_blank"
         rel="noopener noreferrer"
+        data-cy="link-to-linkedin"
       >
-        {" "}
+        {' '}
         Anna Senchikhina
       </a>
     </p>

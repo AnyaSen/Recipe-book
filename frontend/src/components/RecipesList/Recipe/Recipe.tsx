@@ -1,10 +1,10 @@
-import React, { ReactElement, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { ReactElement, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import Styles from "./Recipe.module.scss";
+import Styles from './Recipe.module.scss';
 
-import loadingImgSvg from "../../../assets/img/loadingImg.svg";
-import noPictureSvg from "../../../assets/img/noPicture.svg";
+import loadingImgSvg from '../../../assets/img/loadingImg.svg';
+import noPictureSvg from '../../../assets/img/noPicture.svg';
 
 interface Props {
   name: string;
@@ -18,23 +18,23 @@ export default function Recipe({
   imgSrc,
   id
 }: Props): ReactElement {
-  const [imgStatus, setImgStatus] = useState("loading");
+  const [imgStatus, setImgStatus] = useState('loading');
 
   const handleOnLoad = () => {
-    setImgStatus("loaded");
+    setImgStatus('loaded');
   };
 
   const handleOnError = () => {
-    setImgStatus("failed loading");
+    setImgStatus('failed loading');
   };
 
   return (
-    <Link to={`/recipe/${id}`} className={Styles.Recipe}>
+    <Link to={`/recipe/${id}`} className={Styles.Recipe} data-cy="open-recipe">
       <img
         src={
-          imgSrc && imgStatus === "loading"
+          imgSrc && imgStatus === 'loading'
             ? loadingImgSvg
-            : imgSrc && imgStatus === "loaded"
+            : imgSrc && imgStatus === 'loaded'
             ? imgSrc
             : noPictureSvg
         }
