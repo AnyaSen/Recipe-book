@@ -1,6 +1,6 @@
-import React, { ReactElement, ReactNode, MutableRefObject } from "react";
+import React, { ReactElement, ReactNode, MutableRefObject } from 'react';
 
-import Styles from "./ConfirmationCard.module.scss";
+import Styles from './ConfirmationCard.module.scss';
 
 interface Props {
   children: ReactNode;
@@ -12,7 +12,11 @@ export default function ConfirmationCard({
   confRef
 }: Props): ReactElement {
   return (
-    <div className={Styles.ConfirmationCard} ref={confRef}>
+    <div
+      className={Styles.ConfirmationCard}
+      ref={confRef}
+      data-cy="confirmation-card"
+    >
       <p>
         You will not be able to change the recipe after submission, are you sure
         you want to submit the recipe?
