@@ -1,25 +1,27 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.add('fillRecipeForm', name => {
+  const time = '10min';
+  const portions = 2;
+  const ingQuantityOne = '100gr';
+  const ingredientOne = 'chicken';
+  const ingQuantityTwo = '100ml';
+  const ingredientTwo = 'water';
+  const stepOneDescription = 'Cut chicken';
+  const stepTwoDescription = 'Boil chicken';
+
+  cy.visit('http://localhost:3000/create');
+  cy.get('input[placeholder="Name"]').type(name);
+  cy.get('input[placeholder="time"]').type(time);
+  cy.get('input[placeholder="no of portions"]').type(portions);
+  cy.get('input[placeholder="quantity"]').type(ingQuantityOne);
+  cy.get('input[placeholder="ingredient"]').type(ingredientOne);
+  cy.get('[data-cy=add-ingredient]').click();
+  cy.get('[data-cy=open-new-inputs]').click();
+  cy.get('input[placeholder="quantity"]').type(ingQuantityTwo);
+  cy.get('input[placeholder="ingredient"]').type(ingredientTwo);
+  cy.get('[data-cy=add-ingredient]').click();
+  cy.get('textarea[placeholder="Describe a step..."]').type(stepOneDescription);
+  cy.get('[data-cy=add-step]').click();
+  cy.get('[data-cy=open-new-textarea]').click();
+  cy.get('textarea[placeholder="Describe a step..."]').type(stepTwoDescription);
+  cy.get('[data-cy=add-step]').click();
+});

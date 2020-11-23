@@ -1,13 +1,13 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement } from 'react';
 
-import { connect } from "react-redux";
-import { IAppState } from "../../redux/store";
-import { recipeArrType } from "../../types";
+import { connect } from 'react-redux';
+import { IAppState } from '../../redux/store';
+import { recipeArrType } from '../../types';
 
-import Styles from "./RecipesList.module.scss";
+import Styles from './RecipesList.module.scss';
 
-import Recipe from "./Recipe/Recipe";
-import Button from "../shared/Buttons/Button";
+import Recipe from './Recipe/Recipe';
+import Button from '../shared/Buttons/Button';
 
 interface Props {
   recipes: Array<recipeArrType>;
@@ -23,7 +23,7 @@ function RecipesList({ recipes }: Props): ReactElement {
     );
 
   return (
-    <div className={Styles.RecipesList}>
+    <div className={Styles.RecipesList} data-cy="recipe-list">
       {recipes.map(recipe => {
         const { img, time, name, _id } = recipe;
 
@@ -34,6 +34,7 @@ function RecipesList({ recipes }: Props): ReactElement {
             time={time}
             imgSrc={img && `/recipes/${_id}/img`}
             id={_id}
+            dataCy={name}
           />
         );
       })}

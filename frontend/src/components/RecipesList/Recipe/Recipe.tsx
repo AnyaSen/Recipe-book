@@ -11,12 +11,14 @@ interface Props {
   id: string | undefined;
   imgSrc?: string;
   time?: string;
+  dataCy?: string;
 }
 export default function Recipe({
   name,
   time,
   imgSrc,
-  id
+  id,
+  dataCy
 }: Props): ReactElement {
   const [imgStatus, setImgStatus] = useState('loading');
 
@@ -29,7 +31,7 @@ export default function Recipe({
   };
 
   return (
-    <Link to={`/recipe/${id}`} className={Styles.Recipe} data-cy="open-recipe">
+    <Link to={`/recipe/${id}`} className={Styles.Recipe} data-cy={dataCy}>
       <img
         src={
           imgSrc && imgStatus === 'loading'

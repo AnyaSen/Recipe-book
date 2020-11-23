@@ -1,6 +1,11 @@
 describe('HomePage', () => {
-  it('Has a button to the linkedin profile', () => {
+  beforeEach(() => {
     cy.visit('http://localhost:3000/');
+  });
+
+  it('Has a button to the linkedin profile', () => {});
+
+  it('Has a button to a linkedin profile', () => {
     cy.get('[data-cy=link-to-linkedin]').should(
       'have.attr',
       'href',
@@ -8,8 +13,7 @@ describe('HomePage', () => {
     );
   });
 
-  it('Opens a recipe form', () => {
-    cy.visit('http://localhost:3000/');
+  it('Opens a recipe form and Returns back to the home page', () => {
     cy.get('button')
       .contains('Create recipe')
       .click();

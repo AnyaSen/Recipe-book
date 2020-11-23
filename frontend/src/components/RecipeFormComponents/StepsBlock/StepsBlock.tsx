@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+import React, { useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-import { Field, reduxForm, formValueSelector } from "redux-form";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import Styles from "./StepsBlock.module.scss";
+import Styles from './StepsBlock.module.scss';
 
-import RecipeStep from "../../shared/RecipeStep";
-import SecondaryButton from "../../shared/Buttons/SecondaryButton";
-import AdditionalButton from "../../shared/Buttons/AdditionalButton";
-import InputError from "../../shared/InputError";
+import RecipeStep from '../../shared/RecipeStep';
+import SecondaryButton from '../../shared/Buttons/SecondaryButton';
+import AdditionalButton from '../../shared/Buttons/AdditionalButton';
+import InputError from '../../shared/InputError';
 
 import {
   setStepsArr,
@@ -19,12 +19,12 @@ import {
   closeStepFields,
   toggleStepFields,
   IAction
-} from "../../../redux/actions";
-import { stepsType } from "../../../types";
-import { ownPropsType, MapStatePropsType } from "./types";
-import { Dispatch } from "redux";
-import { IAppState } from "../../../redux/store";
-import { renderTextArea } from "../renderBlockInput/renderBlockInput";
+} from '../../../redux/actions';
+import { stepsType } from '../../../types';
+import { ownPropsType, MapStatePropsType } from './types';
+import { Dispatch } from 'redux';
+import { IAppState } from '../../../redux/store';
+import { renderTextArea } from '../renderBlockInput/renderBlockInput';
 
 let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
   stepsArr,
@@ -43,7 +43,7 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
   const addSteps = () => {
     hideError();
 
-    if (!stepValue || stepValue === "") {
+    if (!stepValue || stepValue === '') {
       setError("Enter the description of the step. Then press 'Add'");
       return;
     }
@@ -57,7 +57,7 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
 
     hideFields();
 
-    clearFields("create-recipe-form", false, false, "step");
+    clearFields('create-recipe-form', false, false, 'step');
 
     return stepsArr;
   };
@@ -91,7 +91,7 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
 
           return (
             <div className={Styles.RecipeStep} key={id}>
-              <RecipeStep text={step} number={index + 1} />{" "}
+              <RecipeStep text={step} number={index + 1} />{' '}
               <AdditionalButton
                 variant="close"
                 onClick={() => deleteStep(id)}
@@ -118,15 +118,17 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
                 text="Add"
                 onClick={addSteps}
                 pink
+                dataCy="add-step"
               />
             </div>
           )}
 
           {stepsArrLength > 0 && (
             <AdditionalButton
-              variant={showStepFields ? "close" : ""}
+              variant={showStepFields ? 'close' : ''}
               type="button"
               onClick={handleToggleClick}
+              dataCy="open-new-textarea"
             />
           )}
         </div>
@@ -135,9 +137,9 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
   );
 };
 
-const selector = formValueSelector("create-recipe-form");
+const selector = formValueSelector('create-recipe-form');
 StepsBlock = connect(state => {
-  const stepValue = selector(state, "step");
+  const stepValue = selector(state, 'step');
 
   return {
     stepValue
@@ -159,7 +161,7 @@ const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
   },
 
   hideError: () => {
-    dispatch(setStepsErrorMessage(""));
+    dispatch(setStepsErrorMessage(''));
   },
 
   hideFields: () => {
@@ -177,7 +179,7 @@ const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
 
 export default compose(
   reduxForm({
-    form: "create-recipe-form"
+    form: 'create-recipe-form'
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(StepsBlock);

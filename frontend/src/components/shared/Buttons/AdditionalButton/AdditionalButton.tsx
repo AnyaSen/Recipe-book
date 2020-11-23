@@ -1,25 +1,28 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement } from 'react';
 
-import Styles from "./AdditionalButton.module.scss";
+import Styles from './AdditionalButton.module.scss';
 
 interface Props {
   variant?: string;
-  type?: "button" | "submit";
+  dataCy?: string;
+  type?: 'button' | 'submit';
   onClick?: () => void;
 }
 
 export default function AdditionalButton({
   type,
   variant,
-  onClick
+  onClick,
+  dataCy
 }: Props): ReactElement {
   return (
     <button
-      className={variant === "close" ? Styles.ButtonClose : Styles.ButtonPlus}
+      className={variant === 'close' ? Styles.ButtonClose : Styles.ButtonPlus}
       type={type}
       onClick={onClick}
+      data-cy={dataCy}
     >
-      {variant === "close" ? "x" : "+"}
+      {variant === 'close' ? 'x' : '+'}
     </button>
   );
 }
