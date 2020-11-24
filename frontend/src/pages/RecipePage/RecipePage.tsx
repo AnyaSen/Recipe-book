@@ -41,7 +41,7 @@ function RecipePage({
 
   return (
     <Layout buttonText="Back to all" withLink linkTo="/" withButton>
-      <div className={Styles.RecipePage}>
+      <div className={Styles.RecipePage} data-cy="recipe-info">
         <RecipeHeader id={id} />
 
         <RecipeInfo />

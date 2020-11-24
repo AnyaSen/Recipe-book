@@ -20,7 +20,7 @@ export default function Navbar({
 }: Props): ReactElement {
   return (
     <div className={Styles.Navbar}>
-      <NavLink exact to="/" className={Styles.logo}>
+      <NavLink exact to="/" className={Styles.logo} data-cy="logo">
         <img src={logoSvg} alt="Recipe Book" />
       </NavLink>
       {withButton && (

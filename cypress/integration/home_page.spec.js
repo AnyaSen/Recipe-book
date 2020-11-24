@@ -3,17 +3,9 @@ describe("HomePage", () => {
     cy.visit("http://localhost:3000/");
   });
 
-  it("Has a button to the linkedin profile", () => {});
+  it("Shows Loading, opens a recipe form and Returns back to the home page", () => {
+    cy.contains("Loading...");
 
-  it("Has a button to a linkedin profile", () => {
-    cy.get("[data-cy=link-to-linkedin]").should(
-      "have.attr",
-      "href",
-      "https://www.linkedin.com/in/anna-senchikhina/"
-    );
-  });
-
-  it("Opens a recipe form and Returns back to the home page", () => {
     cy.get("button")
       .contains("Create recipe")
       .click();
@@ -22,5 +14,15 @@ describe("HomePage", () => {
       .contains("Back to all")
       .click();
     cy.location("pathname").should("eq", "/");
+  });
+
+  it("Has a logo with path to the home page and a button to a linkedin profile ", () => {
+    cy.get("[data-cy=logo]").should("have.attr", "href", "/");
+
+    cy.get("[data-cy=link-to-linkedin]").should(
+      "have.attr",
+      "href",
+      "https://www.linkedin.com/in/anna-senchikhina/"
+    );
   });
 });
