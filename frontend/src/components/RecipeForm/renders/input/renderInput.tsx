@@ -13,7 +13,7 @@ const createRenderer: createRendererType = render => ({
   <div className={meta.error && meta.submitFailed ? Styles.error : ""}>
     {render(input, placeholder)}
     {meta.error === "number" && meta.submitFailed && (
-      <p>Please, enter a number</p>
+      <p data-cy="error-number-type">Please, enter a number</p>
     )}
   </div>
 );

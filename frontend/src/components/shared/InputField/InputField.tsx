@@ -18,6 +18,7 @@ export default function InputField({
       className={small ? Styles.InputFieldSmall : Styles.InputField}
       placeholder={placeholder}
       {...input}
+      data-cy="input"
     />
   );
 }
