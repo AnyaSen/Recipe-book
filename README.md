@@ -48,4 +48,6 @@ How to use the app:
 
 ### Commands:
 
-- to run locally: **`npm run dev`** (from the root)
+- to run locally: **`npm run dev`**
+
+- to run tests (while the app is running): **`npm run cypress`**
