@@ -8,16 +8,17 @@
 - Node.js
 - Mongo DB
 - Express.js
+- Cypress.io
 - Sass
 - Heroku
 
 ### What I learned:
 
-I learned how Redux works and how to deal with file uploads. I also practiced TypeScript, Node.js and React skills.
+I learned how Redux works and how to deal with file uploads. In addition, I learned how to write end-to-end tests with Cypress. I also practiced TypeScript, Node.js and React skills.
 
 ### App functionality overview:
 
-The app allows to create recipes and review them
+The app allows to create recipes and review them.
 
 How to use the app:
 
