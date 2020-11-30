@@ -20,6 +20,7 @@ import ErrorPage from "../shared/ErrorPage";
 import ConfirmationCard from "../RecipeFormComponents/ConfirmationCard";
 import { renderDropzoneField } from "./renders/dropzone/renderDropzone";
 import { renderInput, renderInputSmall } from "./renders/input/renderInput";
+import { FORM_NAME } from "../../constant";
 
 export interface MapStatePropsType {
   isSendingLoading: boolean;
@@ -125,7 +126,7 @@ const mapStateToProps = (state: IAppState): MapStatePropsType => {
 
 export default compose(
   reduxForm({
-    form: "create-recipe-form"
+    form: FORM_NAME
   }),
   connect(mapStateToProps)
 )(RecipeForm);

@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
+import Styles from "./StepsBlock.module.scss";
 
 import {
   Field,
@@ -9,14 +10,8 @@ import {
   change
 } from "redux-form";
 import { connect, useSelector, useDispatch } from "react-redux";
-
-import Styles from "./StepsBlock.module.scss";
-
-import RecipeStep from "../../shared/RecipeStep";
-import SecondaryButton from "../../shared/Buttons/SecondaryButton";
-import AdditionalButton from "../../shared/Buttons/AdditionalButton";
-import InputError from "../../shared/InputError";
-
+import { Dispatch } from "redux";
+import { IAppState } from "../../../redux/store";
 import {
   setStepsArr,
   setStepsErrorMessage,
@@ -25,9 +20,15 @@ import {
   toggleStepFields,
   IAction
 } from "../../../redux/actions";
+
+import RecipeStep from "../../shared/RecipeStep";
+import SecondaryButton from "../../shared/Buttons/SecondaryButton";
+import AdditionalButton from "../../shared/Buttons/AdditionalButton";
+import InputError from "../../shared/InputError";
+
 import { stepsType } from "../../../types";
-import { Dispatch } from "redux";
-import { IAppState } from "../../../redux/store";
+import { FORM_NAME } from "../../../constant";
+
 import { renderTextArea } from "../renderBlockInput/renderBlockInput";
 
 interface ownProps {
@@ -48,7 +49,7 @@ let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({ stepValue }) => {
   const dispatch: Dispatch<IAction> = useDispatch();
 
   const clearField = useCallback(
-    (field: string) => dispatch(change("create-recipe-form", field, "")),
+    (field: string) => dispatch(change(FORM_NAME, field, "")),
     [dispatch]
   );
 
@@ -159,7 +160,7 @@ let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({ stepValue }) => {
   );
 };
 
-const selector = formValueSelector("create-recipe-form");
+const selector = formValueSelector(FORM_NAME);
 StepsBlock = connect(state => {
   const stepValue: string = selector(state, "step");
 
@@ -168,6 +169,4 @@ StepsBlock = connect(state => {
   };
 })(StepsBlock);
 
-export default StepsBlock = connect(reduxForm({ form: "create-recipe-form" }))(
-  StepsBlock
-);
+export default StepsBlock = connect(reduxForm({ form: FORM_NAME }))(StepsBlock);

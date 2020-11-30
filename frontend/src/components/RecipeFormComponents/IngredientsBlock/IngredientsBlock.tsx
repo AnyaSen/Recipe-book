@@ -25,7 +25,10 @@ import {
   IAction
 } from "../../../redux/actions";
 import { IAppState } from "../../../redux/store";
+
 import { ingredientsType } from "../../../types";
+import { FORM_NAME } from "../../../constant";
+
 import { renderInput } from "../renderBlockInput/renderBlockInput";
 
 interface ownPropsType {
@@ -50,7 +53,7 @@ let IngredientsBlock: React.FC<InjectedFormProps & ownPropsType> = ({
   const dispatch: Dispatch<IAction> = useDispatch();
 
   const clearField = useCallback(
-    (field: string) => dispatch(change("create-recipe-form", field, "")),
+    (field: string) => dispatch(change(FORM_NAME, field, "")),
     [dispatch]
   );
 
@@ -171,7 +174,7 @@ let IngredientsBlock: React.FC<InjectedFormProps & ownPropsType> = ({
   );
 };
 
-const selector = formValueSelector("create-recipe-form");
+const selector = formValueSelector(FORM_NAME);
 IngredientsBlock = connect(state => {
   const ingredientValue = selector(state, "ingredient");
   const quantityValue = selector(state, "quantity");
@@ -184,6 +187,6 @@ IngredientsBlock = connect(state => {
   };
 })(IngredientsBlock);
 
-export default IngredientsBlock = connect(
-  reduxForm({ form: "create-recipe-form" })
-)(IngredientsBlock);
+export default IngredientsBlock = connect(reduxForm({ form: FORM_NAME }))(
+  IngredientsBlock
+);

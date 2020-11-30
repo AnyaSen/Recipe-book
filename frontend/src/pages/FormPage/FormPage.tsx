@@ -1,9 +1,9 @@
 import React from "react";
 
+import RecipeForm from "../../components/RecipeForm";
+
 import { connect } from "react-redux";
 import { reduxForm, reset, InjectedFormProps } from "redux-form";
-
-import RecipeForm from "../../components/RecipeForm";
 import {
   setStepsErrorMessage,
   setIngredientsErrorMessage,
@@ -14,6 +14,8 @@ import { IAppState } from "../../redux/store";
 import { recipeFormDataType, ingredientsType, stepsType } from "../../types";
 import { ThunkDispatch } from "redux-thunk";
 import { compose, Dispatch } from "redux";
+
+import { FORM_NAME } from "../../constant";
 
 interface MapStatePropsType {
   ingredientsArr: Array<ingredientsType>;
@@ -64,7 +66,7 @@ let FormPage: React.FC<InjectedFormProps<
       try {
         if (!file) {
           await postRecipe(newRecipeObject);
-          dispatch(reset("create-recipe-form"));
+          dispatch(reset(FORM_NAME));
           history.push("/success");
         } else {
           const picture = file[0];
@@ -74,7 +76,7 @@ let FormPage: React.FC<InjectedFormProps<
           fd.append("upload", picture, picture.name);
 
           await postRecipeWithImg(newRecipeObject, fd);
-          dispatch(reset("create-recipe-form"));
+          dispatch(reset(FORM_NAME));
           history.push("/success");
         }
       } catch (e) {
@@ -123,7 +125,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
 
 export default compose(
   reduxForm({
-    form: "create-recipe-form"
+    form: FORM_NAME
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(FormPage);
