@@ -32,12 +32,6 @@ import { renderTextArea } from "../renderBlockInput/renderBlockInput";
 
 interface ownProps {
   stepValue: string;
-  clearFields: (
-    form: String,
-    keepTouched: boolean,
-    persistentSubmitErrors: boolean,
-    fieldOne: String
-  ) => void;
 }
 
 let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({ stepValue }) => {
