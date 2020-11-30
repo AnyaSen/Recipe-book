@@ -1,9 +1,13 @@
 import React, { useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Field, reduxForm, formValueSelector } from "redux-form";
-import { connect } from "react-redux";
-import { compose } from "redux";
+import {
+  Field,
+  reduxForm,
+  formValueSelector,
+  InjectedFormProps
+} from "redux-form";
+import { connect, useSelector, useDispatch } from "react-redux";
 
 import Styles from "./StepsBlock.module.scss";
 
@@ -21,30 +25,45 @@ import {
   IAction
 } from "../../../redux/actions";
 import { stepsType } from "../../../types";
-import { ownPropsType, MapStatePropsType } from "./types";
 import { Dispatch } from "redux";
 import { IAppState } from "../../../redux/store";
 import { renderTextArea } from "../renderBlockInput/renderBlockInput";
 
-let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
-  stepsArr,
-  stepsError,
-  showStepFields,
+interface ownProps {
+  stepValue: string;
+  clearFields: (
+    form: String,
+    keepTouched: boolean,
+    persistentSubmitErrors: boolean,
+    fieldOne: String
+  ) => void;
+}
 
+let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({
   stepValue,
-  clearFields,
-  setSteps,
-  setError,
-  hideError,
-  hideFields,
-  showFields,
-  toggleShowFields
+  clearFields
 }) => {
+  const stepsArr: Array<stepsType> = useSelector(
+    (state: IAppState) => state.formValues.stepsArr
+  );
+  const stepsError: string = useSelector(
+    (state: IAppState) => state.formValues.stepsError
+  );
+  const showSteps = useSelector(
+    (state: IAppState) => state.formValues.showStepFields
+  );
+
+  const dispatch: Dispatch<IAction> = useDispatch();
+
   const addSteps = () => {
-    hideError();
+    dispatch(setStepsErrorMessage(""));
 
     if (!stepValue || stepValue === "") {
-      setError("Enter the description of the step. Then press 'Add'");
+      dispatch(
+        setStepsErrorMessage(
+          "Enter the description of the step. Then press 'Add'"
+        )
+      );
       return;
     }
 
@@ -53,9 +72,9 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
       id: uuidv4()
     };
 
-    setSteps([...stepsArr, newStep]);
+    dispatch(setStepsArr([...stepsArr, newStep]));
 
-    hideFields();
+    dispatch(closeStepFields());
 
     clearFields("create-recipe-form", false, false, "step");
 
@@ -65,19 +84,20 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
   const deleteStep = (id: string | undefined) => {
     const filteredSteps = stepsArr.filter(step => step.id !== id);
 
-    setSteps(filteredSteps);
+    dispatch(setStepsArr(filteredSteps));
   };
 
   const handleToggleClick = () => {
-    toggleShowFields();
-    hideError();
+    dispatch(toggleStepFields());
+
+    dispatch(setStepsErrorMessage(""));
   };
 
   const stepsArrLength = stepsArr.length;
 
   useEffect(() => {
     if (stepsArrLength === 0) {
-      showFields();
+      dispatch(showStepFields());
     }
   }, [stepsArrLength]);
 
@@ -106,7 +126,7 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
         })}
 
         <div className={Styles.stepInputsContainer}>
-          {showStepFields && (
+          {showSteps && (
             <div className={Styles.stepInputs}>
               <div>
                 {stepsError && <InputError text={stepsError} />}
@@ -144,47 +164,13 @@ let StepsBlock: React.FC<MapStatePropsType & ownPropsType> = ({
 
 const selector = formValueSelector("create-recipe-form");
 StepsBlock = connect(state => {
-  const stepValue = selector(state, "step");
+  const stepValue: string = selector(state, "step");
 
   return {
     stepValue
   };
 })(StepsBlock);
 
-const mapStateToProps = (state: IAppState): MapStatePropsType => {
-  const { stepsArr, stepsError, showStepFields } = state.formValues;
-  return { stepsArr, stepsError, showStepFields };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
-  setSteps: (stepsArr: Array<stepsType>) => {
-    dispatch(setStepsArr(stepsArr));
-  },
-
-  setError: (errorMessage: string) => {
-    dispatch(setStepsErrorMessage(errorMessage));
-  },
-
-  hideError: () => {
-    dispatch(setStepsErrorMessage(""));
-  },
-
-  hideFields: () => {
-    dispatch(closeStepFields());
-  },
-
-  showFields: () => {
-    dispatch(showStepFields());
-  },
-
-  toggleShowFields: () => {
-    dispatch(toggleStepFields());
-  }
-});
-
-export default compose(
-  reduxForm({
-    form: "create-recipe-form"
-  }),
-  connect(mapStateToProps, mapDispatchToProps)
-)(StepsBlock);
+export default StepsBlock = connect(reduxForm({ form: "test-form" }))(
+  StepsBlock
+);
