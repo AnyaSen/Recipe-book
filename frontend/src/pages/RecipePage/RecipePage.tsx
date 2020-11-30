@@ -1,18 +1,18 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useEffect, useCallback } from "react";
 import { RouteComponentProps } from "react-router";
 
 import Styles from "./RecipePage.module.scss";
 
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { IAppState } from "../../redux/store";
 import { fetchRecipe } from "../../redux/actions";
+import { ThunkDispatch } from "redux-thunk";
 
 import Layout from "../../components/Layout";
 import LoadingPage from "../../components/shared/LoadingPage";
 import ErrorPage from "../../components/shared/ErrorPage";
 import RecipeHeader from "../../components/RecipeHeader";
 import RecipeInfo from "../../components/RecipeInfo";
-import { ThunkDispatch } from "redux-thunk";
 
 interface MatchParams {
   id: string | undefined;
@@ -24,13 +24,21 @@ interface Props extends RouteComponentProps<MatchParams> {
   getAndSetRecipe: (url: string) => void;
 }
 
-function RecipePage({
-  match,
-  isRecipeLoading,
-  isRecipeError,
-  getAndSetRecipe
-}: Props): ReactElement {
+function RecipePage({ match }: Props): ReactElement {
   const { id } = match.params;
+
+  const isRecipeLoading = useSelector(
+    (state: IAppState) => state.app.isRecipeLoading
+  );
+  const isRecipeError = useSelector(
+    (state: IAppState) => state.app.isRecipeError
+  );
+
+  const dispatch: ThunkDispatch<{}, {}, any> = useDispatch();
+  const getAndSetRecipe = useCallback(
+    (url: string) => dispatch(fetchRecipe(url)),
+    [dispatch]
+  );
 
   useEffect(() => {
     getAndSetRecipe(`/recipes/${id}`);
@@ -49,15 +57,5 @@ function RecipePage({
     </Layout>
   );
 }
-const mapStateToProps = (state: IAppState) => {
-  const { recipes, isRecipeLoading, isRecipeError } = state.app;
-  return { recipes, isRecipeLoading, isRecipeError };
-};
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
-  getAndSetRecipe: (url: string) => {
-    dispatch(fetchRecipe(url));
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(RecipePage);
+export default RecipePage;
