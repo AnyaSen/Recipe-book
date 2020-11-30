@@ -1,4 +1,4 @@
-import React, { useEffect, Dispatch } from "react";
+import React, { useEffect, Dispatch, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Styles from "./IngredientsBlock.module.scss";
@@ -12,10 +12,10 @@ import {
   Field,
   reduxForm,
   formValueSelector,
-  InjectedFormProps
+  InjectedFormProps,
+  change
 } from "redux-form";
-import { connect, useSelector } from "react-redux";
-import { compose } from "redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import {
   setIngredientsArr,
   setIngredientsErrorMessage,
@@ -26,32 +26,36 @@ import {
 } from "../../../redux/actions";
 import { IAppState } from "../../../redux/store";
 import { ingredientsType } from "../../../types";
-import { MapStatePropsType, ownPropsType } from "./types";
 import { renderInput } from "../renderBlockInput/renderBlockInput";
 
-let IngredientsBlock: React.FC<InjectedFormProps &
-  MapStatePropsType &
-  ownPropsType> = ({
-  // ingredientsArr,
-  ingredientsError,
-  showIngredientFields,
+interface ownPropsType {
+  ingredientValue: string;
+  quantityValue: string;
+}
 
+let IngredientsBlock: React.FC<InjectedFormProps & ownPropsType> = ({
   ingredientValue,
-  quantityValue,
-  clearFields,
-  setIngredients,
-  setError,
-  hideError,
-  hideFields,
-  showFields,
-  toggleShowFields
+  quantityValue
 }) => {
   const ingredientsArr: Array<ingredientsType> = useSelector(
     (state: IAppState) => state.formValues.ingredientsArr
   );
+  const ingredientsError = useSelector(
+    (state: IAppState) => state.formValues.ingredientsError
+  );
+  const showIngredients = useSelector(
+    (state: IAppState) => state.formValues.showIngredientFields
+  );
+
+  const dispatch: Dispatch<IAction> = useDispatch();
+
+  const clearField = useCallback(
+    (field: string) => dispatch(change("create-recipe-form", field, "")),
+    [dispatch]
+  );
 
   const addIngredients = () => {
-    hideError();
+    dispatch(setIngredientsErrorMessage(""));
 
     if (
       !ingredientValue ||
@@ -59,7 +63,11 @@ let IngredientsBlock: React.FC<InjectedFormProps &
       !quantityValue ||
       quantityValue === ""
     ) {
-      setError("Enter ingredient and quantity. Then press 'Add'");
+      dispatch(
+        setIngredientsErrorMessage(
+          "Enter ingredient and quantity. Then press 'Add'"
+        )
+      );
       return;
     }
 
@@ -69,11 +77,11 @@ let IngredientsBlock: React.FC<InjectedFormProps &
       id: uuidv4()
     };
 
-    setIngredients([...ingredientsArr, newIngredientPair]);
+    dispatch(setIngredientsArr([...ingredientsArr, newIngredientPair]));
+    dispatch(closeIngredientFields());
 
-    hideFields();
-
-    clearFields("create-recipe-form", false, false, "ingredient", "quantity");
+    clearField("ingredient");
+    clearField("quantity");
 
     return ingredientsArr;
   };
@@ -83,19 +91,20 @@ let IngredientsBlock: React.FC<InjectedFormProps &
       ingredPair => ingredPair.id !== id
     );
 
-    setIngredients(filteredIngredients);
+    dispatch(setIngredientsArr(filteredIngredients));
   };
 
   const handleToggleClick = () => {
-    toggleShowFields();
-    hideError();
+    dispatch(toggleIngredientFields());
+
+    dispatch(setIngredientsErrorMessage(""));
   };
 
   const ingArrLength = ingredientsArr.length;
 
   useEffect(() => {
     if (ingArrLength === 0) {
-      showFields();
+      dispatch(showIngredientFields());
     }
   }, [ingArrLength]);
 
@@ -125,7 +134,7 @@ let IngredientsBlock: React.FC<InjectedFormProps &
       <div>
         {ingredientsError && <InputError text={ingredientsError} />}
         <div className={Styles.ingridientInputsContainer}>
-          {showIngredientFields && (
+          {showIngredients && (
             <div className={Styles.ingridientInputs}>
               <Field
                 name="quantity"
@@ -150,7 +159,7 @@ let IngredientsBlock: React.FC<InjectedFormProps &
 
           {ingArrLength > 0 && (
             <AdditionalButton
-              variant={showIngredientFields ? "close" : ""}
+              variant={showIngredients ? "close" : ""}
               type="button"
               onClick={handleToggleClick}
               dataCy="toggle-new-inputs"
@@ -175,44 +184,6 @@ IngredientsBlock = connect(state => {
   };
 })(IngredientsBlock);
 
-const mapStateToProps = (state: IAppState): MapStatePropsType => {
-  const {
-    ingredientsArr,
-    ingredientsError,
-    showIngredientFields
-  } = state.formValues;
-  return { ingredientsArr, ingredientsError, showIngredientFields };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch<IAction>) => ({
-  setIngredients: (ingrArr: Array<ingredientsType>) => {
-    dispatch(setIngredientsArr(ingrArr));
-  },
-
-  setError: (errorMessage: string) => {
-    dispatch(setIngredientsErrorMessage(errorMessage));
-  },
-
-  hideError: () => {
-    dispatch(setIngredientsErrorMessage(""));
-  },
-
-  hideFields: () => {
-    dispatch(closeIngredientFields());
-  },
-
-  showFields: () => {
-    dispatch(showIngredientFields());
-  },
-
-  toggleShowFields: () => {
-    dispatch(toggleIngredientFields());
-  }
-});
-
-export default compose(
-  reduxForm({
-    form: "create-recipe-form"
-  }),
-  connect(mapStateToProps, mapDispatchToProps)
+export default IngredientsBlock = connect(
+  reduxForm({ form: "create-recipe-form" })
 )(IngredientsBlock);
