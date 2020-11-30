@@ -1,30 +1,31 @@
-import React, { ReactElement, useEffect } from "react";
-import { ThunkDispatch } from "redux-thunk";
+import React, { ReactElement, useEffect, useCallback } from "react";
 
-import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
 import { IAppState } from "../../redux/store";
 import { fetchRecipes } from "../../redux/actions";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import Layout from "../../components/Layout";
 import RecipesList from "../../components/RecipesList";
 import LoadingPage from "../../components/shared/LoadingPage";
 import ErrorPage from "../../components/shared/ErrorPage";
 
-interface Props {
-  getAndSetRecipes(): void;
-  isLoading: boolean;
-  isError: boolean;
-  isSendingLoading: boolean;
-  isSendingError: boolean;
-}
+function HomePage(): ReactElement {
+  const isLoading = useSelector((state: IAppState) => state.app.isLoading);
+  const isError = useSelector((state: IAppState) => state.app.isError);
+  const isSendingLoading = useSelector(
+    (state: IAppState) => state.formValues.isSendingLoading
+  );
+  const isSendingError = useSelector(
+    (state: IAppState) => state.formValues.isSendingError
+  );
 
-function HomePage({
-  isLoading,
-  isError,
-  getAndSetRecipes,
-  isSendingLoading,
-  isSendingError
-}: Props): ReactElement {
+  const dispatch: ThunkDispatch<{}, {}, any> = useDispatch();
+  const getAndSetRecipes = useCallback(() => dispatch(fetchRecipes()), [
+    dispatch
+  ]);
+
   useEffect(() => {
     getAndSetRecipes();
   }, []);
@@ -39,15 +40,4 @@ function HomePage({
   );
 }
 
-const mapStateToProps = (state: IAppState) => {
-  const { isLoading, isError } = state.app;
-  const { isSendingLoading, isSendingError } = state.formValues;
-  return { isLoading, isError, isSendingLoading, isSendingError };
-};
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
-  getAndSetRecipes: () => {
-    dispatch(fetchRecipes());
-  }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default HomePage;
