@@ -1,19 +1,19 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement } from "react";
 
-import { connect } from 'react-redux';
-import { IAppState } from '../../redux/store';
-import { recipeArrType } from '../../types';
+import { useSelector } from "react-redux";
+import { IAppState } from "../../redux/store";
+import { recipeArrType } from "../../types";
 
-import Styles from './RecipesList.module.scss';
+import Styles from "./RecipesList.module.scss";
 
-import Recipe from './Recipe/Recipe';
-import Button from '../shared/Buttons/Button';
+import Recipe from "./Recipe/Recipe";
+import Button from "../shared/Buttons/Button";
 
-interface Props {
-  recipes: Array<recipeArrType>;
-}
+function RecipesList(): ReactElement {
+  const recipes: Array<recipeArrType> = useSelector(
+    (state: IAppState) => state.app.recipes
+  );
 
-function RecipesList({ recipes }: Props): ReactElement {
   if (recipes.length === 0)
     return (
       <div className={Styles.noRecipes}>
@@ -42,9 +42,4 @@ function RecipesList({ recipes }: Props): ReactElement {
   );
 }
 
-const mapStateToProps = (state: IAppState) => {
-  const { recipes } = state.app;
-  return { recipes };
-};
-
-export default connect(mapStateToProps)(RecipesList);
+export default RecipesList;

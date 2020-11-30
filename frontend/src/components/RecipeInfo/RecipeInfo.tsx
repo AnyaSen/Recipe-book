@@ -4,15 +4,15 @@ import { recipeArrType } from "../../types";
 
 import Styles from "./RecipeInfo.module.scss";
 
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { IAppState } from "../../redux/store";
 import RecipeStep from "../shared/RecipeStep";
 
-interface Props {
-  currentRecipe: recipeArrType;
-}
+function RecipeInfo(): ReactElement {
+  const currentRecipe: recipeArrType = useSelector(
+    (state: IAppState) => state.app.currentRecipe
+  );
 
-function RecipeInfo({ currentRecipe }: Props): ReactElement {
   const { steps } = currentRecipe;
 
   return (
@@ -29,9 +29,5 @@ function RecipeInfo({ currentRecipe }: Props): ReactElement {
     </div>
   );
 }
-const mapStateToProps = (state: IAppState) => {
-  const { currentRecipe } = state.app;
-  return { currentRecipe };
-};
 
-export default connect(mapStateToProps)(RecipeInfo);
+export default RecipeInfo;

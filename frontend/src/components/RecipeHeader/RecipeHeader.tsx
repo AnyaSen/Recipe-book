@@ -4,7 +4,7 @@ import { recipeArrType } from "../../types";
 
 import Styles from "./RecipeHeader.module.scss";
 
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { IAppState } from "../../redux/store";
 
 import StaticPicture from "../shared/StaticPicture";
@@ -12,11 +12,14 @@ import Label from "../shared/Label";
 import IngredientPair from "../shared/IngredientPair";
 
 interface Props {
-  currentRecipe: recipeArrType;
   id: string | undefined;
 }
 
-function RecipeHeader({ currentRecipe, id }: Props): ReactElement {
+function RecipeHeader({ id }: Props): ReactElement {
+  const currentRecipe: recipeArrType = useSelector(
+    (state: IAppState) => state.app.currentRecipe
+  );
+
   const { name, ingridients, time, portionsNumber, img } = currentRecipe;
 
   return (
@@ -54,9 +57,5 @@ function RecipeHeader({ currentRecipe, id }: Props): ReactElement {
     </div>
   );
 }
-const mapStateToProps = (state: IAppState) => {
-  const { currentRecipe } = state.app;
-  return { currentRecipe };
-};
 
-export default connect(mapStateToProps)(RecipeHeader);
+export default RecipeHeader;
