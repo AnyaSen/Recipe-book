@@ -14,7 +14,7 @@ import {
   formValueSelector,
   InjectedFormProps
 } from "redux-form";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { compose } from "redux";
 import {
   setIngredientsArr,
@@ -32,7 +32,7 @@ import { renderInput } from "../renderBlockInput/renderBlockInput";
 let IngredientsBlock: React.FC<InjectedFormProps &
   MapStatePropsType &
   ownPropsType> = ({
-  ingredientsArr,
+  // ingredientsArr,
   ingredientsError,
   showIngredientFields,
 
@@ -46,6 +46,10 @@ let IngredientsBlock: React.FC<InjectedFormProps &
   showFields,
   toggleShowFields
 }) => {
+  const ingredientsArr: Array<ingredientsType> = useSelector(
+    (state: IAppState) => state.formValues.ingredientsArr
+  );
+
   const addIngredients = () => {
     hideError();
 

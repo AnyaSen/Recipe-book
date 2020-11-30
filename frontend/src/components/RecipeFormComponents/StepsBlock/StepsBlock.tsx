@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import {
   Field,
   reduxForm,
   formValueSelector,
-  InjectedFormProps
+  InjectedFormProps,
+  change
 } from "redux-form";
 import { connect, useSelector, useDispatch } from "react-redux";
 
@@ -39,10 +40,7 @@ interface ownProps {
   ) => void;
 }
 
-let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({
-  stepValue,
-  clearFields
-}) => {
+let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({ stepValue }) => {
   const stepsArr: Array<stepsType> = useSelector(
     (state: IAppState) => state.formValues.stepsArr
   );
@@ -54,6 +52,11 @@ let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({
   );
 
   const dispatch: Dispatch<IAction> = useDispatch();
+
+  const clearField = useCallback(
+    (field: string) => dispatch(change("create-recipe-form", field, "")),
+    [dispatch]
+  );
 
   const addSteps = () => {
     dispatch(setStepsErrorMessage(""));
@@ -76,7 +79,7 @@ let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({
 
     dispatch(closeStepFields());
 
-    clearFields("create-recipe-form", false, false, "step");
+    clearField("step");
 
     return stepsArr;
   };
@@ -150,7 +153,7 @@ let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({
 
           {stepsArrLength > 0 && (
             <AdditionalButton
-              variant={showStepFields ? "close" : ""}
+              variant={showSteps ? "close" : ""}
               type="button"
               onClick={handleToggleClick}
               dataCy="toggle-new-textarea"
@@ -171,6 +174,6 @@ StepsBlock = connect(state => {
   };
 })(StepsBlock);
 
-export default StepsBlock = connect(reduxForm({ form: "test-form" }))(
+export default StepsBlock = connect(reduxForm({ form: "create-recipe-form" }))(
   StepsBlock
 );
