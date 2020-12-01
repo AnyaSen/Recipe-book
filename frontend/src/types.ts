@@ -19,7 +19,7 @@ export interface recipeArrType {
   img?: any;
 }
 
-export interface recipeFormDataType {
+export interface recipeAllFormDataType {
   name: string;
   _id?: string | undefined;
   ingridients: Array<ingredientsType>;

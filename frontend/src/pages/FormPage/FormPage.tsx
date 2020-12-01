@@ -11,15 +11,14 @@ import {
 } from "../../redux/actions";
 import { useHistory } from "react-router";
 import { IAppState } from "../../redux/store";
-import { recipeFormDataType, ingredientsType, stepsType } from "../../types";
+import { recipeAllFormDataType, ingredientsType, stepsType } from "../../types";
 import { ThunkDispatch } from "redux-thunk";
-import { Dispatch } from "redux";
 
 import { FORM_NAME } from "../../constant";
 
 let FormPage: React.FC<InjectedFormProps<
-  recipeFormDataType,
-  recipeFormDataType
+  recipeAllFormDataType,
+  recipeAllFormDataType
 >> = () => {
   const ingredientsArr: Array<ingredientsType> = useSelector(
     (state: IAppState) => state.formValues.ingredientsArr
@@ -30,23 +29,25 @@ let FormPage: React.FC<InjectedFormProps<
 
   const dispatch: ThunkDispatch<{}, {}, any> = useDispatch();
 
-  const postRecipeWithputImg: (
-    recipe: recipeFormDataType
+  const postRecipeWithoutImg: (
+    recipe: recipeAllFormDataType
   ) => void = useCallback(
-    (recipe: recipeFormDataType) => dispatch(postRecipe(recipe)),
+    (recipe: recipeAllFormDataType) => dispatch(postRecipe(recipe)),
     [dispatch]
   );
   const postRecipeWithImg: (
-    recipe: recipeFormDataType,
+    recipe: recipeAllFormDataType,
     img: any
   ) => void = useCallback(
-    (recipe: recipeFormDataType, img: any) => dispatch(postRecipe(recipe, img)),
+    (recipe: recipeAllFormDataType, img: any) =>
+      dispatch(postRecipe(recipe, img)),
     [dispatch]
   );
 
   const history = useHistory();
 
-  const onSubmit = (values: recipeFormDataType, dispatch: Dispatch) => {
+  const handleSubmit = (values: any) => {
+    console.log(values);
     if (!ingredientsArr || ingredientsArr.length === 0) {
       dispatch(
         setIngredientsErrorMessage("Add at least one pair of ingredients")
@@ -72,7 +73,7 @@ let FormPage: React.FC<InjectedFormProps<
     const sendRecipe = async () => {
       try {
         if (!file) {
-          await postRecipeWithputImg(newRecipeObject);
+          await postRecipeWithoutImg(newRecipeObject);
           dispatch(reset(FORM_NAME));
           history.push("/success");
         } else {
@@ -95,9 +96,7 @@ let FormPage: React.FC<InjectedFormProps<
 
   return (
     <>
-      {/* 
-  // @ts-ignore */}
-      <RecipeForm onSubmit={onSubmit} />
+      <RecipeForm onSubmit={handleSubmit} />
     </>
   );
 };
