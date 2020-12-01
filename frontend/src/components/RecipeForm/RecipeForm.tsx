@@ -4,7 +4,7 @@ import Styles from "./RecipeForm.module.scss";
 
 import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import { IAppState } from "../../redux/store";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { compose } from "redux";
 
 import { required, requiredNumber } from "../../services/validation";
@@ -22,18 +22,18 @@ import { renderDropzoneField } from "./renders/dropzone/renderDropzone";
 import { renderInput, renderInputSmall } from "./renders/input/renderInput";
 import { FORM_NAME } from "../../constant";
 
-export interface MapStatePropsType {
-  isSendingLoading: boolean;
-  isSendingError: boolean;
-}
-
-let RecipeForm: React.FC<InjectedFormProps & MapStatePropsType> = ({
+let RecipeForm: React.FC<InjectedFormProps> = ({
   handleSubmit,
-  submitting,
-  isSendingLoading,
-  isSendingError
+  submitting
 }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  const isSendingLoading = useSelector(
+    (state: IAppState) => state.formValues.isSendingLoading
+  );
+  const isSendingError = useSelector(
+    (state: IAppState) => state.formValues.isSendingError
+  );
 
   const confCardRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -119,14 +119,8 @@ let RecipeForm: React.FC<InjectedFormProps & MapStatePropsType> = ({
   );
 };
 
-const mapStateToProps = (state: IAppState): MapStatePropsType => {
-  const { isSendingLoading, isSendingError } = state.formValues;
-  return { isSendingLoading, isSendingError };
-};
-
 export default compose(
   reduxForm({
     form: FORM_NAME
-  }),
-  connect(mapStateToProps)
+  })
 )(RecipeForm);
