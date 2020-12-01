@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import RecipeForm from "../../components/RecipeForm";
 
-import { connect } from "react-redux";
+import { connect, useSelector, useDispatch } from "react-redux";
 import { reduxForm, reset, InjectedFormProps } from "redux-form";
 import {
   setStepsErrorMessage,
@@ -13,41 +13,48 @@ import { useHistory } from "react-router";
 import { IAppState } from "../../redux/store";
 import { recipeFormDataType, ingredientsType, stepsType } from "../../types";
 import { ThunkDispatch } from "redux-thunk";
-import { compose, Dispatch } from "redux";
+import { Dispatch } from "redux";
 
 import { FORM_NAME } from "../../constant";
-
-interface MapStatePropsType {
-  ingredientsArr: Array<ingredientsType>;
-  stepsArr: Array<stepsType>;
-
-  showStepsError: () => void;
-  showIngredientsError: () => void;
-  postRecipe: (recipe: recipeFormDataType) => void;
-  postRecipeWithImg: (recipe: recipeFormDataType, img: any) => void;
-}
 
 let FormPage: React.FC<InjectedFormProps<
   recipeFormDataType,
   recipeFormDataType
-> &
-  MapStatePropsType> = ({
-  postRecipe,
-  postRecipeWithImg,
+>> = () => {
+  const ingredientsArr: Array<ingredientsType> = useSelector(
+    (state: IAppState) => state.formValues.ingredientsArr
+  );
+  const stepsArr: Array<stepsType> = useSelector(
+    (state: IAppState) => state.formValues.stepsArr
+  );
 
-  stepsArr,
-  ingredientsArr,
-  showStepsError,
-  showIngredientsError
-}) => {
+  const dispatch: ThunkDispatch<{}, {}, any> = useDispatch();
+
+  const postRecipeWithputImg: (
+    recipe: recipeFormDataType
+  ) => void = useCallback(
+    (recipe: recipeFormDataType) => dispatch(postRecipe(recipe)),
+    [dispatch]
+  );
+  const postRecipeWithImg: (
+    recipe: recipeFormDataType,
+    img: any
+  ) => void = useCallback(
+    (recipe: recipeFormDataType, img: any) => dispatch(postRecipe(recipe, img)),
+    [dispatch]
+  );
+
   const history = useHistory();
 
   const onSubmit = (values: recipeFormDataType, dispatch: Dispatch) => {
     if (!ingredientsArr || ingredientsArr.length === 0) {
-      showIngredientsError();
+      dispatch(
+        setIngredientsErrorMessage("Add at least one pair of ingredients")
+      );
       return;
     } else if (!stepsArr || stepsArr.length === 0) {
-      showStepsError();
+      dispatch(setStepsErrorMessage("Add at least one step"));
+
       return;
     }
     const { name, time, portionsNumber, file } = values;
@@ -65,7 +72,7 @@ let FormPage: React.FC<InjectedFormProps<
     const sendRecipe = async () => {
       try {
         if (!file) {
-          await postRecipe(newRecipeObject);
+          await postRecipeWithputImg(newRecipeObject);
           dispatch(reset(FORM_NAME));
           history.push("/success");
         } else {
@@ -95,37 +102,4 @@ let FormPage: React.FC<InjectedFormProps<
   );
 };
 
-const mapStateToProps = (state: IAppState) => {
-  const { ingredientsArr, stepsArr } = state.formValues;
-  return {
-    ingredientsArr,
-    stepsArr
-  };
-};
-
-const mapDispatchToProps = (dispatch: ThunkDispatch<{}, {}, any>) => ({
-  showStepsError: () => {
-    dispatch(setStepsErrorMessage("Add at least one step"));
-  },
-
-  showIngredientsError: () => {
-    dispatch(
-      setIngredientsErrorMessage("Add at least one pair of ingredients")
-    );
-  },
-
-  postRecipe: (recipe: recipeFormDataType) => {
-    dispatch(postRecipe(recipe));
-  },
-
-  postRecipeWithImg: (recipe: recipeFormDataType, img: any) => {
-    dispatch(postRecipe(recipe, img));
-  }
-});
-
-export default compose(
-  reduxForm({
-    form: FORM_NAME
-  }),
-  connect(mapStateToProps, mapDispatchToProps)
-)(FormPage);
+export default FormPage = connect(reduxForm({ form: FORM_NAME }))(FormPage);
