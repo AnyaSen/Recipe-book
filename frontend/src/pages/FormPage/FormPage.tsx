@@ -94,11 +94,7 @@ let FormPage: React.FC<InjectedFormProps<
     sendRecipe();
   };
 
-  return (
-    <>
-      <RecipeForm onSubmit={handleSubmit} />
-    </>
-  );
+  return <RecipeForm onSubmit={handleSubmit} />;
 };
 
 export default FormPage = connect(reduxForm({ form: FORM_NAME }))(FormPage);
