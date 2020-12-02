@@ -84,15 +84,11 @@ let RecipeForm: React.FC<InjectedFormProps> = ({
               />
             </div>
           </div>
-          {/* 
-  // @ts-ignore */}
 
           <IngredientsBlock />
         </div>
 
         <div className={Styles.RecipeInfo}>
-          {/* 
-  // @ts-ignore */}
           <StepsBlock />
 
           {showConfirmation ? (

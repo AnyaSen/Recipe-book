@@ -2,13 +2,7 @@ import React, { useEffect, useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Styles from "./StepsBlock.module.scss";
 
-import {
-  Field,
-  reduxForm,
-  formValueSelector,
-  InjectedFormProps,
-  change
-} from "redux-form";
+import { Field, reduxForm, formValueSelector, change } from "redux-form";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { Dispatch } from "redux";
 import { IAppState } from "../../../redux/store";
@@ -32,10 +26,10 @@ import { FORM_NAME } from "../../../constant";
 import { renderTextArea } from "../renderBlockInput/renderBlockInput";
 
 interface ownProps {
-  stepValue: string;
+  stepValue?: string;
 }
 
-let StepsBlock: React.FC<InjectedFormProps & ownProps> = ({ stepValue }) => {
+let StepsBlock: React.FC<ownProps> = ({ stepValue }) => {
   const stepsArr: Array<stepsType> = useSelector(
     (state: IAppState) => state.formValues.stepsArr
   );

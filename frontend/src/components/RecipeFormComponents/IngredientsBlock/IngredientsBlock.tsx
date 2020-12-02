@@ -8,13 +8,7 @@ import SecondaryButton from "../../shared/Buttons/SecondaryButton";
 import AdditionalButton from "../../shared/Buttons/AdditionalButton";
 import InputError from "../../shared/InputError";
 
-import {
-  Field,
-  reduxForm,
-  formValueSelector,
-  InjectedFormProps,
-  change
-} from "redux-form";
+import { Field, reduxForm, formValueSelector, change } from "redux-form";
 import { connect, useSelector, useDispatch } from "react-redux";
 import {
   setIngredientsArr,
@@ -32,11 +26,11 @@ import { FORM_NAME } from "../../../constant";
 import { renderInput } from "../renderBlockInput/renderBlockInput";
 
 interface ownPropsType {
-  ingredientValue: string;
-  quantityValue: string;
+  ingredientValue?: string;
+  quantityValue?: string;
 }
 
-let IngredientsBlock: React.FC<InjectedFormProps & ownPropsType> = ({
+let IngredientsBlock: React.FC<ownPropsType> = ({
   ingredientValue,
   quantityValue
 }) => {
