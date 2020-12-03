@@ -1,4 +1,10 @@
-import React, { useEffect, Dispatch, useCallback } from "react";
+import React, {
+  useEffect,
+  Dispatch,
+  useCallback,
+  useState,
+  useRef
+} from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import Styles from "./IngredientsBlock.module.scss";
@@ -51,6 +57,8 @@ let IngredientsBlock: React.FC<ownPropsType> = ({
     [dispatch]
   );
 
+  const [showNewInputClicked, setShowNewInputClicked] = useState(false);
+
   const addIngredients = () => {
     dispatch(setIngredientsErrorMessage(""));
 
@@ -73,6 +81,8 @@ let IngredientsBlock: React.FC<ownPropsType> = ({
       quantity: quantityValue,
       id: uuidv4()
     };
+
+    setShowNewInputClicked(true);
 
     dispatch(setIngredientsArr([...ingredientsArr, newIngredientPair]));
     dispatch(closeIngredientFields());
@@ -104,6 +114,15 @@ let IngredientsBlock: React.FC<ownPropsType> = ({
       dispatch(showIngredientFields());
     }
   }, [ingArrLength]);
+
+  const addBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    if (showNewInputClicked && addBtnRef.current) {
+      addBtnRef.current.scrollIntoView({ behavior: "smooth" });
+      setShowNewInputClicked(false);
+    }
+  }, [showIngredients]);
 
   return (
     <div className={Styles.IngredientsBlock}>
@@ -156,6 +175,7 @@ let IngredientsBlock: React.FC<ownPropsType> = ({
 
           {ingArrLength > 0 && (
             <AdditionalButton
+              btnRef={addBtnRef}
               variant={showIngredients ? "close" : ""}
               type="button"
               onClick={handleToggleClick}

@@ -93,9 +93,9 @@ let StepsBlock: React.FC<ownProps> = ({ stepValue }) => {
   const addBtnRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
-    console.log(showNewInputClicked);
     if (showNewInputClicked && addBtnRef.current) {
       addBtnRef.current.scrollIntoView({ behavior: "smooth" });
+      setShowNewInputClicked(false);
     }
   }, [showSteps]);
 
