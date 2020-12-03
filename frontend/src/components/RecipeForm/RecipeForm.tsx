@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import Styles from "./RecipeForm.module.scss";
 
@@ -35,9 +35,9 @@ let RecipeForm: React.FC<InjectedFormProps> = ({
     (state: IAppState) => state.formValues.isSendingError
   );
 
-  const confCardRef = React.useRef<HTMLDivElement | null>(null);
+  const confCardRef = useRef<HTMLDivElement | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (showConfirmation && confCardRef.current) {
       confCardRef.current.scrollIntoView({ behavior: "smooth" });
     }

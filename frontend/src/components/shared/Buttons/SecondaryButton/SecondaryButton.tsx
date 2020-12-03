@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, RefObject } from "react";
 
-import Styles from './SecondaryButton.module.scss';
+import Styles from "./SecondaryButton.module.scss";
 
 interface Props {
   text: string | undefined;
   pink?: boolean;
-  type?: 'button' | 'submit';
+  type?: "button" | "submit";
   onClick(): void;
   dataCy?: string;
 }

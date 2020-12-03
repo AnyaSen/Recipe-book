@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Styles from "./StepsBlock.module.scss";
 
@@ -47,6 +47,8 @@ let StepsBlock: React.FC<ownProps> = ({ stepValue }) => {
     [dispatch]
   );
 
+  const [showNewInputClicked, setShowNewInputClicked] = useState(false);
+
   const addSteps = () => {
     dispatch(setStepsErrorMessage(""));
 
@@ -58,6 +60,7 @@ let StepsBlock: React.FC<ownProps> = ({ stepValue }) => {
       );
       return;
     }
+    setShowNewInputClicked(true);
 
     const newStep = {
       step: stepValue,
@@ -86,6 +89,15 @@ let StepsBlock: React.FC<ownProps> = ({ stepValue }) => {
   };
 
   const stepsArrLength = stepsArr.length;
+
+  const addBtnRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    console.log(showNewInputClicked);
+    if (showNewInputClicked && addBtnRef.current) {
+      addBtnRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [showSteps]);
 
   useEffect(() => {
     if (stepsArrLength === 0) {
@@ -142,6 +154,7 @@ let StepsBlock: React.FC<ownProps> = ({ stepValue }) => {
 
           {stepsArrLength > 0 && (
             <AdditionalButton
+              btnRef={addBtnRef}
               variant={showSteps ? "close" : ""}
               type="button"
               onClick={handleToggleClick}
