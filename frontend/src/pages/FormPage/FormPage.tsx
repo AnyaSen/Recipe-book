@@ -14,7 +14,7 @@ import { IAppState } from "../../redux/store";
 import { recipeAllFormDataType, ingredientsType, stepsType } from "../../types";
 import { ThunkDispatch } from "redux-thunk";
 
-import { FORM_NAME } from "../../constant";
+import { FORM_NAME } from "../../constants";
 
 let FormPage: React.FC<InjectedFormProps<
   recipeAllFormDataType,

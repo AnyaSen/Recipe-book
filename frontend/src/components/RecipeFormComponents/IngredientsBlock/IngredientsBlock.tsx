@@ -27,7 +27,7 @@ import {
 import { IAppState } from "../../../redux/store";
 
 import { ingredientsType } from "../../../types";
-import { FORM_NAME } from "../../../constant";
+import { FORM_NAME } from "../../../constants";
 
 import { renderInput } from "../renderBlockInput/renderBlockInput";
 

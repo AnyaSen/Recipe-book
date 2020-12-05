@@ -21,7 +21,7 @@ import AdditionalButton from "../../shared/Buttons/AdditionalButton";
 import InputError from "../../shared/InputError";
 
 import { stepsType } from "../../../types";
-import { FORM_NAME } from "../../../constant";
+import { FORM_NAME } from "../../../constants";
 
 import { renderTextArea } from "../renderBlockInput/renderBlockInput";
 

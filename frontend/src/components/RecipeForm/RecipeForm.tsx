@@ -20,7 +20,7 @@ import ErrorPage from "../shared/ErrorPage";
 import ConfirmationCard from "../RecipeFormComponents/ConfirmationCard";
 import { renderDropzoneField } from "./renders/dropzone/renderDropzone";
 import { renderInput, renderInputSmall } from "./renders/input/renderInput";
-import { FORM_NAME } from "../../constant";
+import { FORM_NAME } from "../../constants";
 
 let RecipeForm: React.FC<InjectedFormProps> = ({
   handleSubmit,
