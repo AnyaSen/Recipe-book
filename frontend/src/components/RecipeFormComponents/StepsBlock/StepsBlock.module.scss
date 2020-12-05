@@ -39,28 +39,30 @@
     }
 
     .stepInputsContainer {
-      @include flex-row;
+      display: flex;
+
+      button {
+        margin-bottom: 1.2rem;
+
+        @include xs {
+          align-self: center;
+        }
+      }
+
+      .stepInputs {
+        display: flex;
+        align-items: flex-end;
+
+        @include xs {
+          @include flex-column;
+        }
+      }
 
       @include md {
         justify-content: center;
       }
       @include xs {
         @include flex-column;
-      }
-
-      button {
-        align-self: flex-end;
-
-        @include xs {
-          align-self: center;
-        }
-      }
-      .stepInputs {
-        @include flex-row;
-
-        @include xs {
-          @include flex-column;
-        }
       }
     }
   }
