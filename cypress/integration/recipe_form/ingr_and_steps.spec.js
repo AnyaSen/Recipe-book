@@ -3,7 +3,7 @@ describe("RecipeForm", () => {
     cy.visit("http://localhost:3000/create");
   });
 
-  it("Deleats ingredient pairs and steps", () => {
+  it("Deletes ingredient pairs and steps", () => {
     cy.addIngredientsAndSteps();
     const secondIngrPairId = `[data-cy=ingredient-pair-1]`;
     const secondIngrPairDeleteBtnId = `[data-cy=delete-ingredient-pair-1]`;
@@ -20,7 +20,7 @@ describe("RecipeForm", () => {
     cy.get(secondStepId).should("not.be.visible");
   });
 
-  it("Opens and closes input fields and textareas", () => {
+  it("Opens and closes input fields and a textarea", () => {
     cy.addIngredientsAndSteps();
 
     const stepTextAreaPlaceholder = "Describe a step...";

@@ -16,7 +16,7 @@ describe("HomePage", () => {
     cy.location("pathname").should("eq", "/");
   });
 
-  it("Has a logo with path to the home page and a button to a linkedin profile ", () => {
+  it("Has a logo with a path to the home page and a button to a LinkedIn profile ", () => {
     cy.get("[data-cy=logo]").should("have.attr", "href", "/");
 
     cy.get("[data-cy=link-to-linkedin]").should(

@@ -14,7 +14,7 @@ describe("RecipeForm", () => {
     cy.get(confirmationCardId).should("not.be.visible");
   });
 
-  it("Should have correct css in case if name, time, portins fields are empty", () => {
+  it("Should have correct css in case if the name, time, portions fields are empty", () => {
     cy.addIngredientsAndSteps();
 
     cy.contains("Continue").click();
@@ -62,7 +62,7 @@ describe("RecipeForm", () => {
     cy.get("[data-cy=error-number-type]").should("be.visible");
   });
 
-  it("Should not have red border on input header field if they are filled", () => {
+  it("Should not have a red border on the input header field if they are filled", () => {
     cy.fillFormHeader("My test recipe");
 
     cy.contains("Continue").click();
@@ -75,7 +75,7 @@ describe("RecipeForm", () => {
     );
   });
 
-  it("Should not show any error messages stpes and ingredient fields are filled", () => {
+  it("Should not show any error messages steps and ingredient fields are filled", () => {
     cy.addIngredientsAndSteps();
 
     cy.get("[data-cy=input-error]").should("not.be.visible");
