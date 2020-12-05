@@ -23,9 +23,3 @@ export const renderInput = createRenderer(
     <InputField input={input} placeholder={placeholder} />
   )
 );
-
-export const renderInputSmall = createRenderer(
-  (input: React.Component | React.FC, placeholder: string) => (
-    <InputField input={input} placeholder={placeholder} small />
-  )
-);

@@ -35,7 +35,7 @@ Cypress.Commands.add("fillFormHeader", name => {
   const portions = 2;
 
   cy.get('input[placeholder="Name"]').type(name);
-  cy.get('input[placeholder="time"]').type(time);
+  cy.get('input[placeholder="time of preparation"]').type(time);
   cy.get('input[placeholder="no. of portions"]').type(portions);
 });
 

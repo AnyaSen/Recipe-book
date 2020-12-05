@@ -26,11 +26,23 @@
     .timeAndPortions {
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
 
+      img {
+        height: 1.5rem;
+        align-self:center;
+      }
+    
       input {
         margin: $space-1;
+        margin-right: $space-3;
+        margin-left: $space-0;
       }
+
+      .PortionsImg{
+        height: 2rem;
+      }
+
+    
     }
   }
 }

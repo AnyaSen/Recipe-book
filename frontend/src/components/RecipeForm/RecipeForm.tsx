@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import Styles from "./RecipeForm.module.scss";
+import time from "../../assets/img/time.svg";
+import portions from "../../assets/img/portions.svg";
 
 import { Field, reduxForm, InjectedFormProps } from "redux-form";
 import { IAppState } from "../../redux/store";
@@ -19,7 +21,7 @@ import LoadingPage from "../shared/LoadingPage";
 import ErrorPage from "../shared/ErrorPage";
 import ConfirmationCard from "../RecipeFormComponents/ConfirmationCard";
 import { renderDropzoneField } from "./renders/dropzone/renderDropzone";
-import { renderInput, renderInputSmall } from "./renders/input/renderInput";
+import { renderInput } from "./renders/input/renderInput";
 import { FORM_NAME } from "../../constants";
 
 let RecipeForm: React.FC<InjectedFormProps> = ({
@@ -69,13 +71,16 @@ let RecipeForm: React.FC<InjectedFormProps> = ({
             </StaticPicture>
 
             <div className={Styles.timeAndPortions}>
+              
+              <img src={time} alt='time'></img>
               <Field
                 name="time"
-                component={renderInputSmall}
+                component={renderInput}
                 validate={required}
-                placeholder="time"
+                placeholder="time of preparation"
               />
 
+              <img src={portions} alt='portions' className={Styles.PortionsImg}></img>
               <Field
                 name="portionsNumber"
                 component={renderInput}
