@@ -1,8 +1,6 @@
 import React, { ReactElement, useEffect, useCallback } from "react";
 import { RouteComponentProps } from "react-router";
 
-import Styles from "./RecipePage.module.scss";
-
 import { useSelector, useDispatch } from "react-redux";
 import { IAppState } from "../../redux/store";
 import { fetchRecipe } from "../../redux/actions";
@@ -49,7 +47,7 @@ function RecipePage({ match }: Props): ReactElement {
 
   return (
     <Layout buttonText="Back to all" withLink linkTo="/" withButton>
-      <div className={Styles.RecipePage} data-cy="recipe-info">
+      <div data-cy="recipe-info">
         <RecipeHeader id={id} />
 
         <RecipeInfo />

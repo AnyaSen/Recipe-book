@@ -36,14 +36,16 @@
   }
 
   .ingridients {
+    display: flex;
+    flex-direction: column;
     justify-self: center;
     align-self: center;
-    @include flex-column;
     margin: $space-1;
     max-width: 40rem;
 
     h2 {
       margin-bottom: $space-2;
+      margin-left: $space-1;
     }
 
     .ingridientPairs {
