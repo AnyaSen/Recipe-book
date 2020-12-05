@@ -107,7 +107,7 @@ let StepsBlock: React.FC<ownProps> = ({ stepValue }) => {
 
   return (
     <div className={Styles.RecipeInfo}>
-      <h2>PREPARATION:</h2>
+      <h2>PREPARATION STEPS:</h2>
 
       <div className={Styles.preparation}>
         {stepsArr.map((stepItem, index) => {

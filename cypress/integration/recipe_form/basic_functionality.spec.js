@@ -55,7 +55,7 @@ describe("RecipeForm", () => {
 
   it("Should show an error message if portions field value is not of a number type", () => {
     cy.fillFormHeader("My test recipe");
-    cy.get('input[placeholder="no of portions"]').type(" portions");
+    cy.get('input[placeholder="no. of portions"]').type(" portions");
 
     cy.contains("Continue").click();
     cy.contains("Submit").click();

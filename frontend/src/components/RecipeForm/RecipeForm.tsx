@@ -80,7 +80,7 @@ let RecipeForm: React.FC<InjectedFormProps> = ({
                 name="portionsNumber"
                 component={renderInput}
                 validate={requiredNumber}
-                placeholder="no of portions"
+                placeholder="no. of portions"
               />
             </div>
           </div>
