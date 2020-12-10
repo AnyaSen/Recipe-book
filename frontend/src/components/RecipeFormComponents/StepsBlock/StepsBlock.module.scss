@@ -3,8 +3,14 @@
 .RecipeInfo {
   padding: $space-0;
   margin-bottom: $space-3;
+  margin-top: $space-3;
+  padding-left: 9rem;
 
-  @include md {
+  @include lg {
+    padding-left: 0;
+  }
+
+  @include lg {
     h2 {
       text-align: center;
       margin-bottom: $space-2;
@@ -19,10 +25,6 @@
     padding-left: $space-4;
 
     @include lg {
-      padding-left: $space-3;
-    }
-
-    @include md {
       padding-left: $space-0;
     }
 
@@ -58,7 +60,7 @@
         }
       }
 
-      @include md {
+      @include lg {
         justify-content: center;
       }
       @include xs {

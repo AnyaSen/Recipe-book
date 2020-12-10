@@ -71,22 +71,29 @@ let RecipeForm: React.FC<InjectedFormProps> = ({
             </StaticPicture>
 
             <div className={Styles.timeAndPortions}>
-              
-              <img src={time} alt='time'></img>
-              <Field
-                name="time"
-                component={renderInput}
-                validate={required}
-                placeholder="time of preparation"
-              />
+              <div className={Styles.timeAndPortionsBlock}>
+                <img src={time} alt="time"></img>
+                <Field
+                  name="time"
+                  component={renderInput}
+                  validate={required}
+                  placeholder="time of preparation"
+                />
+              </div>
 
-              <img src={portions} alt='portions' className={Styles.PortionsImg}></img>
-              <Field
-                name="portionsNumber"
-                component={renderInput}
-                validate={requiredNumber}
-                placeholder="no. of portions"
-              />
+              <div className={Styles.timeAndPortionsBlock}>
+                <img
+                  src={portions}
+                  alt="portions"
+                  className={Styles.PortionsImg}
+                ></img>
+                <Field
+                  name="portionsNumber"
+                  component={renderInput}
+                  validate={requiredNumber}
+                  placeholder="no. of portions"
+                />
+              </div>
             </div>
           </div>
 

@@ -27,22 +27,29 @@
       display: flex;
       flex-direction: row;
 
+      .timeAndPortionsBlock {
+        display: flex;
+        flex-direction: row;
+      }
+
+      @include sm {
+        flex-direction: column;
+      }
+
       img {
         height: 1.5rem;
-        align-self:center;
+        align-self: center;
       }
-    
+
       input {
         margin: $space-1;
         margin-right: $space-3;
         margin-left: $space-0;
       }
 
-      .PortionsImg{
+      .PortionsImg {
         height: 2rem;
       }
-
-    
     }
   }
 }
