@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="96" height="68" viewBox="0 0 96 68">
-  <g id="Group_41" data-name="Group 41" transform="translate(-78 -44)">
-    <g id="Rectangle_11" data-name="Rectangle 11" transform="translate(78 44)" fill="#fff" stroke="#fe6b6b" stroke-width="4">
-      <rect width="96" height="68" rx="12" stroke="none"/>
-      <rect x="2" y="2" width="92" height="64" rx="10" fill="none"/>
-    </g>
-    <text id="RB" transform="translate(94 93)" fill="#fe6b6b" font-size="49" font-family="Questrial-Regular, Questrial"><tspan x="0" y="0">RB</tspan></text>
-  </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="68" viewBox="0 0 96 68"><g id="Group_41" data-name="Group 41" transform="translate(-78 -44)"><g id="Rectangle_11" data-name="Rectangle 11" transform="translate(78 44)" fill="#fff" stroke="#fe6b6b" stroke-width="4"><rect width="96" height="68" rx="12" stroke="none"/><rect x="2" y="2" width="92" height="64" rx="10" fill="none"/></g><text id="RB" transform="translate(94 93)" fill="#fe6b6b" font-size="49" font-family="Questrial-Regular, Questrial"><tspan x="0" y="0">RB</tspan></text></g></svg>
