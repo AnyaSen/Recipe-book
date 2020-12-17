@@ -1,4 +1,4 @@
-import React, { ReactElement, RefObject } from "react";
+import React, { ReactElement } from "react";
 
 import Styles from "./SecondaryButton.module.scss";
 
